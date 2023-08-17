@@ -8,11 +8,11 @@
 		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>auth</artifactId>
+	<groupId>com.tabletale</groupId>
+	<artifactId>rpg-wiki</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>auth</name>
-	<description>Demo auth app</description>
+	<name>rpg-wiki</name>
+	<description>Plataforma Social para Comunidade de RPG</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
