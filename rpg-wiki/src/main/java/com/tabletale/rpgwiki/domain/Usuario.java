@@ -11,10 +11,10 @@ public class Usuario extends AbstractEntity<Long>{
     @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "nome", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "senha", nullable = false)
     private String senha;
 
     @Column(name = "biografia")
