@@ -8,15 +8,21 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "Usuarios")
-public class Usuario extends AbstractEntity<Long> implements UserDetails {
+public class Usuario implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email
     private String email;
 
     @Column(name = "senha", nullable = false)
@@ -37,16 +43,17 @@ public class Usuario extends AbstractEntity<Long> implements UserDetails {
     private List<Personagem> pesronoagens;
 
     @OneToMany(mappedBy = "usuarioMestre")
-    private List<Mesa> mesasMestradas; 
+    private List<Mesa> mesasMestradas;
 
     public Usuario(String email, String senha, UserRole role) {
         this.email = email;
-        this.senha =senha;
+        this.senha = senha;
         this.role = role;
     }
 
-    public Usuario(String nome, String email, String senha, String biografia, Genero genero, Pais pais,
+    public Usuario(String id, String nome, String email, String senha, String biografia, Genero genero, Pais pais,
             List<Personagem> pesronoagens, List<Mesa> mesasMestradas, UserRole role) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;

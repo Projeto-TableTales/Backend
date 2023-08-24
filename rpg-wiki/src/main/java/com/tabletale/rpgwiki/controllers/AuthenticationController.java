@@ -16,31 +16,35 @@ import com.tabletale.rpgwiki.domain.dto.LoginResponseDTO;
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.UserRepository;
-import com.tabletale.rpgwiki.security.TokenService;
+import com.tabletale.rpgwiki.services.TokenService;
+
 
 @RestController
 @RequestMapping("rpgwiki")
 public class AuthenticationController {
+    
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository repository;
+
     @Autowired
     private TokenService tokenService;
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        var token = tokenService.generateToken((Usuario)auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO data) {
-        if (this.repository.findByLogin(data.email()) != null)
+        if (this.repository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());

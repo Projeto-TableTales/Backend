@@ -7,7 +7,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "Mesas")
-public class Mesa extends AbstractEntity<Long> {
+public class Mesa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "nome_do_Jogo", nullable = false)
     private String nomeDoJogo;
@@ -28,8 +31,10 @@ public class Mesa extends AbstractEntity<Long> {
     @OneToMany(mappedBy = "mesa")
     private List<Personagem> personagensDaMesa;
 
-    public Mesa(String nomeDoJogo, String descricao, LocalDate dataCriacao, int numeroMax, Usuario usuarioMestre,
+    public Mesa(String id, String nomeDoJogo, String descricao, LocalDate dataCriacao, int numeroMax,
+            Usuario usuarioMestre,
             List<Personagem> personagensDaMesa) {
+        this.id = id;
         this.nomeDoJogo = nomeDoJogo;
         this.descricao = descricao;
         this.dataCriacao = dataCriacao;
@@ -88,6 +93,14 @@ public class Mesa extends AbstractEntity<Long> {
 
     public void setPersonagensDaMesa(List<Personagem> personagensDaMesa) {
         this.personagensDaMesa = personagensDaMesa;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

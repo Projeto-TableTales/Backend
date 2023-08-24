@@ -2,12 +2,14 @@ package com.tabletale.rpgwiki.domain.entity;
 
 import jakarta.persistence.*;
 
-
 import java.util.Date;
 
 @Entity
 @Table(name = "Personagens")
-public class Personagem extends AbstractEntity<Long> {
+public class Personagem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -69,9 +71,10 @@ public class Personagem extends AbstractEntity<Long> {
     @JoinColumn(name = "mesa_id_fk")
     private Mesa mesa;
 
-    public Personagem(String nome, String historia, int idade, String classe, String raca, int nivel,
+    public Personagem(String id, String nome, String historia, int idade, String classe, String raca, int nivel,
             Date dataCriacao, String status, int dano, int forca, int defesa, int agilidade, int inteligencia,
             int sabedoria, int carisma, int abates, int assistencia, Usuario usuario, Mesa mesa) {
+        this.id = id;
         this.nome = nome;
         this.historia = historia;
         this.idade = idade;
@@ -144,7 +147,6 @@ public class Personagem extends AbstractEntity<Long> {
         this.nivel = nivel;
     }
 
-
     public String getStatus() {
         return status;
     }
@@ -164,7 +166,6 @@ public class Personagem extends AbstractEntity<Long> {
     public int getForca() {
         return forca;
     }
-    
 
     public void setForca(int forca) {
         this.forca = forca;
@@ -181,7 +182,7 @@ public class Personagem extends AbstractEntity<Long> {
     public int getAgilidade() {
         return agilidade;
     }
-    
+
     public void setAgilidade(int agilidade) {
         this.agilidade = agilidade;
     }
@@ -205,7 +206,7 @@ public class Personagem extends AbstractEntity<Long> {
     public int getCarisma() {
         return carisma;
     }
-    
+
     public void setCarisma(int carisma) {
         this.carisma = carisma;
     }
