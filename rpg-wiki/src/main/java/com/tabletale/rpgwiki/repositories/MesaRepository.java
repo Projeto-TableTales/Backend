@@ -1,5 +1,11 @@
 package com.tabletale.rpgwiki.repositories;
+import java.util.List;
 
-public class MesaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.tabletale.rpgwiki.domain.entity.Mesa;
+
+public interface MesaRepository extends JpaRepository<Mesa, String> {
+    List<Mesa> findByNomeDoJogo(String nomeDoJogo);
     
 }

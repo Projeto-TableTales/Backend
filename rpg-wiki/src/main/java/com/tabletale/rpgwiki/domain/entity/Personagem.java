@@ -33,6 +33,10 @@ public class Personagem {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
+    @Column(name = "data_atualizacao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataAtualizacao;
+
     @Column(name = "status", nullable = false)
     private String status;
 
@@ -97,6 +101,14 @@ public class Personagem {
     }
 
     public Personagem() {
+    }
+
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 
     public String getNome() {
