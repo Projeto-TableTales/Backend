@@ -31,11 +31,11 @@ public class Usuario implements UserDetails {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     @Email
     private String email;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha")
     private String senha;
 
     private UserRole role;
