@@ -9,16 +9,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Usuarios")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -45,10 +55,9 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-    public Usuario(String email, String senha, UserRole role) {
+    public Usuario(String email, String senha) {
         this.email = email;
         this.senha = senha;
-        this.role = role;
     }
 
     public Usuario(String id, String nome, String email, String senha, String biografia, Genero genero, Pais pais,
@@ -67,8 +76,8 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == UserRole.MESTRE)
+            return List.of(new SimpleGrantedAuthority("ROLE_MESTRE"), new SimpleGrantedAuthority("ROLE_USER"));
         else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
@@ -104,68 +113,5 @@ public class Usuario implements UserDetails {
         return true;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getBiografia() {
-        return biografia;
-    }
-
-    public void setBiografia(String biografia) {
-        this.biografia = biografia;
-    }
-
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
-    }
-
-    public Pais getPais() {
-        return pais;
-    }
-
-    public void setPais(Pais pais) {
-        this.pais = pais;
-    }
-
-    public List<Personagem> getPesronoagens() {
-        return pesronoagens;
-    }
-
-    public void setPesronoagens(List<Personagem> pesronoagens) {
-        this.pesronoagens = pesronoagens;
-    }
-
-    public List<Mesa> getMesasMestradas() {
-        return mesasMestradas;
-    }
-
-    public void setMesasMestradas(List<Mesa> mesasMestradas) {
-        this.mesasMestradas = mesasMestradas;
-    }
 
 }

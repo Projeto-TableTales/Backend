@@ -22,7 +22,7 @@ import com.tabletale.rpgwiki.services.MesaService;
 
 
 @RestController
-@RequestMapping("/api/Mesa")
+@RequestMapping("/mesa")
 @CrossOrigin
 public class MesaController {
     

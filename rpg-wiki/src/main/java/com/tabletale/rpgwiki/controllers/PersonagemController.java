@@ -22,14 +22,14 @@ import com.tabletale.rpgwiki.services.PersonagemService;
 
 
 @RestController
-@RequestMapping("/api/Personagem")
+@RequestMapping("/personagem")
 @CrossOrigin
 public class PersonagemController {
     
     @Autowired
     private PersonagemService personagemService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Personagem> buscarTodos(){
        return personagemService.buscarTodos();
     }
@@ -45,12 +45,12 @@ public class PersonagemController {
         }
     }
     
-    @PostMapping("/")
+    @PostMapping
     public Personagem inserir(@RequestBody Personagem objeto){
         return personagemService.criarPersonagem(objeto);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Personagem alterar(@RequestBody Personagem objeto){
         return personagemService.alterar(objeto);
     }

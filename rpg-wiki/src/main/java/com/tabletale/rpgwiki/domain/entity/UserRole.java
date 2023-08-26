@@ -1,7 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 public enum UserRole {
-    ADMIN("mestre"),
+    MESTRE("mestre"),
     USER("user");
 
     private String role;

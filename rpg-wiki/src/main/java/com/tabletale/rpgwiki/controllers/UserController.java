@@ -19,7 +19,7 @@ import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.services.UserService;
 
 @RestController
-@RequestMapping("/rikirpg/Usuario")
+@RequestMapping("/usuario")
 @CrossOrigin
 public class UserController {
 
@@ -31,7 +31,7 @@ public class UserController {
         return usuarioService.buscarTodos();
     }
 
-    @GetMapping("/buscarUsuario")
+    @GetMapping
     public ResponseEntity<List<Usuario>> buscarUsuario(@RequestParam String nome) {
         List<Usuario> produtos = usuarioService.buscarUsuario(nome);
 
@@ -42,12 +42,12 @@ public class UserController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Usuario inserir(@RequestBody Usuario objeto) {
         return usuarioService.criarUsuario(objeto);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Usuario alterar(@RequestBody Usuario objeto) {
         return usuarioService.alterar(objeto);
     }
