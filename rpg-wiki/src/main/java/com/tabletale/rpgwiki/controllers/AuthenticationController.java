@@ -22,7 +22,7 @@ import com.tabletale.rpgwiki.services.TokenService;
 @RestController
 @RequestMapping("rpgwiki")
 public class AuthenticationController {
-    
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -37,7 +37,7 @@ public class AuthenticationController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Usuario)auth.getPrincipal());
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
@@ -48,7 +48,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario newUser = new Usuario(data.email(), encryptedPassword);
+        Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), encryptedPassword, data.dataNascimento());
 
         this.repository.save(newUser);
 

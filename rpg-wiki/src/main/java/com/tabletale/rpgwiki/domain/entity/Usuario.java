@@ -1,6 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -31,11 +32,11 @@ public class Usuario implements UserDetails {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     @Email
     private String email;
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha")
     private String senha;
 
     private UserRole role;
@@ -49,15 +50,21 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Pais pais;
 
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimento;
+
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens;
 
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-    public Usuario(String email, String senha) {
+    public Usuario(String nome, Pais pais, String email, String senha, Date dataNascimento) {
+        this.nome = nome;
+        this.pais = pais;
         this.email = email;
         this.senha = senha;
+        this.dataNascimento = dataNascimento;
     }
 
     public Usuario(String id, String nome, String email, String senha, String biografia, Genero genero, Pais pais,
