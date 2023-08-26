@@ -29,12 +29,12 @@ public class MesaController {
     @Autowired
     private MesaService mesaService;
 
-    @GetMapping("/")
+    @GetMapping("/buscarTodas")
     public List<Mesa> buscarTodos(){
        return mesaService.buscarTodos();
     }
 
-    @GetMapping("/buscarMesa")
+    @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Mesa>> buscarMesa(@RequestParam String nome) {
         List<Mesa> produtos = mesaService.buscarMesa(nome);
 
@@ -45,12 +45,12 @@ public class MesaController {
         }
     }
     
-    @PostMapping("/")
+    @PostMapping("/registrar")
     public Mesa inserir(@RequestBody Mesa objeto){
         return mesaService.criarMesa(objeto);
     }
 
-    @PutMapping("/")
+    @PutMapping("/editar")
     public Mesa alterar(@RequestBody Mesa objeto){
         return mesaService.alterar(objeto);
     }

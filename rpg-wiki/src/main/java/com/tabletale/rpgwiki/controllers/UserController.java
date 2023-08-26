@@ -31,7 +31,7 @@ public class UserController {
         return usuarioService.buscarTodos();
     }
 
-    @GetMapping
+    @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Usuario>> buscarUsuario(@RequestParam String nome) {
         List<Usuario> produtos = usuarioService.buscarUsuario(nome);
 
@@ -42,12 +42,12 @@ public class UserController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public Usuario inserir(@RequestBody Usuario objeto) {
         return usuarioService.criarUsuario(objeto);
     }
 
-    @PutMapping
+    @PutMapping("/editar")
     public Usuario alterar(@RequestBody Usuario objeto) {
         return usuarioService.alterar(objeto);
     }

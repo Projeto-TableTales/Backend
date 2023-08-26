@@ -29,12 +29,12 @@ public class PersonagemController {
     @Autowired
     private PersonagemService personagemService;
 
-    @GetMapping
+    @GetMapping("/buscarTodos")
     public List<Personagem> buscarTodos(){
        return personagemService.buscarTodos();
     }
 
-    @GetMapping("/buscarUser")
+    @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Personagem>> buscarPersonagem(@RequestParam String nome) {
         List<Personagem> produtos = personagemService.buscarPersonagem(nome);
 
@@ -45,12 +45,12 @@ public class PersonagemController {
         }
     }
     
-    @PostMapping
+    @PostMapping("/criar")
     public Personagem inserir(@RequestBody Personagem objeto){
         return personagemService.criarPersonagem(objeto);
     }
 
-    @PutMapping
+    @PutMapping("/editar")
     public Personagem alterar(@RequestBody Personagem objeto){
         return personagemService.alterar(objeto);
     }
