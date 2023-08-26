@@ -1,3 +1,4 @@
+
 package com.tabletale.rpgwiki;
 
 import org.springframework.boot.SpringApplication;
