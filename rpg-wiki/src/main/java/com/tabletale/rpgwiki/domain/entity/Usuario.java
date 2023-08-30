@@ -1,6 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -40,6 +41,9 @@ public class Usuario implements UserDetails {
 
     private UserRole role;
 
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimento;
+
     @Column(name = "biografia")
     private String biografia;
 
@@ -55,23 +59,14 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
+    private String codigoRecuperacaoSenha;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataEnvioCodigo;
+
     public Usuario(String email, String senha) {
         this.email = email;
         this.senha = senha;
-    }
-
-    public Usuario(String id, String nome, String email, String senha, String biografia, Genero genero, Pais pais,
-            List<Personagem> pesronoagens, List<Mesa> mesasMestradas, UserRole role) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.biografia = biografia;
-        this.genero = genero;
-        this.pais = pais;
-        this.pesronoagens = pesronoagens;
-        this.mesasMestradas = mesasMestradas;
-        this.role = role;
     }
 
     @Override
@@ -112,6 +107,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }
