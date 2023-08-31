@@ -64,9 +64,12 @@ public class Usuario implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
-    public Usuario(String email, String senha) {
+    public Usuario(String nome, Pais pais, String senha, String email, Date dataNascimento) {
+        this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.pais = pais;
+        this.dataNascimento = dataNascimento;
     }
 
     @Override

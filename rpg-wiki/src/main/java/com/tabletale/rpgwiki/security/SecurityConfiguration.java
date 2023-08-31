@@ -29,7 +29,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/rpgwiki/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/rpgwiki/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
