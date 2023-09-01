@@ -30,7 +30,7 @@ public class ManagerUser {
         usuario.setDataEnvioCodigo(new Date());
         userRepository.saveAndFlush(usuario);
         emailService.enviarEmailTexto(usuario.getEmail(), "Código de Recuperação de Senha",
-                "Olá, o seu código para recuperação de senha é o seguinte: " + usuario.getCodigoRecuperacaoSenha());
+                "Seu código para recuperação de senha é: " + usuario.getCodigoRecuperacaoSenha());
         return "Código Enviado!";
     }
 
