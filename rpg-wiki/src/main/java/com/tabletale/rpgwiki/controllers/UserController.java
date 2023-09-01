@@ -33,10 +33,10 @@ public class UserController {
 
     @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Usuario>> buscarUsuario(@RequestParam String nome) {
-        List<Usuario> produtos = usuarioService.buscarUsuario(nome);
+        List<Usuario> usuario = usuarioService.buscarUsuario(nome);
 
-        if (!produtos.isEmpty()) {
-            return ResponseEntity.ok(produtos);
+        if (!usuario.isEmpty()) {
+            return ResponseEntity.ok(usuario);
         } else {
             return ResponseEntity.notFound().build();
         }

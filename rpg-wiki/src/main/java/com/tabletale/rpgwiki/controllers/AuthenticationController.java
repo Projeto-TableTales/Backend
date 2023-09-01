@@ -16,6 +16,7 @@ import com.tabletale.rpgwiki.domain.dto.LoginResponseDTO;
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.UserRepository;
+import com.tabletale.rpgwiki.services.ManagerUser;
 import com.tabletale.rpgwiki.services.TokenService;
 
 
@@ -29,7 +30,21 @@ public class AuthenticationController {
     private UserRepository repository;
 
     @Autowired
+    private ManagerUser managerUser;
+
+    @Autowired
     private TokenService tokenService;
+
+    @PostMapping("/senha-codigo")
+    public String recuperarCodigo(@RequestBody Usuario usuario){
+       return managerUser.solicitarCodigo(usuario.getEmail());
+    }
+
+    @PostMapping("/senha-alterar")
+    public String alterarSenha(@RequestBody Usuario usuario){
+       return managerUser.alterarSenha(usuario);
+    }
+
 
 
     @PostMapping("/login")
@@ -38,7 +53,7 @@ public class AuthenticationController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((Usuario)auth.getPrincipal());
-
+ 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
