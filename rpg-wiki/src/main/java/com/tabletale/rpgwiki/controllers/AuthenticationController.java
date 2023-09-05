@@ -20,7 +20,7 @@ import com.tabletale.rpgwiki.services.TokenService;
 
 
 @RestController
-@RequestMapping("rpgwiki")
+@RequestMapping("/rpgwiki")
 public class AuthenticationController {
 
     @Autowired

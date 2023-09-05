@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,7 +52,13 @@ public class Usuario implements UserDetails {
     private Pais pais;
 
     @Temporal(TemporalType.DATE)
+    @Past
     private Date dataNascimento;
+
+    private String codigoRecuperacaoSenha;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataEnvioCodigo;
 
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens;
@@ -65,20 +72,6 @@ public class Usuario implements UserDetails {
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
-    }
-
-    public Usuario(String id, String nome, String email, String senha, String biografia, Genero genero, Pais pais,
-            List<Personagem> pesronoagens, List<Mesa> mesasMestradas, UserRole role) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.biografia = biografia;
-        this.genero = genero;
-        this.pais = pais;
-        this.pesronoagens = pesronoagens;
-        this.mesasMestradas = mesasMestradas;
-        this.role = role;
     }
 
     @Override
