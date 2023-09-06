@@ -1,7 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +16,8 @@ import com.tabletale.rpgwiki.domain.dto.LoginResponseDTO;
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.UserRepository;
-import com.tabletale.rpgwiki.services.ManagerUser;
 import com.tabletale.rpgwiki.services.TokenService;
+
 
 @RestController
 @RequestMapping("/rpgwiki")
@@ -26,48 +25,33 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    
     @Autowired
-    private ManagerUser managerUser;
-
-    @Autowired
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     @Autowired
     private TokenService tokenService;
-    
-    @PostMapping("/codigo")
-    public String recuperarCodigo(@RequestBody Usuario usuario){
-       return managerUser.solicitarCodigo(usuario.getEmail());
-    }
 
-    @PostMapping("/alterar-senha")
-    public String alterarSenha(@RequestBody Usuario usuario){
-       return managerUser.alterarSenha(usuario);
-    }
 
-    
-    
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        
+
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO data) {
-        if (this.userRepository.findByEmail(data.email()) != null)
+        if (this.repository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().build();
-    
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.biografia(),
-                data.role(), encryptedPassword, data.dataNascimento());
-    
-        this.userRepository.save(newUser);
-    
+        Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), encryptedPassword, data.dataNascimento());
+
+        this.repository.save(newUser);
+
         return ResponseEntity.ok().build();
     }
-    
 }

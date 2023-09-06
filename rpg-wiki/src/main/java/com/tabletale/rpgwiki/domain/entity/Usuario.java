@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -33,20 +32,31 @@ public class Usuario implements UserDetails {
 
     @Column(name = "nome")
     private String nome;
-    @NotNull
+
+    @Column(name = "email", unique = true)
     @Email
     private String email;
+
+    @Column(name = "senha")
     private String senha;
+
     private UserRole role;
+
+    @Column(name = "biografia")
     private String biografia;
+
     @Enumerated(EnumType.STRING)
     private Genero genero;
+
     @Enumerated(EnumType.STRING)
     private Pais pais;
+
     @Temporal(TemporalType.DATE)
     @Past
     private Date dataNascimento;
+
     private String codigoRecuperacaoSenha;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
@@ -56,11 +66,8 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, UserRole role, String senha, Date dataNascimento) {
+    public Usuario(String nome, Pais pais, String email, String senha, Date dataNascimento) {
         this.nome = nome;
-        this.biografia = biografia;
-        this.genero = genero;
-        this. role = role;
         this.pais = pais;
         this.email = email;
         this.senha = senha;
