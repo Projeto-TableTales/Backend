@@ -14,7 +14,6 @@ import com.tabletale.rpgwiki.repositories.UserRepository;
 @Service
 public class ManagerUser {
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -35,13 +34,11 @@ public class ManagerUser {
     }
 
     public String alterarSenha(Usuario user) {
-
-        Usuario userBanco = userRepository.findByEmailAndCodigoRecuperacaoSenha(user.getEmail(),
+        Usuario userBanco = (Usuario) userRepository.findByEmailAndCodigoRecuperacaoSenha(user.getEmail(),
                 user.getCodigoRecuperacaoSenha());
         if (userBanco != null) {
             Date diferenca = new Date(new Date().getTime() - userBanco.getDataEnvioCodigo().getTime());
             if (diferenca.getTime() / 1000 < 900) {
-                //depois que adicionar o spring security é necessário criptografar a senha!!
                 userBanco.setSenha(passwordEncoder.encode(user.getSenha()));
                 userBanco.setCodigoRecuperacaoSenha(null);
                 userRepository.saveAndFlush(userBanco);
@@ -55,7 +52,7 @@ public class ManagerUser {
     }
 
     private String getCodigoRecuperacaoSenha(String id) {
-        DateFormat format = new SimpleDateFormat("ddMMyyyyHHmmssmm");
+        DateFormat format = new SimpleDateFormat("ddMMyyyyHHmmss");
         return format.format(new Date()) + id;
     }
 
