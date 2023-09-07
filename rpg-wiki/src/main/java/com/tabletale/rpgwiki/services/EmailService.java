@@ -12,6 +12,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import freemarker.template.Configuration;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 @Service
 public class EmailService {
 
@@ -40,33 +41,33 @@ public class EmailService {
     }
 
     public void enviarEmailTemplate(String destinatario, String titulo, Map<String, Object> propriedades) {
-        MimeMessage mimeMessage =javaMailSender.createMimeMessage();
-           try {
-    
-               MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
 
-               mimeMessageHelper.setSubject(titulo);
-               mimeMessageHelper.setFrom(remetente);
-               mimeMessageHelper.setTo(destinatario);
-               
-               mimeMessageHelper.setText(getConteudoTemplate(propriedades), true);
-    
-               javaMailSender.send(mimeMessageHelper.getMimeMessage());
-           } catch (MessagingException e) {
-               e.printStackTrace();
-           }
-       }
-    
-       public String getConteudoTemplate(Map < String, Object >model)     { 
-           StringBuffer content = new StringBuffer();
-    
-           try {
-               content.append(FreeMarkerTemplateUtils.processTemplateIntoString(fmConfiguration.getTemplate
-               ("email-recuperacao-codigo.flth"), model));
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-           return content.toString();
-       }
-   
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+
+            mimeMessageHelper.setSubject(titulo);
+            mimeMessageHelper.setFrom(remetente);
+            mimeMessageHelper.setTo(destinatario);
+
+            mimeMessageHelper.setText(getConteudoTemplate(propriedades), true);
+
+            javaMailSender.send(mimeMessageHelper.getMimeMessage());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getConteudoTemplate(Map<String, Object> model) {
+        StringBuffer content = new StringBuffer();
+
+        try {
+            content.append(FreeMarkerTemplateUtils
+                    .processTemplateIntoString(fmConfiguration.getTemplate("email-recuperacao-codigo.flth"), model));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content.toString();
+    }
+
 }

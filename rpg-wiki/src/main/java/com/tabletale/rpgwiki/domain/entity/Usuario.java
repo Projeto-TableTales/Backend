@@ -52,15 +52,13 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens;
-
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, UserRole role, String senha, Date dataNascimento) {
+    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, Date dataNascimento) {
         this.nome = nome;
         this.biografia = biografia;
         this.genero = genero;
-        this. role = role;
         this.pais = pais;
         this.email = email;
         this.senha = senha;
