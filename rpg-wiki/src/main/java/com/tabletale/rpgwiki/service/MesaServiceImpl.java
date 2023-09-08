@@ -25,12 +25,12 @@ public class MesaServiceImpl implements MesaService{
     }
 
     @Override
-    public void excluir(Long id) {
+    public void excluir(String id) {
         dao.delete(id);
     }
 
     @Override
-    public Mesa buscarPorId(Long id) {
+    public Mesa buscarPorId(String id) {
         return dao.findById(id);
     }
 

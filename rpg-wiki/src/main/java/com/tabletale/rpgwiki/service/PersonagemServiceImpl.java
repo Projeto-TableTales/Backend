@@ -25,13 +25,13 @@ public class PersonagemServiceImpl implements PersonagemService{
     }
 
     @Override
-    public void excluir(Long id) {
+    public void excluir(String id) {
         dao.delete(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Personagem buscarPorId(Long id) {
+    public Personagem buscarPorId(String id) {
         return dao.findById(id);
     }
 

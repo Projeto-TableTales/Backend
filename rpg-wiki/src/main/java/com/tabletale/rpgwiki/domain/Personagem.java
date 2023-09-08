@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "PERSONAGENS")
-public class Personagem extends AbstractEntity<Long>{
+public class Personagem extends AbstractEntity<String>{
 
     @Column(name = "nome", nullable = false)
     private String nome;

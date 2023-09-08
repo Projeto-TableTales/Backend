@@ -25,13 +25,13 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
-    public void excluir(Long id) {
+    public void excluir(String id) {
         dao.delete(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Usuario buscarPoId(Long id) {
+    public Usuario buscarPoId(String id) {
         return dao.findById(id);
     }
 

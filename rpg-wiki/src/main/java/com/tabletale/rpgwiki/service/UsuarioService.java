@@ -10,9 +10,9 @@ public interface UsuarioService {
 
     void editar(Usuario usuario);
 
-    void excluir(Long id);
+    void excluir(String id);
 
-    Usuario buscarPoId(Long id);
+    Usuario buscarPoId(String id);
 
     List<Usuario> buscarTodos();
 

@@ -4,5 +4,5 @@ import com.tabletale.rpgwiki.domain.Mesa;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MesaDaoImpl extends AbstractDao<Mesa, Long> implements MesaDao{
+public class MesaDaoImpl extends AbstractDao<Mesa, String> implements MesaDao{
 }

@@ -10,9 +10,9 @@ public interface PersonagemService {
 
     void editar(Personagem personagem);
 
-    void excluir(Long id);
+    void excluir(String id);
 
-    Personagem buscarPorId(Long id);
+    Personagem buscarPorId(String id);
 
     List<Personagem> buscarTodos();
 

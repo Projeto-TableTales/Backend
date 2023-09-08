@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "USUARIOS")
-public class Usuario extends AbstractEntity<Long>{
+public class Usuario extends AbstractEntity<String>{
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -31,6 +31,13 @@ public class Usuario extends AbstractEntity<Long>{
 
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
+
+
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
 
     public String getNome() {
         return nome;

@@ -10,10 +10,10 @@ public interface UsuarioDao {
 
     void update(Usuario usuario);
 
-    void delete(Long id);
+    void delete(String id);
 
 
-    Usuario findById(Long id);
+    Usuario findById(String id);
 
     List<Usuario> findAll();
 

@@ -10,9 +10,9 @@ public interface MesaService {
 
     void editar(Mesa mesa);
 
-    void excluir(Long id);
+    void excluir(String id);
 
-    Mesa buscarPorId(Long id);
+    Mesa buscarPorId(String id);
 
     List<Mesa> buscarTodos();
 

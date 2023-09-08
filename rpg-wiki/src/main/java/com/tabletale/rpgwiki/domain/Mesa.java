@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "MESAS")
-public class Mesa extends AbstractEntity<Long>{
+public class Mesa extends AbstractEntity<String>{
 
     @Column(name = "nome_do_Jogo", nullable = false)
     private String nomeDoJogo;

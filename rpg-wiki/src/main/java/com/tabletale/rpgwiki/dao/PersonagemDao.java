@@ -10,9 +10,9 @@ public interface PersonagemDao {
 
     void update(Personagem pesronagem);
 
-    void delete(Long id);
+    void delete(String id);
 
-    Personagem findById(Long id);
+    Personagem findById(String id);
 
     List<Personagem> findAll();
 

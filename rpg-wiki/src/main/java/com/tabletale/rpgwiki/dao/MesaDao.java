@@ -10,9 +10,9 @@ public interface MesaDao {
 
     void update(Mesa mesa);
 
-    void delete(Long id);
+    void delete(String id);
 
-    Mesa findById(Long id);
+    Mesa findById(String id);
 
     List<Mesa> findAll();
 
