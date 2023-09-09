@@ -45,8 +45,6 @@ public class AuthenticationController {
     public String alterarSenha(@RequestBody Usuario usuario){
        return managerUser.alterarSenha(usuario);
     }
-
-    
     
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
@@ -63,7 +61,7 @@ public class AuthenticationController {
     
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.biografia(),
-                data.role(), encryptedPassword, data.dataNascimento());
+                 encryptedPassword, data.dataNascimento());
     
         this.userRepository.save(newUser);
     

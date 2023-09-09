@@ -55,17 +55,19 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens;
-
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
+<<<<<<< HEAD
     //private String Instragram;
 
     public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, UserRole role, String senha, LocalDate dataNascimento) {
+=======
+    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, Date dataNascimento) {
+>>>>>>> 1dbf3ea9ee4e7b7cd8dfc98a96bea2e68ed007c1
         this.nome = nome;
         this.biografia = biografia;
         this.genero = genero;
-        this. role = role;
         this.pais = pais;
         this.email = email;
         this.senha = senha;
