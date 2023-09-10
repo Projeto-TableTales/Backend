@@ -2,11 +2,11 @@ package com.tabletale.rpgwiki.services;
 
 import java.util.List;
 
+import com.tabletale.rpgwiki.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
-import com.tabletale.rpgwiki.repositories.UserRepository;
 
 
 @Service
@@ -28,8 +28,8 @@ public class UserService {
     }
 
     public Usuario criarUsuario(Usuario objeto) {
-        Usuario objetoNovo = userRepository.saveAndFlush(objeto);
-        return objetoNovo;
+       Usuario usuario = userRepository.saveAndFlush(objeto);
+       return usuario;
     }
 
     public Usuario alterar(Usuario objeto) {

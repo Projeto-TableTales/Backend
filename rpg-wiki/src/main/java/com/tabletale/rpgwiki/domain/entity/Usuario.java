@@ -1,9 +1,11 @@
 package com.tabletale.rpgwiki.domain.entity;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,9 +45,10 @@ public class Usuario implements UserDetails {
     private Genero genero;
     @Enumerated(EnumType.STRING)
     private Pais pais;
-    @Temporal(TemporalType.DATE)
+    @Column(columnDefinition = "DATE")
     @Past
-    private Date dataNascimento;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private LocalDate dataNascimento;
     private String codigoRecuperacaoSenha;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
@@ -55,7 +58,13 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
+<<<<<<< HEAD
+    //private String Instragram;
+
+    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, UserRole role, String senha, LocalDate dataNascimento) {
+=======
     public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, Date dataNascimento) {
+>>>>>>> 1dbf3ea9ee4e7b7cd8dfc98a96bea2e68ed007c1
         this.nome = nome;
         this.biografia = biografia;
         this.genero = genero;
