@@ -1,5 +1,6 @@
 package com.tabletale.rpgwiki.domain.entity;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -20,6 +21,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 @Entity
 @Table(name = "Usuarios")
 @Getter
@@ -35,43 +39,78 @@ public class Usuario implements UserDetails {
 
     @Column(name = "nome")
     private String nome;
+
     @NotNull
     @Email
     private String email;
+
     private String senha;
+
     private UserRole role;
+
     private String biografia;
+
     @Enumerated(EnumType.STRING)
     private Genero genero;
+
     @Enumerated(EnumType.STRING)
     private Pais pais;
+
     @Column(columnDefinition = "DATE")
     @Past
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private LocalDate dataNascimento;
+
     private String codigoRecuperacaoSenha;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens;
+
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-<<<<<<< HEAD
-    //private String Instragram;
+    private String usernameInstragram;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, UserRole role, String senha, LocalDate dataNascimento) {
-=======
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, Date dataNascimento) {
->>>>>>> 1dbf3ea9ee4e7b7cd8dfc98a96bea2e68ed007c1
+    private String usernameFacebook;
+
+    private String usernameTwitter;
+
+    private String pathImagemPerfil;
+
+    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String encryptedPassword, LocalDate dataNascimento, UserRole role) {
         this.nome = nome;
-        this.biografia = biografia;
         this.genero = genero;
         this.pais = pais;
         this.email = email;
-        this.senha = senha;
+        this.senha = encryptedPassword;
         this.dataNascimento = dataNascimento;
+        this.role = role;
+        this.usernameInstragram = "";
+        this.usernameFacebook = "";
+        this.usernameTwitter = "";
+        if (biografia == null) {
+            this.biografia = "Estou pronto para a próxima jornada e para enfrentar qualquer desafio que o mundo de RPG possa oferecer!";
+        }
+        else{
+            this.biografia = biografia;
+        }
+    }
+
+    // Função utilizada para que o usuário possa selecionar qualquer foto que esteja em alguma pasta no local de armazenado do seu aparelho, ou seja no disco.
+    public static File mostrarEscolhaFoto() {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File arquivoSelecionado = chooser.getSelectedFile();
+            return arquivoSelecionado;
+        }
+        return null;
     }
 
     @Override

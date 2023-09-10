@@ -1,5 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import com.tabletale.rpgwiki.services.UserService;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -42,6 +43,7 @@ public class UserController {
         }
     }
 
+    //Deve ter acesso limitado aos Usuários que possuem a Role = "ADMIN"
     @PostMapping("/cadastrar")
     public Usuario inserir(@RequestBody Usuario objeto) {
        return usuarioService.criarUsuario(objeto);
@@ -64,20 +66,10 @@ public class UserController {
         return usuario.getNome();
     }
 
-    @PostMapping("/editarName")
-    public void setName(@RequestBody Usuario usuarioAtualizado) {
-        usuarioService.alterar(usuarioAtualizado);
-    }
-
     @GetMapping("/descricao")
     public String getDescricao(@RequestParam String id) {
         Usuario usuario = usuarioService.buscarPorId(id);
         return usuario.getBiografia();
-    }
-
-    @PostMapping("/editarDescricao")
-    public void setDescricao(@RequestBody Usuario usuarioAtualizado) {
-        usuarioService.alterar(usuarioAtualizado);
     }
 
     @GetMapping("/pais")
@@ -86,23 +78,70 @@ public class UserController {
         return usuario.getPais().getDescricao();
     }
 
-    @PostMapping("/editarPais")
-    public void setPais(@RequestBody Usuario usuarioAtualizado) {
-        usuarioService.alterar(usuarioAtualizado);
+    @PostMapping("/editarfotoperfil")
+    public void adicionarFotoPerfil(@RequestParam String id) {
+        Usuario usuario = usuarioService.buscarPorId(id);
+        File file = Usuario.mostrarEscolhaFoto();
+        usuario.setPathImagemPerfil(file.getPath());
     }
 
-    /**
-    @GetMapping("/intagram")
+    @GetMapping("/usernameinstagram")
     public String getIntagram(@RequestParam String id) {
         Usuario usuario = usuarioService.buscarPorId(id);
+        return usuario.getUsernameInstragram();
+    }
 
-        if (usuario.getInstragram() == null) {
+    @GetMapping("/usernamefacebook")
+    public String getFacebook(@RequestParam String id) {
+        Usuario usuario = usuarioService.buscarPorId(id);
+
+        if (usuario.getUsernameFacebook() == null) {
             return "";
         }
         else {
-            return usuario.getInstragram();
+            return usuario.getUsernameFacebook();
         }
     }
+
+    @GetMapping("/usernametwitter")
+    public String getTwitter(@RequestParam String id) {
+        Usuario usuario = usuarioService.buscarPorId(id);
+
+        if (usuario.getUsernameTwitter() == null) {
+            return "";
+        }
+        else {
+            return usuario.getUsernameTwitter();
+        }
+    }
+
+
+
+    /**
+     *
+     *
+     *
+     @PostMapping("/salavarAlteracoes")
+     public void salvarAlteracoesPerfil(@RequestBody Usuario usuarioAtualizado) {
+        usuarioService.alterar(usuarioAtualizado);
+     }
+     *
+     * Se for preferível podemos substituir a função salvar alterações por funções específicas para cada campo para salvar uma alteração quando ela for feita no perfil do usuário
+     *
+     @PostMapping("/editarName")
+     public void setName(@RequestBody Usuario usuarioAtualizado) {
+        usuarioService.alterar(usuarioAtualizado);
+     }
+
+     @PostMapping("/editarDescricao")
+     public void setDescricao(@RequestBody Usuario usuarioAtualizado) {
+        usuarioService.alterar(usuarioAtualizado);
+     }
+
+     @PostMapping("/editarPais")
+     public void setPais(@RequestBody Usuario usuarioAtualizado) {
+        usuarioService.alterar(usuarioAtualizado);
+     }
 
     @PostMapping("/editarInstagram")
     public void setInstagram(@RequestBody Usuario usuarioAtualizado) {

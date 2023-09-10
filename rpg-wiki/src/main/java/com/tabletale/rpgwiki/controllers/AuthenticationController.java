@@ -1,5 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
+import com.tabletale.rpgwiki.domain.entity.UserRole;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    
+
     @Autowired
     private ManagerUser managerUser;
 
@@ -35,7 +36,7 @@ public class AuthenticationController {
 
     @Autowired
     private TokenService tokenService;
-    
+
     @PostMapping("/codigo")
     public String recuperarCodigo(@RequestBody Usuario usuario){
        return managerUser.solicitarCodigo(usuario.getEmail());
@@ -45,12 +46,12 @@ public class AuthenticationController {
     public String alterarSenha(@RequestBody Usuario usuario){
        return managerUser.alterarSenha(usuario);
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        
+
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
@@ -58,14 +59,14 @@ public class AuthenticationController {
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO data) {
         if (this.userRepository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().build();
-    
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.biografia(),
-                 encryptedPassword, data.dataNascimento());
-    
+                 encryptedPassword, data.dataNascimento(), UserRole.USER);
+
         this.userRepository.save(newUser);
-    
+
         return ResponseEntity.ok().build();
     }
-    
+
 }
