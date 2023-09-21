@@ -43,11 +43,8 @@ public class Usuario implements UserDetails {
     @NotNull
     @Email
     private String email;
-
     private String senha;
-
     private UserRole role;
-
     private String biografia;
 
     @Enumerated(EnumType.STRING)
@@ -71,21 +68,17 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
-
     private String usernameInstragram;
-
     private String usernameFacebook;
-
     private String usernameTwitter;
-
     private String pathImagemPerfil;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String encryptedPassword, LocalDate dataNascimento, UserRole role) {
+    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, LocalDate dataNascimento, UserRole role) {
         this.nome = nome;
         this.genero = genero;
         this.pais = pais;
         this.email = email;
-        this.senha = encryptedPassword;
+        this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.role = role;
         this.usernameInstragram = "";

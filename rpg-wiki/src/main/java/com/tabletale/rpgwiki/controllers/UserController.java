@@ -43,7 +43,7 @@ public class UserController {
         }
     }
 
-    //Deve ter acesso limitado aos Usuários que possuem a Role = "ADMIN"
+    //Deve ter acesso limitado aos Usuários que possuem a Role = "MESTRE"
     @PostMapping("/cadastrar")
     public Usuario inserir(@RequestBody Usuario objeto) {
        return usuarioService.criarUsuario(objeto);

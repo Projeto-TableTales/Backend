@@ -21,25 +21,25 @@ public class Personagem {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome")
     private String nome;
 
     @Column(name = "historia")
     private String historia;
 
-    @Column(name = "idade", nullable = false)
+    @Column(name = "idade")
     private int idade;
 
-    @Column(name = "classe", nullable = false)
+    @Column(name = "classe")
     private String classe;
 
-    @Column(name = "raca", nullable = false)
+    @Column(name = "raca")
     private String raca;
 
-    @Column(name = "nivel", nullable = false)
+    @Column(name = "nivel")
     private int nivel;
 
-    @Column(name = "data_criacao", nullable = false)
+    @Column(name = "data_criacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
@@ -47,34 +47,34 @@ public class Personagem {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private String status;
 
-    @Column(name = "dano", nullable = false)
+    @Column(name = "dano")
     private int dano;
 
-    @Column(name = "forca", nullable = false)
+    @Column(name = "forca")
     private int forca;
 
-    @Column(name = "defesa", nullable = false)
+    @Column(name = "defesa")
     private int defesa;
 
-    @Column(name = "agilidade", nullable = false)
+    @Column(name = "agilidade")
     private int agilidade;
 
-    @Column(name = "inteligencia", nullable = false)
+    @Column(name = "inteligencia")
     private int inteligencia;
 
-    @Column(name = "sabedoria", nullable = false)
+    @Column(name = "sabedoria")
     private int sabedoria;
 
-    @Column(name = "carisma", nullable = false)
+    @Column(name = "carisma")
     private int carisma;
 
-    @Column(name = "abates", nullable = false)
+    @Column(name = "abates")
     private int abates;
 
-    @Column(name = "assistencia", nullable = false)
+    @Column(name = "assistencia")
     private int assistencia;
 
     @ManyToOne

@@ -2,8 +2,6 @@ package com.tabletale.rpgwiki.repositories;
 
 
 import java.util.List;
-
-import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
