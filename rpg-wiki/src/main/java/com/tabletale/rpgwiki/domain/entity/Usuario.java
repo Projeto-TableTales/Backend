@@ -45,7 +45,6 @@ public class Usuario implements UserDetails {
     private String email;
     private String senha;
     private UserRole role;
-    private String biografia;
 
     @Enumerated(EnumType.STRING)
     private Genero genero;
@@ -68,12 +67,11 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
-    private String usernameInstragram;
-    private String usernameFacebook;
-    private String usernameTwitter;
-    private String pathImagemPerfil;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String biografia, String senha, LocalDate dataNascimento, UserRole role) {
+    @OneToOne(cascade = CascadeType.ALL)
+    private Perfil perfil;
+
+    public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento, UserRole role) {
         this.nome = nome;
         this.genero = genero;
         this.pais = pais;
@@ -81,29 +79,7 @@ public class Usuario implements UserDetails {
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.role = role;
-        this.usernameInstragram = "";
-        this.usernameFacebook = "";
-        this.usernameTwitter = "";
-        if (biografia == null) {
-            this.biografia = "Estou pronto para a próxima jornada e para enfrentar qualquer desafio que o mundo de RPG possa oferecer!";
-        }
-        else{
-            this.biografia = biografia;
-        }
-    }
-
-    // Função utilizada para que o usuário possa selecionar qualquer foto que esteja em alguma pasta no local de armazenado do seu aparelho, ou seja no disco.
-    public static File mostrarEscolhaFoto() {
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
-        chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File arquivoSelecionado = chooser.getSelectedFile();
-            return arquivoSelecionado;
-        }
-        return null;
+        this.perfil = new Perfil(this);
     }
 
     @Override

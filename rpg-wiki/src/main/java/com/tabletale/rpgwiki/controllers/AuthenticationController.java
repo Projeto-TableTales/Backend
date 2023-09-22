@@ -61,7 +61,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.biografia(),
+        Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(),
                  encryptedPassword, data.dataNascimento(), UserRole.USER);
 
         this.userRepository.save(newUser);
