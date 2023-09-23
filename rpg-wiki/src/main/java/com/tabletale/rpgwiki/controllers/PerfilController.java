@@ -26,6 +26,11 @@ public class PerfilController {
         return perfilService.getBiografia(id);
     }
 
+    @PutMapping("/editarbiografia/{id}")
+    public String alterarBiografia(@PathVariable("id") String id, @RequestParam("novaBiografia") String novaBiografia) {
+        return perfilService.alterarBiografia(id, novaBiografia);
+    }
+
     @GetMapping("/pais/{id}")
     public String getPais(@PathVariable("id") String id) {
         return perfilService.getPais(id);

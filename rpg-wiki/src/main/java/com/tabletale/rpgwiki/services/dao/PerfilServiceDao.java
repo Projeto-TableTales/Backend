@@ -24,6 +24,16 @@ public class PerfilServiceDao {
         return repository.findById(id).getBiografia();
     }
 
+    @Transactional(readOnly = false)
+    public String alterarBiografia(String id, String novaBiografia) {
+        Usuario usuario = repository.findById(id);
+        System.out.println("Antes: " + usuario.getBiografia());
+        usuario.setBiografia(novaBiografia);
+        repository.update(usuario);
+        System.out.println("Depois: " + repository.findById(id).getBiografia() + "\n");
+        return novaBiografia;
+    }
+
     public String getPais(String id) {
         return repository.findById(id).getPais().getDescricao();
     }
