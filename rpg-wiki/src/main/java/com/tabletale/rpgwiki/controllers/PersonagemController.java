@@ -25,18 +25,18 @@ import com.tabletale.rpgwiki.services.PersonagemService;
 @RequestMapping("/personagem")
 @CrossOrigin
 public class PersonagemController {
-    
+
     @Autowired
     private PersonagemService personagemService;
 
     @GetMapping("/buscarTodos")
     public List<Personagem> buscarTodos(){
-       return personagemService.buscarTodos();
+        return personagemService.buscarTodos();
     }
 
     @GetMapping("/buscarPorNome")
     public ResponseEntity<List<Personagem>> buscarPersonagem(@RequestParam String nome) {
-        List<Personagem> personagens = personagemService.buscarPersonagem(nome); 
+        List<Personagem> personagens = personagemService.buscarPersonagem(nome);
 
         if (!personagens.isEmpty()) {
             return ResponseEntity.ok(personagens);
@@ -44,7 +44,7 @@ public class PersonagemController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("/criar")
     public Personagem inserir(@RequestBody Personagem objeto){
         return personagemService.criarPersonagem(objeto);

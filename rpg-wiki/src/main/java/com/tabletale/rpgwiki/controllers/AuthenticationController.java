@@ -1,6 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
-import com.tabletale.rpgwiki.domain.entity.UserRole;
+import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +39,12 @@ public class AuthenticationController {
 
     @PostMapping("/codigo")
     public String recuperarCodigo(@RequestBody Usuario usuario){
-       return managerUser.solicitarCodigo(usuario.getEmail());
+        return managerUser.solicitarCodigo(usuario.getEmail());
     }
 
     @PostMapping("/alterar-senha")
     public String alterarSenha(@RequestBody Usuario usuario){
-       return managerUser.alterarSenha(usuario);
+        return managerUser.alterarSenha(usuario);
     }
 
     @PostMapping("/login")
@@ -62,7 +62,7 @@ public class AuthenticationController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(),
-                 encryptedPassword, data.dataNascimento(), UserRole.USER);
+                encryptedPassword, data.dataNascimento(), UserRole.USER);
 
         this.userRepository.save(newUser);
 

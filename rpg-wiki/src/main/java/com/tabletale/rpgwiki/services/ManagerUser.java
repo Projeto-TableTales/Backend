@@ -24,15 +24,15 @@ public class ManagerUser {
     PasswordEncoder passwordEncoder;
 
     public String solicitarCodigo(String email) {
-        
+
         Usuario usuario = (Usuario) userRepository.findByEmail(email);
         usuario.setCodigoRecuperacaoSenha(getCodigoRecuperacaoSenha(usuario.getId()));
         usuario.setDataEnvioCodigo(new Date());
         userRepository.saveAndFlush(usuario);
-       emailService.enviarEmailTexto(usuario.getEmail(), "Código de Recuperação de Senha",
+        emailService.enviarEmailTexto(usuario.getEmail(), "Código de Recuperação de Senha",
                 "Seu código para recuperação de senha é: " + usuario.getCodigoRecuperacaoSenha());
-            return "Codigo enviado para o seu e-mail";
-        
+        return "Codigo enviado para o seu e-mail";
+
     }
 
     public String alterarSenha(Usuario user) {

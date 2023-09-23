@@ -2,11 +2,15 @@ package com.tabletale.rpgwiki.domain.entity;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tabletale.rpgwiki.domain.entity.enums.Genero;
+import com.tabletale.rpgwiki.domain.entity.enums.Pais;
+import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,12 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Usuario implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     @Column(name = "nome")
     private String nome;
@@ -43,7 +42,9 @@ public class Usuario implements UserDetails {
     @NotNull
     @Email
     private String email;
+
     private String senha;
+
     private UserRole role;
 
     @Enumerated(EnumType.STRING)
@@ -68,8 +69,23 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Perfil perfil;
+    @Column(name = "biografia")
+    private String biografia;
+
+    @Column(name = "name_instagram")
+    private String usernameInstragram;
+
+    @Column(name = "name_facebook")
+    private String usernameFacebook;
+
+    @Column(name = "name_twitter")
+    private String usernameTwitter;
+
+    @Column(name = "path_foto_perfil")
+    private String pathImagemPerfil;
+
+    private List<String> rpgsFavoritos;
+
 
     public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento, UserRole role) {
         this.nome = nome;
@@ -79,7 +95,32 @@ public class Usuario implements UserDetails {
         this.senha = senha;
         this.dataNascimento = dataNascimento;
         this.role = role;
-        this.perfil = new Perfil(this);
+        this.biografia = "Estou pronto para a próxima jornada e para enfrentar qualquer desafio que o mundo de RPG possa oferecer!";
+        this.usernameInstragram = "";
+        this.usernameFacebook = "";
+        this.usernameTwitter = "";
+        this.rpgsFavoritos = new ArrayList<>();
+    }
+
+    public static File mostrarEscolhaFoto() {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File arquivoSelecionado = chooser.getSelectedFile();
+            return arquivoSelecionado;
+        }
+        return null;
+    }
+
+    public void adicionarRPGSFavoritos(String nomeRPG) {
+        this.rpgsFavoritos.add(nomeRPG);
+    }
+
+    public void removerRPGSFavoritos(String nomeRPG) {
+        this.rpgsFavoritos.remove(nomeRPG);
     }
 
     @Override
@@ -120,6 +161,5 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }

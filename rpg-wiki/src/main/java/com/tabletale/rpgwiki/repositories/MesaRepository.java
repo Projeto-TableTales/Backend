@@ -7,5 +7,5 @@ import com.tabletale.rpgwiki.domain.entity.Mesa;
 
 public interface MesaRepository extends JpaRepository<Mesa, String> {
     List<Mesa> findByNomeDoJogo(String nomeDoJogo);
-    
+
 }

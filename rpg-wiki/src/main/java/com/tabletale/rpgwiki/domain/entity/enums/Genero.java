@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.domain.entity;
+package com.tabletale.rpgwiki.domain.entity.enums;
 
 public enum Genero {
 

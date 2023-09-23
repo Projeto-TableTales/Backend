@@ -16,11 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Mesa {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class Mesa extends AbstractEntity<String>{
 
     @Column(name = "nome_do_Jogo", nullable = false)
     private String nomeDoJogo;

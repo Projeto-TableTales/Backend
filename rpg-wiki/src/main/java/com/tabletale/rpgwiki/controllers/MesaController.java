@@ -25,13 +25,13 @@ import com.tabletale.rpgwiki.services.MesaService;
 @RequestMapping("/mesa")
 @CrossOrigin
 public class MesaController {
-    
+
     @Autowired
     private MesaService mesaService;
 
     @GetMapping("/buscarTodas")
     public List<Mesa> buscarTodos(){
-       return mesaService.buscarTodos();
+        return mesaService.buscarTodos();
     }
 
     @GetMapping("/buscarPorNome")
@@ -44,7 +44,7 @@ public class MesaController {
             return ResponseEntity.notFound().build();
         }
     }
-    
+
     @PostMapping("/registrar")
     public Mesa inserir(@RequestBody Mesa objeto){
         return mesaService.criarMesa(objeto);

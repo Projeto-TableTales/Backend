@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,14 +37,6 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki").hasRole("ADMIN")
-                        .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())
                 .build();
     }
 

@@ -7,4 +7,5 @@ import com.tabletale.rpgwiki.domain.entity.Personagem;
 
 public interface PersonagemRepository extends JpaRepository<Personagem, String> {
     List<Personagem> findByNome(String nome);
+
 }

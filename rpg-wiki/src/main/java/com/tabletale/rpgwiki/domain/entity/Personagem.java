@@ -15,11 +15,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class Personagem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class Personagem extends AbstractEntity<String>{
 
     @Column(name = "nome")
     private String nome;

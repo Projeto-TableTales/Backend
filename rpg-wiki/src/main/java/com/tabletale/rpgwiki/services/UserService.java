@@ -18,7 +18,7 @@ public class UserService {
     public List<Usuario> buscarTodos() {
         return userRepository.findAll();
     }
-    
+
     public Usuario buscarPorId(String id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -28,8 +28,8 @@ public class UserService {
     }
 
     public Usuario criarUsuario(Usuario objeto) {
-       Usuario usuario = userRepository.saveAndFlush(objeto);
-       return usuario;
+        Usuario usuario = userRepository.saveAndFlush(objeto);
+        return usuario;
     }
 
     public Usuario alterar(Usuario objeto) {
@@ -40,7 +40,5 @@ public class UserService {
         Usuario objeto = userRepository.findById(id).get();
         userRepository.delete(objeto);
     }
-    
-}
-    
 
+}
