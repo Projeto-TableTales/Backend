@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/buscarPorNome")
-    public List<Usuario> buscarUsuario(@RequestParam String nome) {
-        return usuarioService.buscarUsuario(nome);
+    public ResponseEntity<List<Usuario>> buscarUsuario(@RequestParam String nome) {
+        return ResponseEntity.ok().body(usuarioService.buscarUsuario(nome));
     }
 
 
@@ -46,9 +46,8 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") String id) {
-        usuarioService.excluir(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> excluir(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(usuarioService.excluir(id));
     }
 
 }

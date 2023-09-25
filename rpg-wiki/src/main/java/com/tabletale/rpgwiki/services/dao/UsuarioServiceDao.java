@@ -3,6 +3,7 @@ package com.tabletale.rpgwiki.services.dao;
 import java.util.List;
 
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
+import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,12 @@ public class UsuarioServiceDao {
         repository.update(usuario);
     }
 
-    public void excluir(String id) {
+    public boolean excluir(String id) {
+        if (buscarPorId(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
         repository.delete(id);
+        return true;
     }
 
     @Transactional(readOnly = true)
@@ -41,6 +46,9 @@ public class UsuarioServiceDao {
 
     @Transactional(readOnly = true)
     public List<Usuario> buscarUsuario(String nome) {
+        if (repository.findByName(nome).isEmpty()) {
+            throw new UserNotFoundException("Não há usuários cadastrados com o nome " + nome);
+        }
         return repository.findByName(nome);
     }
     
