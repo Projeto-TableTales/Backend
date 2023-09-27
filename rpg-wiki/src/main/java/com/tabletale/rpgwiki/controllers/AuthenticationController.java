@@ -1,6 +1,8 @@
 package com.tabletale.rpgwiki.controllers;
 
 import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
+
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping("/codigo")
+    @PostMapping("/codigo-forgot")
     public String recuperarCodigo(@RequestBody Usuario usuario){
         return managerUser.solicitarCodigo(usuario.getEmail());
     }
@@ -46,6 +48,7 @@ public class AuthenticationController {
     public String alterarSenha(@RequestBody Usuario usuario){
         return managerUser.alterarSenha(usuario);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO data) {
