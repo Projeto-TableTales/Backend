@@ -26,6 +26,7 @@ public class EmailService {
     private String remetente;
 
     public String enviarEmailTexto(String destinatario, String titulo, String mensagem) {
+       
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(remetente);
