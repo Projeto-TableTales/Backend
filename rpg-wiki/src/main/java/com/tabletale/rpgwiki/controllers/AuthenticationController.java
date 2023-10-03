@@ -1,8 +1,5 @@
 package com.tabletale.rpgwiki.controllers;
 
-import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
-
-import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +62,7 @@ public class AuthenticationController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario newUser = new Usuario(data.nome(), data.pais(), data.email(), data.genero(),
-                encryptedPassword, data.dataNascimento(), UserRole.USER);
+                encryptedPassword, data.dataNascimento());
 
         this.userRepository.save(newUser);
 

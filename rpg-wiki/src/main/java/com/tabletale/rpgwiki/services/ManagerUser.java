@@ -49,7 +49,7 @@ public class ManagerUser {
                 return "Tempo expirado, solicite um novo código";
             }
         } else {
-            return "Email ou código não encontrado!";
+            return "E-mail ou código de recuperação incorretos ou inesistentes!";
         }
     }
 

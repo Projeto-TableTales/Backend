@@ -3,7 +3,6 @@ package com.tabletale.rpgwiki.controllers;
 import java.util.List;
 
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
-import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,7 +40,7 @@ public class UserController {
     //Deve ter acesso limitado aos Usuários que possuem a Role = "MESTRE"
     @PostMapping("/cadastrar")
     public void inserir(@RequestBody RegisterDTO data) {
-        Usuario usuario = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.senha(), data.dataNascimento(), UserRole.USER);
+        Usuario usuario = new Usuario(data.nome(), data.pais(), data.email(), data.genero(), data.senha(), data.dataNascimento());
         usuarioService.criarUsuario(usuario);
     }
 
