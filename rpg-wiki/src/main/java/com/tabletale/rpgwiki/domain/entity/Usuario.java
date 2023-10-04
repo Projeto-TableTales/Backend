@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tabletale.rpgwiki.domain.entity.enums.Genero;
 import com.tabletale.rpgwiki.domain.entity.enums.Pais;
 import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
-
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,7 +57,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private LocalDate dataNascimento;
 
-    @Length(max = 8)
     private String codigoRecuperacaoSenha;
 
     @Temporal(TemporalType.TIMESTAMP)
