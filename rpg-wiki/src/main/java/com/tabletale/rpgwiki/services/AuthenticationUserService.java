@@ -10,7 +10,7 @@ import com.tabletale.rpgwiki.domain.entity.Usuario;
 
 
 @Service
-public class UserService {
+public class AuthenticationUserService {
 
     @Autowired
     private UserRepository userRepository;

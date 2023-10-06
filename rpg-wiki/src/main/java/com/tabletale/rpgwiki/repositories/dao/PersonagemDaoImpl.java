@@ -17,4 +17,13 @@ public class PersonagemDaoImpl extends AbstractDao<Personagem, String> implement
         return lista;
     }
 
+    @Override
+    public List<Personagem> buscarTodosPersonagensDoUsuario(String idUsuario) {
+        String jpql = "select p from Personagem p where p.usuario = (select u from Usuario u where u.id = '" + idUsuario + "')";
+        TypedQuery<Personagem> typedQuery = getEntityManager().createQuery(jpql, Personagem.class);
+        List<Personagem> lista = typedQuery.getResultList();
+        lista.forEach(p -> System.out.println(p.getUsuario().getNome() + ", " + p.getNome()));
+        return lista;
+    }
+
 }

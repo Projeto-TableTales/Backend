@@ -1,6 +1,7 @@
 package com.tabletale.rpgwiki.controllers.exceptions;
 
 import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationListRPGExcption;
+import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
 import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpRequest;
@@ -24,7 +25,6 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
-
     @ExceptionHandler(InvalidationOperationListRPGExcption.class)
     public ResponseEntity<StandardError> invalidOperationListRPGException(Exception e, HttpServletRequest request){
         StandardError err = new StandardError();
@@ -36,6 +36,15 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
-
+    @ExceptionHandler(PersonagemNotFoundException.class)
+    public ResponseEntity<StandardError> PersonagemNotFoundException(Exception e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestemp(Instant.now());
+        err.setStatus(HttpStatus.NOT_FOUND.value());
+        err.setError("Personagem not found");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
 
 }

@@ -2,41 +2,45 @@ package com.tabletale.rpgwiki.services;
 
 import java.util.List;
 
+import com.tabletale.rpgwiki.repositories.dao.MesaDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.domain.entity.Mesa;
-import com.tabletale.rpgwiki.repositories.MesaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional(readOnly = false)
 public class MesaService {
     @Autowired
-    private MesaRepository mesaRepository;
+    private MesaDaoImpl repository;
 
-    public List<Mesa> buscarTodos() {
-        return mesaRepository.findAll();
+    public void criarMesa(Mesa mesa) {
+        repository.save(mesa);
     }
 
-    public Mesa buscarPorId(String id) {
-        return mesaRepository.findById(id).orElse(null);
-    }
-
-    public List<Mesa> buscarMesa(String nomeDoJogo) {
-        return mesaRepository.findByNomeDoJogo(nomeDoJogo);
-    }
-
-    public Mesa criarMesa(Mesa objeto) {
-        Mesa objetoNovo = mesaRepository.saveAndFlush(objeto);
-        return objetoNovo;
-    }
-
-    public Mesa alterar(Mesa objeto) {
-        return mesaRepository.saveAndFlush(objeto);
+    public void alterar(Mesa mesa) {
+        repository.update(mesa);
     }
 
     public void excluir(String id) {
-        Mesa objeto = mesaRepository.findById(id).get();
-        mesaRepository.delete(objeto);
+        repository.delete(id);
     }
+
+    @Transactional(readOnly = true)
+    public Mesa buscarPorId(String id) {
+        return repository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Mesa> buscarTodos() {
+        return repository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Mesa> buscarMesa(String nomeDoJogo) {
+        return repository.findByNameOfGame(nomeDoJogo);
+    }
+
 }

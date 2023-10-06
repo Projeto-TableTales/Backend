@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
-import com.tabletale.rpgwiki.services.dao.UsuarioServiceDao;
+import com.tabletale.rpgwiki.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin("*")
-public class UserController {
+public class UsuarioController {
 
     @Autowired
-    private UsuarioServiceDao usuarioService;
+    private UsuarioService usuarioService;
 
     @GetMapping("/buscarTodos")
     public List<Usuario> buscarTodos() {

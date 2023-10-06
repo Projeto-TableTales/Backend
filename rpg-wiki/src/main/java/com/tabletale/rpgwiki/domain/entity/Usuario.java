@@ -64,7 +64,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     private Date dataEnvioCodigo;
 
     @OneToMany(mappedBy = "usuario")
-    private List<Personagem> pesronoagens;
+    private List<Personagem> pesronoagens = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuarioMestre")
     private List<Mesa> mesasMestradas;
@@ -86,6 +86,13 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     private List<String> rpgsFavoritos;
 
+    private String narrativa;
+
+    private String experiencia;
+
+    private String tipoDeJogador;
+
+    private String cargo;
 
     public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento, UserRole role) {
         this.nome = nome;
@@ -99,9 +106,14 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.usernameInstragram = "";
         this.usernameFacebook = "";
         this.usernameTwitter = "";
+        this.narrativa = "";
+        this.experiencia = "";
+        this.tipoDeJogador = "";
+        this.cargo = "";
         this.rpgsFavoritos = new ArrayList<>();
     }
 
+    //Função para escolher imagem do perfil do usuário
     public static File mostrarEscolhaFoto() {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -121,6 +133,10 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     public void removerRPGSFavoritos(String nomeRPG) {
         this.rpgsFavoritos.remove(nomeRPG);
+    }
+
+    public void adicionarPersonagem(Personagem personagem) {
+        this.pesronoagens.add(personagem);
     }
 
     @Override

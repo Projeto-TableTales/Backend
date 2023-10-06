@@ -1,13 +1,15 @@
 package com.tabletale.rpgwiki.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Personagens")
@@ -20,59 +22,34 @@ public class Personagem extends AbstractEntity<String>{
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "historia")
-    private String historia;
-
-    @Column(name = "idade")
+    @Column(name = "idade", nullable = false)
     private int idade;
 
-    @Column(name = "classe")
-    private String classe;
-
-    @Column(name = "raca")
-    private String raca;
-
-    @Column(name = "nivel")
-    private int nivel;
-
-    @Column(name = "data_criacao")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCriacao;
-
-    @Column(name = "data_atualizacao")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAtualizacao;
-
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "dano")
-    private int dano;
+    @Column(name = "sistema_rpg", nullable = false)
+    private String sistemaDoRPG;
 
-    @Column(name = "forca")
-    private int forca;
+    @Column(name = "descricao", nullable = false)
+    private String descricao;
 
-    @Column(name = "defesa")
-    private int defesa;
+    @Column(name = "personalidade", nullable = false)
+    private String personalidade;
 
-    @Column(name = "agilidade")
-    private int agilidade;
+    @Column(name = "tags_personagem")
+    private List<String> tagsPersonagem = new ArrayList<>();;
 
-    @Column(name = "inteligencia")
-    private int inteligencia;
+    @Column(name = "likes")
+    private int likes;
 
-    @Column(name = "sabedoria")
-    private int sabedoria;
+    @Column(name = "pathImagemPersonagem")
+    private String pathImagemPersonagem;
 
-    @Column(name = "carisma")
-    private int carisma;
+    @Column(name = "historia", nullable = false)
+    private String historia;
 
-    @Column(name = "abates")
-    private int abates;
-
-    @Column(name = "assistencia")
-    private int assistencia;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_id_fk")
     private Usuario usuario;
@@ -81,6 +58,24 @@ public class Personagem extends AbstractEntity<String>{
     @JoinColumn(name = "mesa_id_fk")
     private Mesa mesa;
 
+    public Personagem(String nome, int idade,  String status, String sistemaDoRPG, String descricao, String personalidade, List<String> tagsPersonagem,String historia) {
+        this.nome = nome;
+        this.idade = idade;
+        this.status = status;
+        this.sistemaDoRPG = sistemaDoRPG;
+        this.descricao = descricao;
+        this.personalidade = personalidade;
+        this.tagsPersonagem = tagsPersonagem;
+        this.likes = 0;
+        this.historia = historia;
+    }
 
+    public void adicionarTagPersonagem(String tag) {
+        this.tagsPersonagem.add(tag);
+    }
+
+    public void removerTagPersonagem(String tag) {
+        this.tagsPersonagem.remove(tag);
+    }
 
 }

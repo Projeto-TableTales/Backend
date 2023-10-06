@@ -1,6 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
-import com.tabletale.rpgwiki.services.dao.PerfilServiceDao;
+import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class PerfilController {
 
     @Autowired
-    private PerfilServiceDao perfilService;
+    private PerfilService perfilService;
 
 
     //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
@@ -35,6 +35,46 @@ public class PerfilController {
     @GetMapping("/pais/{id}")
     public ResponseEntity<String> getPais(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getPais(id));
+    }
+
+    @GetMapping("/narrativa/{id}")
+    public ResponseEntity<String> getNarrativa(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getNarrativa(id));
+    }
+
+    @PutMapping("/editarnarrativa/{id}")
+    public ResponseEntity<String> alterarNarrativa(@PathVariable("id") String id, @RequestParam("novaNarrativa") String novaNarrativa) {
+        return ResponseEntity.ok().body(perfilService.alterarNarrativa(id, novaNarrativa));
+    }
+
+    @GetMapping("/experiencia/{id}")
+    public ResponseEntity<String> getExperiencia(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getExperiencia(id));
+    }
+
+    @PutMapping("/editarexperiencia/{id}")
+    public ResponseEntity<String> alterarExperiencia(@PathVariable("id") String id, @RequestParam("novaExperiencia") String novaExperiencia) {
+        return ResponseEntity.ok().body(perfilService.alterarExperiencia(id, novaExperiencia));
+    }
+
+    @GetMapping("/tipodejogador/{id}")
+    public ResponseEntity<String> getTipoDeJogador(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getTipoDeJogador(id));
+    }
+
+    @PutMapping("/editartipodejogador/{id}")
+    public ResponseEntity<String> alterarTipoDeJogador(@PathVariable("id") String id, @RequestParam("novoTipoDeJogador") String novoTipoDeJogador) {
+        return ResponseEntity.ok().body(perfilService.alterarTipoDeJogador(id, novoTipoDeJogador));
+    }
+
+    @GetMapping("/cargo/{id}")
+    public ResponseEntity<String> getCargo(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getCargo(id));
+    }
+
+    @PutMapping("/editarcargo/{id}")
+    public ResponseEntity<String> alterarCargo(@PathVariable("id") String id, @RequestParam("novoCargo") String novoCargo) {
+        return ResponseEntity.ok().body(perfilService.alterarCargo(id, novoCargo));
     }
 
     //----------------- Funções relacionadas aos Links de Redes Sociais do Usuario ----------------//

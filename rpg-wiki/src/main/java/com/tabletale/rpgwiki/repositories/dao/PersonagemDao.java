@@ -18,4 +18,6 @@ public interface PersonagemDao {
 
     List<Personagem> findByName(String nome);
 
+    List<Personagem> buscarTodosPersonagensDoUsuario(String id);
+
 }

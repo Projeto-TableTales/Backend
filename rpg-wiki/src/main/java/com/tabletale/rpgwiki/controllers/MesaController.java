@@ -3,6 +3,7 @@ package com.tabletale.rpgwiki.controllers;
 import java.util.List;
 
 
+import com.tabletale.rpgwiki.services.MesaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Mesa;
-import com.tabletale.rpgwiki.services.MesaService;
-
 
 
 @RestController
@@ -46,13 +45,13 @@ public class MesaController {
     }
 
     @PostMapping("/registrar")
-    public Mesa inserir(@RequestBody Mesa objeto){
-        return mesaService.criarMesa(objeto);
+    public void inserir(@RequestBody Mesa objeto){
+        mesaService.criarMesa(objeto);
     }
 
     @PutMapping("/editar")
-    public Mesa alterar(@RequestBody Mesa objeto){
-        return mesaService.alterar(objeto);
+    public void alterar(@RequestBody Mesa objeto){
+        mesaService.alterar(objeto);
     }
 
     @DeleteMapping("/{id}")

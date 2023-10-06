@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.services.dao;
+package com.tabletale.rpgwiki.services;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = false)
-public class UsuarioServiceDao {
+public class UsuarioService {
 
     @Autowired
     private UsuarioDaoImpl repository;
@@ -27,7 +27,7 @@ public class UsuarioServiceDao {
     }
 
     public boolean excluir(String id) {
-        if (buscarPorId(id) == null) {
+        if (repository.findById(id) == null) {
             throw new UserNotFoundException("Usuário não existe");
         }
         repository.delete(id);
@@ -36,6 +36,9 @@ public class UsuarioServiceDao {
 
     @Transactional(readOnly = true)
     public Usuario buscarPorId(String id) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
         return repository.findById(id);
     }
 

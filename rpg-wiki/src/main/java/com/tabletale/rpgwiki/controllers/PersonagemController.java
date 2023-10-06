@@ -3,6 +3,9 @@ package com.tabletale.rpgwiki.controllers;
 import java.util.List;
 
 
+import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
+import com.tabletale.rpgwiki.domain.dto.RegisterPersonagemDTO;
+import com.tabletale.rpgwiki.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,48 +20,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Personagem;
-import com.tabletale.rpgwiki.services.PersonagemService;
-
 
 
 @RestController
 @RequestMapping("/personagem")
-@CrossOrigin
+@CrossOrigin("*")
 public class PersonagemController {
 
     @Autowired
     private PersonagemService personagemService;
 
-    @GetMapping("/buscarTodos")
-    public List<Personagem> buscarTodos(){
-        return personagemService.buscarTodos();
+    @PostMapping("/criar/{id}")
+    public void criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
+        Personagem personagem = new Personagem(personagemDTO.nome(), personagemDTO.idade(), personagemDTO.status(), personagemDTO.sistema(), personagemDTO.descricao(), personagemDTO.personalidade(), personagemDTO.tagsPersonagem(), personagemDTO.historia());
+        personagemService.criarPersonagem(id, personagem);
     }
 
-    @GetMapping("/buscarPorNome")
-    public ResponseEntity<List<Personagem>> buscarPersonagem(@RequestParam String nome) {
-        List<Personagem> personagens = personagemService.buscarPersonagem(nome);
-
-        if (!personagens.isEmpty()) {
-            return ResponseEntity.ok(personagens);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/criar")
-    public Personagem inserir(@RequestBody Personagem objeto){
-        return personagemService.criarPersonagem(objeto);
-    }
-
-    @PutMapping("/editar")
-    public Personagem alterar(@RequestBody Personagem objeto){
-        return personagemService.alterar(objeto);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") String id){
-        personagemService.excluir(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/buscarTodos/{id}")
+    public List<Personagem> buscarTodosPersonagens(@PathVariable("id") String id){
+        return personagemService.buscarTodosPersonagensDoUsuario(id);
     }
 
 }

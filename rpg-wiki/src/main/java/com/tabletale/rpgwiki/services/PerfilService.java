@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.services.dao;
+package com.tabletale.rpgwiki.services;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class PerfilServiceDao {
+public class PerfilService {
 
     @Autowired
     private UsuarioDaoImpl repository;
@@ -50,6 +50,86 @@ public class PerfilServiceDao {
             throw new UserNotFoundException("Usuário não existe");
         }
         return repository.findById(id).getPais().getDescricao();
+    }
+
+    public String getNarrativa(String id) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        return repository.findById(id).getNarrativa();
+    }
+
+    @Transactional(readOnly = false)
+    public String alterarNarrativa(String id, String novaNarrativa) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        Usuario usuario = repository.findById(id);
+        System.out.println("Antes: " + usuario.getNarrativa());
+        usuario.setNarrativa(novaNarrativa);
+        repository.update(usuario);
+        System.out.println("Depois: " + repository.findById(id).getNarrativa() + "\n");
+        return novaNarrativa;
+    }
+
+    public String getExperiencia(String id) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        return repository.findById(id).getExperiencia();
+    }
+
+    @Transactional(readOnly = false)
+    public String alterarExperiencia(String id, String novaExperiencia) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        Usuario usuario = repository.findById(id);
+        System.out.println("Antes: " + usuario.getExperiencia());
+        usuario.setExperiencia(novaExperiencia);
+        repository.update(usuario);
+        System.out.println("Depois: " + repository.findById(id).getExperiencia() + "\n");
+        return novaExperiencia;
+    }
+
+    public String getTipoDeJogador(String id) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        return repository.findById(id).getTipoDeJogador();
+    }
+
+    @Transactional(readOnly = false)
+    public String alterarTipoDeJogador(String id, String novoTipoDeJogador) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        Usuario usuario = repository.findById(id);
+        System.out.println("Antes: " + usuario.getTipoDeJogador());
+        usuario.setTipoDeJogador(novoTipoDeJogador);
+        repository.update(usuario);
+        System.out.println("Depois: " + repository.findById(id).getTipoDeJogador() + "\n");
+        return novoTipoDeJogador;
+    }
+
+    public String getCargo(String id) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        return repository.findById(id).getCargo();
+    }
+
+    @Transactional(readOnly = false)
+    public String alterarCargo(String id, String novoCargo) {
+        if (repository.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        Usuario usuario = repository.findById(id);
+        System.out.println("Antes: " + usuario.getCargo());
+        usuario.setCargo(novoCargo);
+        repository.update(usuario);
+        System.out.println("Depois: " + repository.findById(id).getCargo() + "\n");
+        return novoCargo;
     }
 
     //----------------- Funções relacionadas aos Links de Redes Sociais do Usuario ----------------//
