@@ -20,4 +20,6 @@ public interface PersonagemDao {
 
     List<Personagem> buscarTodosPersonagensDoUsuario(String id);
 
+    Personagem buscarPersonagemUsuario(String idUsuario, String idPersonagem);
+
 }

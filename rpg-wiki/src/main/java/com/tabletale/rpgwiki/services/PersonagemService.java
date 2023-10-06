@@ -1,10 +1,13 @@
 package com.tabletale.rpgwiki.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.PersonagemDaoImpl;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
+import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +37,8 @@ public class PersonagemService {
         return repository.buscarTodosPersonagensDoUsuario(idUsuario);
     }
 
-    public String getNomePersonagem(String id) {
-        return repository.findById(id).getNome();
+    public String getNomePersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getNome();
     }
 
     @Transactional(readOnly = false)
@@ -48,8 +51,8 @@ public class PersonagemService {
         return novoNome;
     }
 
-    public int getIdadePersonagem(String id) {
-        return repository.findById(id).getIdade();
+    public int getIdadePersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getIdade();
     }
 
     @Transactional(readOnly = false)
@@ -62,8 +65,8 @@ public class PersonagemService {
         return novaIdade;
     }
 
-    public String getStatusPersonagem(String id) {
-        return repository.findById(id).getStatus();
+    public String getStatusPersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getStatus();
     }
 
     @Transactional(readOnly = false)
@@ -76,8 +79,8 @@ public class PersonagemService {
         return novoStatus;
     }
 
-    public String getSistemaDoRPGPersonagem(String id) {
-        return repository.findById(id).getSistemaDoRPG();
+    public String getSistemaDoRPGPersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getSistemaDoRPG();
     }
 
     @Transactional(readOnly = false)
@@ -90,8 +93,8 @@ public class PersonagemService {
         return novoSistemaDoRPG;
     }
 
-    public String getDescricaoPersonagem(String id) {
-        return repository.findById(id).getDescricao();
+    public String getDescricaoPersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getDescricao();
     }
 
     @Transactional(readOnly = false)
@@ -104,8 +107,8 @@ public class PersonagemService {
         return novaDescricao;
     }
 
-    public String getPersonalidadePersonagem(String id) {
-        return repository.findById(id).getPersonalidade();
+    public String getPersonalidadePersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getPersonalidade();
     }
 
     @Transactional(readOnly = false)
@@ -118,12 +121,12 @@ public class PersonagemService {
         return novaPersonalidade;
     }
 
-    public int getLikesPersonagem(String id) {
-        return repository.findById(id).getLikes();
+    public int getLikesPersonagem(String id,String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getLikes();
     }
 
-    public String getHistoriaPersonagem(String id) {
-        return repository.findById(id).getHistoria();
+    public String getHistoriaPersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getHistoria();
     }
 
     @Transactional(readOnly = false)
@@ -136,24 +139,24 @@ public class PersonagemService {
         return novaHistoria;
     }
 
-    public List<String> getTagsPersonagem(String id) {
-        return repository.findById(id).getTagsPersonagem();
+    public List<String> getTagsPersonagem(String id, String idPersonagem) {
+        return repository.buscarPersonagemUsuario(id, idPersonagem).getTagsPersonagem();
     }
 
     @Transactional(readOnly = false)
-    public List<String> adicionarTagPersonagem(String id, String novaTag) {
-        Personagem personagem = repository.findById(id);
-        personagem.adicionarTagPersonagem(novaTag);
+    public List<String> adicionarTagPersonagem(String id, String idPersonagem, String novaTag) {
+        Personagem personagem = repository.buscarPersonagemUsuario(id, idPersonagem);
+        personagem.adicionarTagPersonagem(novaTag.toUpperCase());
         repository.update(personagem);
-        return getTagsPersonagem(id);
+        return getTagsPersonagem(id, idPersonagem);
     }
 
     @Transactional(readOnly = false)
-    public List<String> removerTagPersonagem(String id, String tag) {
-        Personagem personagem = repository.findById(id);
-        personagem.removerTagPersonagem(tag);
+    public List<String> removerTagPersonagem(String id, String idPersonagem, String tag) {
+        Personagem personagem = repository.buscarPersonagemUsuario(id, idPersonagem);
+        personagem.removerTagPersonagem(tag.toUpperCase());
         repository.update(personagem);
-        return getTagsPersonagem(id);
+        return getTagsPersonagem(id, idPersonagem);
     }
 
 }
