@@ -26,6 +26,7 @@ public class EmailService {
     private String remetente;
 
     public String enviarEmailTexto(String destinatario, String titulo, String mensagem) {
+
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(remetente);
@@ -49,7 +50,6 @@ public class EmailService {
             mimeMessageHelper.setSubject(titulo);
             mimeMessageHelper.setFrom(remetente);
             mimeMessageHelper.setTo(destinatario);
-
             mimeMessageHelper.setText(getConteudoTemplate(propriedades), true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
@@ -63,7 +63,8 @@ public class EmailService {
 
         try {
             content.append(FreeMarkerTemplateUtils
-                    .processTemplateIntoString(fmConfiguration.getTemplate("email-recuperacao-codigo.flth"), model));
+            .processTemplateIntoString(fmConfiguration.getTemplate("recuperacao-codigo.flth"), model));
+        
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -39,9 +39,7 @@ public class SecurityConfiguration {
         return http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/rpgwiki").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/rpgwiki/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(httpSecurityCorsConfigurer -> corsConfigurationSource())

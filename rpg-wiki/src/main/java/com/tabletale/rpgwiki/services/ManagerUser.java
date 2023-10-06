@@ -1,8 +1,8 @@
 package com.tabletale.rpgwiki.services;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,13 +49,35 @@ public class ManagerUser {
                 return "Tempo expirado, solicite um novo código";
             }
         } else {
-            return "Email ou código não encontrado!";
+            return "E-mail ou código de recuperação incorretos ou inesistentes!";
         }
     }
 
     private String getCodigoRecuperacaoSenha(String id) {
-        DateFormat format = new SimpleDateFormat("ddMMyyyyHHmmss");
-        return format.format(new Date()) + id;
-    }
 
+        if (id.length() > 4) {
+            id = id.substring(0, 4);
+        } else if (id.length() < 4) {
+            int diferenca = 4 - id.length();
+            StringBuilder idBuilder = new StringBuilder(id);
+            for (int i = 0; i < diferenca; i++) {
+                idBuilder.append('0');
+            }
+            id = idBuilder.toString();
+        }
+
+        String caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder codigoBuilder = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < 4; i++) {
+            int index = random.nextInt(caracteresPermitidos.length());
+            char caractere = caracteresPermitidos.charAt(index);
+            codigoBuilder.append(caractere);
+        }
+
+        String codigoAleatorio = codigoBuilder.toString();
+
+        return id + codigoAleatorio;
+    }
 }

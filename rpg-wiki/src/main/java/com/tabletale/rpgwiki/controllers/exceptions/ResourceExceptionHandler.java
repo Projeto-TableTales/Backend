@@ -4,7 +4,6 @@ import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationListRPGExc
 import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
 import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

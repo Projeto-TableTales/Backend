@@ -20,7 +20,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -94,14 +93,13 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     private String cargo;
 
-    public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento, UserRole role) {
+    public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento) {
         this.nome = nome;
         this.genero = genero;
         this.pais = pais;
         this.email = email;
         this.senha = senha;
         this.dataNascimento = dataNascimento;
-        this.role = role;
         this.biografia = "Estou pronto para a próxima jornada e para enfrentar qualquer desafio que o mundo de RPG possa oferecer!";
         this.usernameInstragram = "";
         this.usernameFacebook = "";
@@ -141,9 +139,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.MESTRE)
-            return List.of(new SimpleGrantedAuthority("ROLE_MESTRE"), new SimpleGrantedAuthority("ROLE_USER"));
-        else
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
