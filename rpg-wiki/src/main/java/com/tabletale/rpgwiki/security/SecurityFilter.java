@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.tabletale.rpgwiki.repositories.UserRepository;
-import com.tabletale.rpgwiki.services.TokenService;
+import com.tabletale.rpgwiki.services.details.TokenService;
 
 import java.io.IOException;
 

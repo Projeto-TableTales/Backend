@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.services;
+package com.tabletale.rpgwiki.services.details;
 
 import java.util.Map;
 

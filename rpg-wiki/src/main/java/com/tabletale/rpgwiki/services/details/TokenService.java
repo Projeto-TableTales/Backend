@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.services;
+package com.tabletale.rpgwiki.services.details;
 
 import com.auth0.jwt.JWT; 
 import com.auth0.jwt.algorithms.Algorithm;

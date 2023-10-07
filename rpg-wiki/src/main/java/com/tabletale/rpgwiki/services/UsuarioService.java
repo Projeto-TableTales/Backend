@@ -18,22 +18,6 @@ public class UsuarioService {
     @Autowired
     private UsuarioDaoImpl repository;
 
-    public void criarUsuario(Usuario usuario) {
-        repository.save(usuario);
-    }
-
-    public void alterar(Usuario usuario) {
-        repository.update(usuario);
-    }
-
-    public boolean excluir(String id) {
-        if (repository.findById(id) == null) {
-            throw new UserNotFoundException("Usuário não existe");
-        }
-        repository.delete(id);
-        return true;
-    }
-
     @Transactional(readOnly = true)
     public Usuario buscarPorId(String id) {
         if (repository.findById(id) == null) {

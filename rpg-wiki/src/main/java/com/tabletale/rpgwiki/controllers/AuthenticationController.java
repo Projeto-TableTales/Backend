@@ -17,8 +17,8 @@ import com.tabletale.rpgwiki.domain.dto.LoginResponseDTO;
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.UserRepository;
-import com.tabletale.rpgwiki.services.ManagerUser;
-import com.tabletale.rpgwiki.services.TokenService;
+import com.tabletale.rpgwiki.services.details.ManagerUser;
+import com.tabletale.rpgwiki.services.details.TokenService;
 
 @RestController
 @RequestMapping("/rpgwiki")

@@ -1,13 +1,10 @@
 package com.tabletale.rpgwiki.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.PersonagemDaoImpl;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
-import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
-import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
