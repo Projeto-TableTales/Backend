@@ -19,7 +19,6 @@ import com.tabletale.rpgwiki.domain.entity.Post;
 import com.tabletale.rpgwiki.repositories.PostRepository;
 import com.tabletale.rpgwiki.services.PostService;
 
-import jakarta.persistence.PostRemove;
 
 @RestController
 @RequestMapping("/post")
@@ -55,8 +54,8 @@ public class PostController {
         return postService.editarPost(objeto);
     }
 
-    @DeleteMapping("/excluirPost{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") Long id){
+    @DeleteMapping("/excluirPost/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable("id") String id){
         postService.excluir(id);
         return ResponseEntity.ok().build();
     }

@@ -35,8 +35,8 @@ public class PostService {
         return postRepository.saveAndFlush(objeto);
     }
 
-    public void excluir(Long id) {
+    public void excluir(String id) {
         Post objeto = postRepository.findById(id).get();
-        postRepository.delete(objeto);
+       postRepository.delete(objeto);
     }
 }
