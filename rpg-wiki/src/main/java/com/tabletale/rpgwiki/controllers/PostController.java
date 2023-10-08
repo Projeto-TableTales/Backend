@@ -42,11 +42,10 @@ public class PostController {
     }
 
     @PostMapping("/criarPost")
-    public ResponseEntity<String> criarPost(@RequestBody PostDTO data){
+    public ResponseEntity<Post> criarPost(@RequestBody PostDTO data){
         Post newPost = new Post(data.titulo(), data.conteudo(), data.dataPost());
-        this.postRepository.saveAndFlush(newPost);
-
-        return ResponseEntity.ok().build();
+        Post postResp = this.postRepository.saveAndFlush(newPost);
+        return ResponseEntity.ok(postResp);
     }
 
     @PutMapping("/editarPost")
