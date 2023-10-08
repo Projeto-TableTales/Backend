@@ -33,7 +33,7 @@ public class ImagensController {
     }
 
     @PostMapping("/inserir")
-    public Imagens inserir( @RequestParam("file") MultipartFile file){
+    public Imagens inserir(@RequestParam("file") MultipartFile file){
         return imagensService.inserir(file);
     }
 

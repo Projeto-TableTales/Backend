@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -28,8 +27,6 @@ public class Imagens {
     @JoinColumn(name = "id_post")
     @JsonIgnore
     private Post post;
-
-    @Transient
     @Lob
     private byte[] arquivo;
 }
