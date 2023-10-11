@@ -32,12 +32,12 @@ public class PostController {
     private PostRepository postRepository;
 
     @GetMapping("/buscarAll")
-    public List<Post> buscarAllPosts(){
+    public List<Post> buscarAllPosts() throws Exception{
        return postService.buscarTodos();
     }
 
     @GetMapping("/buscarByTitulo{id}")
-    public List<Post> buscarByTitulo(@PathVariable("titulo") String titulo){
+    public List<Post> buscarByTitulo(@PathVariable("titulo") String titulo) throws Exception{
        return postService.buscarByTitulo(titulo);
     }
 
