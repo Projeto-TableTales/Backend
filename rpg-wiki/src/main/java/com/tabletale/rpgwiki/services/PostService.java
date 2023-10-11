@@ -16,21 +16,24 @@ public class PostService {
     private PostRepository postRepository;
 
     public List<Post> buscarTodos() throws Exception {
-        if (postRepository.findAll() == null){
-            throw new Exception("Você ainda não postou nada!");
-        }
+        if (postRepository.findAll().isEmpty()) 
+             new Exception("Você ainda não postou nada!");
+        
         return postRepository.findAll();
     }
 
-    public List<Post> buscarByTitulo(String titulo) {
+    public List<Post> buscarByTitulo(String titulo) throws Exception {
+        if (postRepository.findByTitulo(titulo).isEmpty())
+            new Exception("Título não encontrado!");
+
         return postRepository.findByTitulo(titulo);
-      
+
     }
 
     public void criarPost(Post objeto) {
         objeto.setDataPost(new Date());
         postRepository.saveAndFlush(objeto);
-         
+
     }
 
     public Post editarPost(Post objeto) {
@@ -40,6 +43,6 @@ public class PostService {
 
     public void excluir(String id) {
         Post objeto = postRepository.findById(id).get();
-       postRepository.delete(objeto);
+        postRepository.delete(objeto);
     }
 }
