@@ -1,5 +1,12 @@
 package com.tabletale.rpgwiki.testesControllers;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -7,12 +14,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import com.tabletale.rpgwiki.controllers.AuthenticationController;
+import com.tabletale.rpgwiki.domain.dto.AuthenticationDTO;
+import com.tabletale.rpgwiki.domain.dto.LoginResponseDTO;
 import com.tabletale.rpgwiki.domain.dto.RegisterDTO;
+import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.domain.entity.enums.Genero;
 import com.tabletale.rpgwiki.domain.entity.enums.Pais;
 import com.tabletale.rpgwiki.repositories.UserRepository;
@@ -54,40 +67,42 @@ public class AuthenticationControllerTest {
 
     @Test
     public void testLogin() {
-        // Implement your test for login method here
+        RegisterDTO auth = new RegisterDTO("John Doe", Pais.BRA, "johndoe@example.com", "12345", Genero.MASCULINO,
+                LocalDate.of(2000, 06, 20));
+        AuthenticationDTO data = new AuthenticationDTO("johndoe@example.com", "12345");
+        when((authenticationManager.authenticate(auth))
+                .thenReturn(new UsernamePasswordAuthenticationToken(data.email(), data.senha())));
+        when(tokenService.generateToken(any(Usuario.class))).thenReturn("token_esperado");
+
+        ResponseEntity<LoginResponseDTO> result = authenticationController.login(data);
+
+        assertEquals("token_esperado", result.getBody().token());
     }
 
     @Test
     public void testRegister() {
-        // Crie um objeto RegisterDTO de exemplo
-        RegisterDTO testData = new RegisterDTO("John Doe", Pais.BRA, "johndoe@example.com", "12345", Genero.MASCULINO,
-                LocalDate.of(204, 05, 24));
+        RegisterDTO data = new RegisterDTO("John Doe", Pais.BRA, "johndoe@example.com", "12345", Genero.MASCULINO,
+                LocalDate.of(2000, 06, 20));
+        when(userRepository.findByEmail(data.email())).thenReturn(null);
 
-        // Simule o comportamento do UserRepository para retornar null, indicando que o
-        // email não existe no banco de dados
-        when(userRepository.findByEmail(toString())).thenReturn(null);
+        ResponseEntity<String> result = authenticationController.register(data);
 
-        // Simule o comportamento do BCryptPasswordEncoder para retornar a senha
-        // criptografada
-        when(bCryptPasswordEncoder.encode("password")).thenReturn("encryptedPassword");
-
-        // Chame o método register na classe AuthenticationController
-        ResponseEntity<String> response = authenticationController.register(testData);
-
-        // Verifique se o UserRepository foi chamado para procurar o email
-        verify(userRepository, times(1)).findByEmail("johndoe@example.com");
-
-        // Verifique se o UserRepository foi chamado para salvar um novo usuário
         verify(userRepository, times(1)).save(any(Usuario.class));
-
-        // Verifique se a resposta HTTP é OK (200)
-        assertEquals(200, response.getStatusCodeValue());
-
-        // Você também pode verificar o corpo da resposta, se necessário
-        // assertEquals("Mensagem de sucesso esper
+        assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
-    private Object when(UserDetails findByEmail) {
-        return null;
+    @Test
+    public void testRegister_UsuarioJaExiste() {
+        RegisterDTO data = new RegisterDTO("John Doe", Pais.BRA, "johndoe@example.com", "12345", Genero.MASCULINO,
+                LocalDate.of(2000, 06, 20));
+
+        when(userRepository.findByEmail(data.email())).thenReturn(new Usuario());
+
+        ResponseEntity<String> result = authenticationController.register(data);
+
+        verify(userRepository, never()).save(any(Usuario.class));
+
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
+
 }
