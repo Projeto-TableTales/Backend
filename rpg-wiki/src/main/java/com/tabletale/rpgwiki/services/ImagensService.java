@@ -30,8 +30,7 @@ public class ImagensService {
             if (!file.isEmpty()) {
                 byte[] bytes = file.getBytes();
                 String nomeImagem = String.valueOf(file.getOriginalFilename());
-                Path caminho = Paths
-                        .get("c:/Users/Public/Pictures" + nomeImagem);
+                Path caminho = Paths.get("c:/","Users/Public/Pictures","/"+ nomeImagem);
                 Files.write(caminho, bytes);
                 objeto.setNome(nomeImagem);
 

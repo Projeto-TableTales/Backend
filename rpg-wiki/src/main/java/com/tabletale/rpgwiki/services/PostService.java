@@ -15,7 +15,10 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<Post> buscarTodos() {
+    public List<Post> buscarTodos() throws Exception {
+        if (postRepository.findAll() == null){
+            throw new Exception("Você ainda não postou nada!");
+        }
         return postRepository.findAll();
     }
 

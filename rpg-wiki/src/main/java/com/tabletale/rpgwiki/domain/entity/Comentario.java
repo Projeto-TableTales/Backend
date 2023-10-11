@@ -1,5 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -17,6 +19,9 @@ public class Comentario extends AbstractEntity<String> {
     
     @Column(name = "curtidas")
     private int curtidas;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private  Date dataComentario;
 
     @ManyToOne
     @JoinColumn(name = "id_post")
