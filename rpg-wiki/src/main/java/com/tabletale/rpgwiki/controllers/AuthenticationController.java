@@ -55,6 +55,7 @@ public class AuthenticationController {
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
+    
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterDTO data) {
         if (this.userRepository.findByEmail(data.email()) != null)

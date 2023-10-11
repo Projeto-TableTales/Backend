@@ -22,7 +22,7 @@ import com.tabletale.rpgwiki.services.ComentarioService;
 @RequestMapping("/comentario")
 @CrossOrigin("*")
 public class ComentarioController {
-    
+
     @Autowired
     private ComentarioService comentarioService;
 
@@ -30,20 +30,19 @@ public class ComentarioController {
     private ComentarioRepository comentarioRepository;
 
     @GetMapping("/buscarAll")
-    public List<Comentario> buscarAllComentarios() throws Exception{
-       return comentarioService.buscarTodos();
+    public List<Comentario> buscarAllComentarios() throws Exception {
+        return comentarioService.buscarTodos();
     }
 
     @PostMapping("/criarComentario")
-    public ResponseEntity<Comentario> criarComentario(@RequestBody ComentarioDTO data){
+    public ResponseEntity<Comentario> criarComentario(@RequestBody ComentarioDTO data) {
         Comentario newComentario = new Comentario(data.conteudo(), data.dataComentario());
         this.comentarioRepository.saveAndFlush(newComentario);
         return ResponseEntity.ok().build();
     }
 
-
     @DeleteMapping("/excluirComentario/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") String id){
+    public ResponseEntity<Void> excluir(@PathVariable("id") String id) {
         comentarioService.excluir(id);
         return ResponseEntity.ok().build();
     }
