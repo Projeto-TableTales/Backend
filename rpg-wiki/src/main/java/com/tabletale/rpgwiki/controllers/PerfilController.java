@@ -1,9 +1,11 @@
 package com.tabletale.rpgwiki.controllers;
 
+import com.tabletale.rpgwiki.services.ImagensService;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +17,13 @@ public class PerfilController {
     @Autowired
     private PerfilService perfilService;
 
+    @Autowired
+    private ImagensService imagensService;
+
+    @PostMapping("/adicionarfotoperfilusuario/{id}")
+    public void adicionarImagemPerfil(@PathVariable("id") String id, @RequestParam("file") MultipartFile file){
+        imagensService.inserirImagemPerfilUsuario(file, id);
+    }
 
     //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
     @GetMapping("/name/{id}")

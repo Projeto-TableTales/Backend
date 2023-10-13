@@ -80,8 +80,8 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @Column(name = "name_twitter")
     private String usernameTwitter;
 
-    @Column(name = "path_foto_perfil")
-    private String pathImagemPerfil;
+    @OneToOne(mappedBy = "usuario")
+    private ImagensPerfilUsuario imagemPerfilUsuario;
 
     private List<String> rpgsFavoritos;
 

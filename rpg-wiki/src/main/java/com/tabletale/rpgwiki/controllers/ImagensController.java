@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tabletale.rpgwiki.domain.entity.Imagens;
+import com.tabletale.rpgwiki.domain.entity.AbstractImagens;
 import com.tabletale.rpgwiki.services.ImagensService;
 
 
@@ -23,17 +23,18 @@ import com.tabletale.rpgwiki.services.ImagensService;
 @RequestMapping("/imagens")
 @CrossOrigin
 public class ImagensController {
-    
+
+    /**
     @Autowired
     private ImagensService imagensService;
 
     @GetMapping("/")
-    public List<Imagens> buscarTodos(){
+    public List<AbstractImagens> buscarTodos(){
        return imagensService.buscarTodos();
     }
 
     @PostMapping("/inserir")
-    public Imagens inserir(@RequestParam("file") MultipartFile file){
+    public AbstractImagens inserir(@RequestParam("file") MultipartFile file){
         return imagensService.inserir(file);
     }
 
@@ -43,5 +44,6 @@ public class ImagensController {
         imagensService.remover(id);
         return ResponseEntity.ok().build();
     }
+    */
 
 }

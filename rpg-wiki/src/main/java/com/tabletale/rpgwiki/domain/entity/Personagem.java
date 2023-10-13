@@ -42,8 +42,8 @@ public class Personagem extends AbstractEntity<String>{
     @Column(name = "likes")
     private int likes;
 
-    @Column(name = "pathImagemPersonagem")
-    private String pathImagemPersonagem;
+    @OneToOne(mappedBy = "personagem")
+    private ImagensPersonagens imagemPersonagem;
 
     @Column(name = "historia", nullable = false)
     private String historia;

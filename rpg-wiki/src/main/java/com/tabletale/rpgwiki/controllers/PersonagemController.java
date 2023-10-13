@@ -3,6 +3,7 @@ package com.tabletale.rpgwiki.controllers;
 import java.util.List;
 
 import com.tabletale.rpgwiki.domain.dto.RegisterPersonagemDTO;
+import com.tabletale.rpgwiki.services.ImagensService;
 import com.tabletale.rpgwiki.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Personagem;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -25,6 +27,14 @@ public class PersonagemController {
 
     @Autowired
     private PersonagemService personagemService;
+
+    @Autowired
+    private ImagensService imagensService;
+
+    @PostMapping("/adicionarImagempersonagem/{id}")
+    public void adicionarImagemPerfil(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem, @RequestParam("file") MultipartFile file){
+        imagensService.inserirImagemPersonagem(file, id, idPersonagem);
+    }
 
     @PostMapping("/criar/{id}")
     public void criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
