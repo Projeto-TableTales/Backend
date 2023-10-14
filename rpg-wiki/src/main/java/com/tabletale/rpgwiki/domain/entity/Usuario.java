@@ -81,7 +81,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     private String usernameTwitter;
 
     @OneToOne(mappedBy = "usuario")
-    private ImagensPerfilUsuario imagemPerfilUsuario;
+    private ImagemPerfil imagemPerfil;
 
     private List<String> rpgsFavoritos;
 
@@ -135,6 +135,10 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     public void adicionarPersonagem(Personagem personagem) {
         this.pesronoagens.add(personagem);
+    }
+
+    public void removerPersonagem(Personagem personagem) {
+        this.pesronoagens.remove(personagem);
     }
 
     @Override

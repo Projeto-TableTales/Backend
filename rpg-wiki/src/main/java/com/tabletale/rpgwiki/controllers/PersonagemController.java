@@ -1,20 +1,14 @@
 package com.tabletale.rpgwiki.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.tabletale.rpgwiki.domain.dto.RegisterPersonagemDTO;
-import com.tabletale.rpgwiki.services.ImagensService;
+import com.tabletale.rpgwiki.services.ImagemService;
 import com.tabletale.rpgwiki.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.tabletale.rpgwiki.domain.entity.Personagem;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,78 +23,127 @@ public class PersonagemController {
     private PersonagemService personagemService;
 
     @Autowired
-    private ImagensService imagensService;
+    private ImagemService imagemService;
 
-    @PostMapping("/adicionarImagempersonagem/{id}")
-    public void adicionarImagemPerfil(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem, @RequestParam("file") MultipartFile file){
-        imagensService.inserirImagemPersonagem(file, id, idPersonagem);
+    @PostMapping("/adicionarfoto/{id}")
+    public void adicionarImagem(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) {
+        imagemService.inserirImagemPersonagem(file, id);
     }
 
+    //---------------------------------------------------------------------------------------------------------------------//
     @PostMapping("/criar/{id}")
-    public void criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
+    public ResponseEntity<?> criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
         Personagem personagem = new Personagem(personagemDTO.nome(), personagemDTO.idade(), personagemDTO.status(), personagemDTO.sistema(), personagemDTO.descricao(), personagemDTO.personalidade(), personagemDTO.tagsPersonagem(), personagemDTO.historia());
-        personagemService.criarPersonagem(id, personagem);
+        return ResponseEntity.ok().body(personagemService.criarPersonagem(id, personagem));
+    }
+
+    public ResponseEntity<?> excluirPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.excluirPersonagem(id, idPersonagem));
     }
 
     @GetMapping("/buscarTodos/{id}")
-    public List<Personagem> buscarTodosPersonagens(@PathVariable("id") String id){
-        return personagemService.buscarTodosPersonagensDoUsuario(id);
+    public ResponseEntity<?> buscarTodosPersonagens(@PathVariable("id") String id){
+        return ResponseEntity.ok().body(personagemService.buscarTodosPersonagensDoUsuario(id));
     }
 
-    //-------------------------Funções Auxiliares-------------------//
-    @GetMapping("/nomepersonagem/{id}")
-    public String getNomePersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getNomePersonagem(id, idPersonagem);
+
+    //---------------------- Nome do Personagem ------------------//
+    @GetMapping("/nome")
+    public ResponseEntity<?> getNomePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getNomePersonagem(idPersonagem));
     }
 
-    @GetMapping("/idadepersonagem/{id}")
-    public int getIdadePersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getIdadePersonagem(id, idPersonagem);
+    @PutMapping("/editarnome")
+    public ResponseEntity<?> alterarNomePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoNome") String novoNome) {
+        return ResponseEntity.ok().body(personagemService.alterarNomePersonagem(idPersonagem, novoNome));
     }
 
-    @GetMapping("/statuspersonagem/{id}")
-    public String getStatusPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getStatusPersonagem(id, idPersonagem);
+    //---------------------- Idade do Personagem ------------------//
+    @GetMapping("/idade")
+    public ResponseEntity<?> getIdadePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getIdadePersonagem(idPersonagem));
     }
 
-    @GetMapping("/sistemarpgpersonagem/{id}")
-    public String getSistemaRPGPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getSistemaDoRPGPersonagem(id, idPersonagem);
+    @PutMapping("/editaridade")
+    public ResponseEntity<?> alterarIdadePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaIdade") int novaIdade) {
+        return ResponseEntity.ok().body(personagemService.alterarIdadePersonagem(idPersonagem, novaIdade));
     }
 
-    @GetMapping("/descricaopersonagem/{id}")
-    public String getDescricaoPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getDescricaoPersonagem(id, idPersonagem);
+    //---------------------- Status do Personagem ------------------//
+    @GetMapping("/status")
+    public ResponseEntity<?> getStatusPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getStatusPersonagem(idPersonagem));
     }
 
-    @GetMapping("/personalidadepersonagem/{id}")
-    public String getPersonalidadePersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getPersonalidadePersonagem(id, idPersonagem);
+    @PutMapping("/editarstatus")
+    public ResponseEntity<?> alterarStatusPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoStatus") String novoStatus) {
+        return ResponseEntity.ok().body(personagemService.alterarStatusPersonagem(idPersonagem, novoStatus));
     }
 
-    @GetMapping("/likespersonagem/{id}")
-    public int getLikesPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getLikesPersonagem(id, idPersonagem);
+    //---------------------- Sistema RPG do Personagem ------------------//
+    @GetMapping("/sistemarpg")
+    public ResponseEntity<?> getSistemaRPGPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getSistemaDoRPGPersonagem(idPersonagem));
     }
 
-    @GetMapping("/historiapersonagem/{id}")
-    public String getHistoriaPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getHistoriaPersonagem(id, idPersonagem);
+    @PutMapping("/editarsistemarpg")
+    public ResponseEntity<?> alterarSistemaRPGPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoSistema") String novoSistema) {
+        return ResponseEntity.ok().body(personagemService.alterarSistemaDoRPGPersonagem(idPersonagem, novoSistema));
     }
 
-    @GetMapping("/tagspersonagem/{id}")
-    public List<String> getTagsPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return personagemService.getTagsPersonagem(id, idPersonagem);
+    //---------------------- Descrição do Personagem ------------------//
+    @GetMapping("/descricao")
+    public ResponseEntity<?> getDescricaoPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getDescricaoPersonagem(idPersonagem));
     }
 
-    @PostMapping("/adiconartagpersonagem/{id}")
-    public List<String> adicionarTagPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaTag") String novaTag) {
-        return personagemService.adicionarTagPersonagem(id, idPersonagem, novaTag);
+    @PutMapping("/editardescricao")
+    public ResponseEntity<?> alterarDescricaoPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoDescricao") String novaDescricao) {
+        return ResponseEntity.ok().body(personagemService.editarDescricaoPersonagem(idPersonagem, novaDescricao));
     }
 
-    @DeleteMapping("/removertagpersonagem/{id}")
-    public List<String> removerTagPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem, @RequestParam("tag") String tag) {
-        return personagemService.removerTagPersonagem(id, idPersonagem, tag);
+    //---------------------- Personalidade do Personagem ------------------//
+    @GetMapping("/personalidade")
+    public ResponseEntity<?> getPersonalidadePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getPersonalidadePersonagem(idPersonagem));
+    }
+
+    @PutMapping("/editarpersonalidade")
+    public ResponseEntity<?> alterarPersonalidadePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaPersonalidade") String novaPersonalidade) {
+        return ResponseEntity.ok().body(personagemService.alterarPersonalidadePersonagem(idPersonagem, novaPersonalidade));
+    }
+
+    //---------------------- Likes do Personagem ------------------//
+    @GetMapping("/likes")
+    public ResponseEntity<?> getLikesPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getLikesPersonagem(idPersonagem));
+    }
+
+    //---------------------- História dp Personagem ------------------//
+    @GetMapping("/historia")
+    public ResponseEntity<?> getHistoriaPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getHistoriaPersonagem(idPersonagem));
+    }
+
+    @PutMapping("/editarhistoria")
+    public ResponseEntity<?> alterarHistoriaPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaHistoria") String novaHistoria) {
+        return ResponseEntity.ok().body(personagemService.editarHistoriaPersonagem(idPersonagem, novaHistoria));
+    }
+
+    //---------------------- Tags do Personagem ------------------//
+    @GetMapping("/tags")
+    public ResponseEntity<?> getTagsPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.getTagsPersonagem(idPersonagem));
+    }
+
+    @PostMapping("/adiconartag")
+    public ResponseEntity<?> adicionarTagPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaTag") String novaTag) {
+        return ResponseEntity.ok().body(personagemService.adicionarTagPersonagem(idPersonagem, novaTag));
+    }
+
+    @DeleteMapping("/removertag")
+    public ResponseEntity<?> removerTagPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("tag") String tag) {
+        return ResponseEntity.ok().body(personagemService.removerTagPersonagem(idPersonagem, tag));
     }
 
 }

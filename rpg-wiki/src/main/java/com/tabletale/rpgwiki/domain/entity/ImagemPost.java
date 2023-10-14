@@ -11,10 +11,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImagensPost extends AbstractImagens {
+public class ImagemPost extends AbstractImagem {
 
     @OneToOne
-    @JoinColumn(name = "id_post")
+    @JoinColumn(name = "id_post_fk")
     @JsonIgnore
     private Post post;
 

@@ -5,24 +5,23 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "imagens_personagens")
+@Table(name = "imagens_perfil_usuario")
 @Data
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImagensPersonagens extends AbstractImagens {
+public class ImagemPerfil extends AbstractImagem {
 
     @OneToOne
-    @JoinColumn(name = "id_personagem")
+    @JoinColumn(name = "id_usuario_fk")
     @JsonIgnore
-    private Personagem personagem;
+    private Usuario usuario;
 
-    public ImagensPersonagens(String nome, String caminho, Personagem personagem) {
+    public ImagemPerfil(String nome, String caminho, Usuario usuario) {
         setNome(nome);
         setCaminho(caminho);
-        this.personagem = personagem;
+        this.usuario = usuario;
     }
-
 
 }

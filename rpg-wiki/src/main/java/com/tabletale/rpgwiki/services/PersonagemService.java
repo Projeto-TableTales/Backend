@@ -5,6 +5,8 @@ import java.util.List;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.PersonagemDaoImpl;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
+import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,144 +18,215 @@ import com.tabletale.rpgwiki.domain.entity.Personagem;
 public class PersonagemService {
 
     @Autowired
-    private PersonagemDaoImpl repository;
+    private PersonagemDaoImpl personagemRepository;
 
     @Autowired
     private UsuarioDaoImpl usuarioRepository;
 
     @Transactional(readOnly = false)
-    public void criarPersonagem(String idUsuario, Personagem personagem) {
+    public String criarPersonagem(String idUsuario, Personagem personagem) {
+        if (usuarioRepository.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Usuário não encontrado");
+        }
         Usuario usuario = usuarioRepository.findById(idUsuario);
         usuario.adicionarPersonagem(personagem);
         personagem.setUsuario(usuario);
-        repository.save(personagem);
+        personagemRepository.save(personagem);
         usuarioRepository.update(usuario);
+        return "Personagem criado com sucesso";
+    }
+
+    public String excluirPersonagem (String idUsuario, String idPersonagem) {
+        if (usuarioRepository.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Usuário não encontrado");
+        }
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não encontrado");
+        }
+        Usuario usuario = usuarioRepository.findById(idUsuario);
+        Personagem personagem = personagemRepository.findById(idPersonagem);
+        usuario.removerPersonagem(personagem);
+        personagemRepository.delete(idPersonagem);
+        usuarioRepository.update(usuario);
+        return "Personagem excluido com sucesso";
     }
 
     public List<Personagem> buscarTodosPersonagensDoUsuario(String idUsuario) {
-        return repository.buscarTodosPersonagensDoUsuario(idUsuario);
+        if (usuarioRepository.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Usuário não encontrado");
+        }
+        if (personagemRepository.buscarTodosPersonagensDoUsuario(idUsuario).isEmpty()) {
+            throw new PersonagemNotFoundException("Usuário não possui personagens criados");
+        }
+        return personagemRepository.buscarTodosPersonagensDoUsuario(idUsuario);
     }
 
-    public String getNomePersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getNome();
+    /*
+         ---------- FUNÇÕES  DOS ATRIBUTOS DO PERSOAGEM ----------------
+     */
+
+    //---------------------- Nome do Personagem ------------------//
+    public String getNomePersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getNome();
     }
 
     @Transactional(readOnly = false)
-    public String alterarNomePersonagem(String id, String novoNome) {
-        Personagem personagem = repository.findById(id);
+    public String alterarNomePersonagem(String idPersonagem, String novoNome) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getNome());
         personagem.setNome(novoNome);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getNome()+ "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getNome()+ "\n");
         return novoNome;
     }
 
-    public int getIdadePersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getIdade();
+    //---------------------- Idade do Personagem ------------------//
+    public int getIdadePersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existi");
+        }
+        return personagemRepository.findById(idPersonagem).getIdade();
     }
 
     @Transactional(readOnly = false)
-    public int alterarIdadePersonagem(String id, int novaIdade) {
-        Personagem personagem = repository.findById(id);
+    public int alterarIdadePersonagem(String idPersonagem, int novaIdade) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getIdade());
         personagem.setIdade(novaIdade);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getIdade()+ "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getIdade()+ "\n");
         return novaIdade;
     }
 
-    public String getStatusPersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getStatus();
+    //---------------------- Status do Personagem ------------------//
+    public String getStatusPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getStatus();
     }
 
     @Transactional(readOnly = false)
-    public String alterarStatusPersonagem(String id, String novoStatus) {
-        Personagem personagem = repository.findById(id);
+    public String alterarStatusPersonagem(String idPersonagem, String novoStatus) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getStatus());
         personagem.setStatus(novoStatus);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getStatus() + "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getStatus() + "\n");
         return novoStatus;
     }
 
-    public String getSistemaDoRPGPersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getSistemaDoRPG();
+    //---------------------- Sistema RPG do Personagem ------------------//
+    public String getSistemaDoRPGPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getSistemaDoRPG();
     }
 
     @Transactional(readOnly = false)
-    public String alterarSistemaDoRPGPersonagem(String id, String novoSistemaDoRPG) {
-        Personagem personagem = repository.findById(id);
+    public String alterarSistemaDoRPGPersonagem(String idPersonagem, String novoSistemaDoRPG) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getSistemaDoRPG());
         personagem.setSistemaDoRPG(novoSistemaDoRPG);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getSistemaDoRPG() + "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getSistemaDoRPG() + "\n");
         return novoSistemaDoRPG;
     }
 
-    public String getDescricaoPersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getDescricao();
+    //---------------------- Descrição do Personagem ------------------//
+    public String getDescricaoPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getDescricao();
     }
 
     @Transactional(readOnly = false)
-    public String editarDescricaoPersonagem(String id, String novaDescricao) {
-        Personagem personagem = repository.findById(id);
+    public String editarDescricaoPersonagem(String idPersonagem, String novaDescricao) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getDescricao());
         personagem.setDescricao(novaDescricao);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getDescricao() + "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getDescricao() + "\n");
         return novaDescricao;
     }
 
-    public String getPersonalidadePersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getPersonalidade();
+    //---------------------- Personalidade do Personagem ------------------//
+    public String getPersonalidadePersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getPersonalidade();
     }
 
     @Transactional(readOnly = false)
-    public String alterarPersonalidadePersonagem(String id, String novaPersonalidade) {
-        Personagem personagem = repository.findById(id);
+    public String alterarPersonalidadePersonagem(String idPersonagem, String novaPersonalidade) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getPersonalidade());
         personagem.setPersonalidade(novaPersonalidade);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getPersonalidade() + "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getPersonalidade() + "\n");
         return novaPersonalidade;
     }
 
-    public int getLikesPersonagem(String id,String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getLikes();
+    //---------------------- Likes do Personagem ------------------//
+    public int getLikesPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getLikes();
     }
 
-    public String getHistoriaPersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getHistoria();
+    //---------------------- História dp Personagem ------------------//
+    public String getHistoriaPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getHistoria();
     }
 
     @Transactional(readOnly = false)
-    public String editarHistoriaPersonagem(String id, String novaHistoria) {
-        Personagem personagem = repository.findById(id);
+    public String editarHistoriaPersonagem(String idPersonagem, String novaHistoria) {
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         System.out.println("Antes: " + personagem.getHistoria());
         personagem.setHistoria(novaHistoria);
-        repository.update(personagem);
-        System.out.println("Depois: " + repository.findById(id).getHistoria() + "\n");
+        personagemRepository.update(personagem);
+        System.out.println("Depois: " + personagemRepository.findById(idPersonagem).getHistoria() + "\n");
         return novaHistoria;
     }
 
-    public List<String> getTagsPersonagem(String id, String idPersonagem) {
-        return repository.buscarPersonagemUsuario(id, idPersonagem).getTagsPersonagem();
+    //---------------------- Tags do Personagem ------------------//
+    public List<String> getTagsPersonagem(String idPersonagem) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        return personagemRepository.findById(idPersonagem).getTagsPersonagem();
     }
 
     @Transactional(readOnly = false)
-    public List<String> adicionarTagPersonagem(String id, String idPersonagem, String novaTag) {
-        Personagem personagem = repository.buscarPersonagemUsuario(id, idPersonagem);
+    public List<String> adicionarTagPersonagem(String idPersonagem, String novaTag) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         personagem.adicionarTagPersonagem(novaTag.toUpperCase());
-        repository.update(personagem);
-        return getTagsPersonagem(id, idPersonagem);
+        personagemRepository.update(personagem);
+        return getTagsPersonagem(idPersonagem);
     }
 
     @Transactional(readOnly = false)
-    public List<String> removerTagPersonagem(String id, String idPersonagem, String tag) {
-        Personagem personagem = repository.buscarPersonagemUsuario(id, idPersonagem);
+    public List<String> removerTagPersonagem(String idPersonagem, String tag) {
+        if (personagemRepository.findById(idPersonagem) == null) {
+            throw new PersonagemNotFoundException("Personagem não existe");
+        }
+        Personagem personagem = personagemRepository.findById(idPersonagem);
         personagem.removerTagPersonagem(tag.toUpperCase());
-        repository.update(personagem);
-        return getTagsPersonagem(id, idPersonagem);
+        personagemRepository.update(personagem);
+        return getTagsPersonagem(idPersonagem);
     }
 
 }

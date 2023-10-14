@@ -1,5 +1,6 @@
 package com.tabletale.rpgwiki.controllers.exceptions;
 
+import com.tabletale.rpgwiki.services.exceptions.ImagemLoadException;
 import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationListRPGExcption;
 import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
 import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
@@ -44,6 +45,17 @@ public class ResourceExceptionHandler {
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+    @ExceptionHandler(ImagemLoadException.class)
+    public ResponseEntity<StandardError> ImagemLoadException(Exception e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestemp(Instant.now());
+        err.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        err.setError("Erro ao carregar imagem");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
     }
 
 }

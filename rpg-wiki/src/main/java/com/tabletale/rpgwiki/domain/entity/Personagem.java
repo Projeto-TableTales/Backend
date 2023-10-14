@@ -43,7 +43,7 @@ public class Personagem extends AbstractEntity<String>{
     private int likes;
 
     @OneToOne(mappedBy = "personagem")
-    private ImagensPersonagens imagemPersonagem;
+    private ImagemPersonagem imagemPersonagem;
 
     @Column(name = "historia", nullable = false)
     private String historia;
