@@ -1,9 +1,6 @@
 package com.tabletale.rpgwiki.controllers.exceptions;
 
-import com.tabletale.rpgwiki.services.exceptions.ImagemLoadException;
-import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationListRPGExcption;
-import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
-import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,15 +44,26 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
-    @ExceptionHandler(ImagemLoadException.class)
-    public ResponseEntity<StandardError> ImagemLoadException(Exception e, HttpServletRequest request){
+    @ExceptionHandler(LoadImagemException.class)
+    public ResponseEntity<StandardError> LoadImagemException(Exception e, HttpServletRequest request){
         StandardError err = new StandardError();
         err.setTimestemp(Instant.now());
         err.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        err.setError("Erro ao carregar imagem");
+        err.setError("Error Load image");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+
+    @ExceptionHandler(ImagemNotFoundException.class)
+    public ResponseEntity<StandardError> ImagemNotFoundException(Exception e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestemp(Instant.now());
+        err.setStatus(HttpStatus.NO_CONTENT.value());
+        err.setError("Image not found");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
 }

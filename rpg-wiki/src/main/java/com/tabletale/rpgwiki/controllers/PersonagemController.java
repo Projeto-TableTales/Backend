@@ -30,6 +30,16 @@ public class PersonagemController {
         imagemService.inserirImagemPersonagem(file, id);
     }
 
+    @GetMapping("/buscarfoto/{id}")
+    public ResponseEntity<?> buscarImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.buscarImagemPersonagem(id));
+    }
+
+    @DeleteMapping("/excluirfoto/{id}")
+    public ResponseEntity<?> excluirImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.excluirImagemPersonagem(id));
+    }
+
     //---------------------------------------------------------------------------------------------------------------------//
     @PostMapping("/criar/{id}")
     public ResponseEntity<?> criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){

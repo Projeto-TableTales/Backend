@@ -26,6 +26,16 @@ public class PerfilController {
         imagemService.inserirImagemPerfilUsuario(file, id);
     }
 
+    @GetMapping("/buscarfoto/{id}")
+    public ResponseEntity<?> buscarImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.buscarImagemPerfilUsuario(id));
+    }
+
+    @DeleteMapping("/excluirfoto/{id}")
+    public ResponseEntity<?> excluirImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.excluirImagemPerfilUsuario(id));
+    }
+    
     //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
     @GetMapping("/nome/{id}")
     public ResponseEntity<String> getName(@PathVariable("id") String id) {

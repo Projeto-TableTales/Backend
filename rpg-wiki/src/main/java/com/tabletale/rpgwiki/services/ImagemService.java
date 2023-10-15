@@ -8,7 +8,11 @@ import java.nio.file.Paths;
 
 import com.tabletale.rpgwiki.domain.entity.*;
 import com.tabletale.rpgwiki.repositories.dao.*;
-import com.tabletale.rpgwiki.services.exceptions.ImagemLoadException;
+import com.tabletale.rpgwiki.services.exceptions.ImagemNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.LoadImagemException;
+import com.tabletale.rpgwiki.services.exceptions.PersonagemNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
+import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -45,29 +49,114 @@ public class ImagemService {
 
     //------------------------ Serviço de Imagem para o perfil do usuário -----------------------------//
 
-    public void inserirImagemPerfilUsuario(MultipartFile file, String idUsuaio) {
-        Usuario usuario = usuarioDao.findById(idUsuaio);
-        ImagemPerfil imagem;
+    public void inserirImagemPerfilUsuario(MultipartFile file, String idUsuario) {
+        if (usuarioDao.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Usuário informado não existe");
+        }
+        Usuario usuario = usuarioDao.findById(idUsuario);
         String nomeImagem = String.valueOf(file.getOriginalFilename());
         String caminho = salvar(this.diretorioImagensPerfil, file);
-        imagem = new ImagemPerfil(nomeImagem, caminho, usuario);
+        ImagemPerfil imagem = new ImagemPerfil(nomeImagem, caminho, usuario);
         imagemPerfilDao.save(imagem);
         usuario.setImagemPerfil(imagem);
         usuarioDao.update(usuario);
     }
 
+    @Transactional(readOnly = true)
+    public byte[] buscarImagemPerfilUsuario(String idUsuario) {
+        try {
+            if (usuarioDao.findById(idUsuario) == null) {
+                throw new UserNotFoundException("Usuário informado não existe");
+            }
+            ImagemPerfil imagemPerfil = imagemPerfilDao.buscarImagemPerfilUsuario(idUsuario); //Pode lançar excessão NoResultException
+            File arquivoImg = new File(imagemPerfil.getCaminho());
+            return Files.readAllBytes(Paths.get(arquivoImg.getAbsolutePath()));
+        }
+        catch (NoResultException | IOException e) {
+            if (e.getClass() == NoResultException.class) {
+                throw new ImagemNotFoundException("Usuário não possui imagem de perfil");
+            }
+            else {
+                throw new LoadImagemException("Problema ao carregar imagem: " + e.getMessage());
+            }
+        }
+    }
+
+    public String excluirImagemPerfilUsuario(String idUsuario) {
+        try {
+            if (usuarioDao.findById(idUsuario) == null) {
+                throw new UserNotFoundException("Usuário informado não existe");
+            }
+            Usuario usuario = usuarioDao.findById(idUsuario);
+            ImagemPerfil imagemPerfil = imagemPerfilDao.buscarImagemPerfilUsuario(idUsuario);
+            File arquivoImg = new File(imagemPerfil.getCaminho());
+            Files.delete(Paths.get(arquivoImg.getAbsolutePath()));
+            imagemPerfilDao.delete(imagemPerfil.getId());
+            usuario.setImagemPerfil(null);
+            usuarioDao.update(usuario);
+            return "Imagem excluida com sucesso";
+        }
+        catch (NoResultException | IOException e) {
+            if (e.getClass() == NoResultException.class) {
+                throw new ImagemNotFoundException("Usuário não possui imagem de perfil");
+            }
+            else {
+                throw new LoadImagemException("Problema ao carregar imagem: " + e.getMessage());
+            }
+        }
+    }
 
     //------------------------ Serviço de Imagem para os personagens -----------------------------//
 
     public void inserirImagemPersonagem(MultipartFile file, String idPersonagem) {
         Personagem personagem = personagemDao.findById(idPersonagem);
-        ImagemPersonagem imagem;
         String nomeImagem = String.valueOf(file.getOriginalFilename());
         String caminho = salvar(this.diretorioImagensPersonagens, file);
-        imagem = new ImagemPersonagem(nomeImagem, caminho, personagem);
+        ImagemPersonagem imagem = new ImagemPersonagem(nomeImagem, caminho, personagem);
         imagemPersonagemDao.save(imagem);
         personagem.setImagemPersonagem(imagem);
         personagemDao.update(personagem);
+    }
+
+    @Transactional(readOnly = true)
+    public byte[] buscarImagemPersonagem(String idPersonagem) {
+        try {
+            ImagemPersonagem imagemPersonagem = imagemPersonagemDao.buscarImagemPersonagem(idPersonagem);
+            File arquivoImg = new File(imagemPersonagem.getCaminho());
+            return Files.readAllBytes(Paths.get(arquivoImg.getAbsolutePath()));
+        }
+        catch (NoResultException | IOException e) {
+            if (e.getClass() == NoResultException.class) {
+                throw new ImagemNotFoundException("Personagem não possui imagem");
+            }
+            else {
+                throw new LoadImagemException("Problema ao carregar imagem: " + e.getMessage());
+            }
+        }
+    }
+
+    public String excluirImagemPersonagem(String idPersonagem) {
+        try {
+            if (personagemDao.findById(idPersonagem) == null) {
+                throw new PersonagemNotFoundException("Personagem não existe");
+            }
+            Personagem personagem = personagemDao.findById(idPersonagem);
+            ImagemPersonagem imagemPersonagem = imagemPersonagemDao.buscarImagemPersonagem(idPersonagem);
+            File arquivoImg = new File(imagemPersonagem.getCaminho());
+            Files.delete(Paths.get(arquivoImg.getAbsolutePath()));
+            imagemPersonagemDao.delete(imagemPersonagem.getId());
+            personagem.setImagemPersonagem(null);
+            personagemDao.update(personagem);
+            return "Imagem excluida com sucesso";
+        }
+        catch (NoResultException | IOException e) {
+            if (e.getClass() == NoResultException.class) {
+                throw new ImagemNotFoundException("Personagem não possui imagem");
+            }
+            else {
+                throw new LoadImagemException("Problema ao carregar imagem: " + e.getMessage());
+            }
+        }
     }
 
     //------------------------ Serviço de Imagem para o perfil do usuário -----------------------------//
