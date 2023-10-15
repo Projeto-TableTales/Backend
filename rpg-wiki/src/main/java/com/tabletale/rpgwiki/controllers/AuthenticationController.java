@@ -1,5 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
+import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class AuthenticationController {
     private UserRepository userRepository;
 
     @Autowired
+    private UsuarioDaoImpl usuarioDao;
+
+    @Autowired
     private TokenService tokenService;
 
     @PostMapping("/codigo-forgot")
@@ -53,7 +57,8 @@ public class AuthenticationController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        String idUsuario = usuarioDao.findByEmail(data.email());
+        return ResponseEntity.ok(new LoginResponseDTO(token, idUsuario));
     }
     
     @PostMapping("/register")

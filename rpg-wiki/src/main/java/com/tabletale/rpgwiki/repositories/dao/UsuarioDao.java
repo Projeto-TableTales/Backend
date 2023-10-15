@@ -18,7 +18,6 @@ public interface UsuarioDao {
 
     List<Usuario> findByName(String nome);
 
-    Usuario findByEmail(String email);
+    String findByEmail(String email);
 
-    Usuario findByEmailAndCodigoRecuperacaoSenha(String email, String codigoRecuperacaoSenha);
 }
