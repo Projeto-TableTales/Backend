@@ -1,6 +1,7 @@
 package com.tabletale.rpgwiki.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,17 @@ public class PostController {
     @GetMapping("/buscarByTitulo{id}")
     public List<Post> buscarByTitulo(@PathVariable("titulo") String titulo) throws Exception{
        return postService.buscarByTitulo(titulo);
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<?> likePost(@PathVariable String postId) {
+        Optional<Post> postOptional = postRepository.findById(postId);
+     
+            Post post = postOptional.get();
+            post.setCurtidas(post.getCurtidas() + 1);
+            postRepository.save(post);
+            return ResponseEntity.ok().build();
+    
     }
 
     @PostMapping("/criarPost")
