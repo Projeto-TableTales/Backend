@@ -8,7 +8,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractImagens {
+public abstract class AbstractImagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

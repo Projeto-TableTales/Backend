@@ -1,12 +1,13 @@
 package com.tabletale.rpgwiki.controllers;
 
-import com.tabletale.rpgwiki.services.ImagensService;
+import com.tabletale.rpgwiki.services.ImagemService;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,15 +19,25 @@ public class PerfilController {
     private PerfilService perfilService;
 
     @Autowired
-    private ImagensService imagensService;
+    private ImagemService imagemService;
 
-    @PostMapping("/adicionarfotoperfilusuario/{id}")
-    public void adicionarImagemPerfil(@PathVariable("id") String id, @RequestParam("file") MultipartFile file){
-        imagensService.inserirImagemPerfilUsuario(file, id);
+    @PostMapping("/adicionarfoto/{id}")
+    public void adicionarImagem(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) {
+        imagemService.inserirImagemPerfilUsuario(file, id);
     }
 
+    @GetMapping("/buscarfoto/{id}")
+    public ResponseEntity<?> buscarImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.buscarImagemPerfilUsuario(id));
+    }
+
+    @DeleteMapping("/excluirfoto/{id}")
+    public ResponseEntity<?> excluirImagem(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(imagemService.excluirImagemPerfilUsuario(id));
+    }
+    
     //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
-    @GetMapping("/name/{id}")
+    @GetMapping("/nome/{id}")
     public ResponseEntity<String> getName(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getName(id));
     }
