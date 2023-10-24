@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.domain.entity.Comentario;
-import com.tabletale.rpgwiki.repositories.ComentarioRepository;
+import com.tabletale.rpgwiki.repositories.dao.ComentarioDao;
 
 @Service
 public class ComentarioService {
 
     @Autowired
-    private ComentarioRepository comentarioRepository;
+    private ComentarioDao comentarioRepository;
 
     public List<Comentario> buscarTodos() throws Exception {
         if (comentarioRepository.findAll().isEmpty())
@@ -24,12 +24,12 @@ public class ComentarioService {
 
     public void criarComentario(Comentario objeto) {
         objeto.setDataComentario(new Date());
-        comentarioRepository.saveAndFlush(objeto);
+        comentarioRepository.save(objeto);
 
     }
 
-    public void excluir(String id) {
-        Comentario objeto = comentarioRepository.findById(id).get();
-        comentarioRepository.delete(objeto);
+    public String excluir(String id) {
+        comentarioRepository.delete(id);
+        return "Comentario excluido!";
     }
 }

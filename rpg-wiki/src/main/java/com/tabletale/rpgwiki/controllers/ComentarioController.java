@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.dto.ComentarioDTO;
 import com.tabletale.rpgwiki.domain.entity.Comentario;
-import com.tabletale.rpgwiki.repositories.ComentarioRepository;
+import com.tabletale.rpgwiki.repositories.dao.ComentarioDao;
 import com.tabletale.rpgwiki.services.ComentarioService;
 
 @RestController
@@ -27,7 +27,7 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @Autowired
-    private ComentarioRepository comentarioRepository;
+    private ComentarioDao comentarioRepository;
 
     @GetMapping("/buscarAll")
     public List<Comentario> buscarAllComentarios() throws Exception {
@@ -37,13 +37,13 @@ public class ComentarioController {
     @PostMapping("/criarComentario")
     public ResponseEntity<Comentario> criarComentario(@RequestBody ComentarioDTO data) {
         Comentario newComentario = new Comentario(data.conteudo(), data.dataComentario());
-        this.comentarioRepository.saveAndFlush(newComentario);
+        this.comentarioRepository.save(newComentario);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/excluirComentario/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") String id) {
+    public ResponseEntity<?> excluir(@PathVariable("id") String id) {
         comentarioService.excluir(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(comentarioService.excluir(id));
     }
 }

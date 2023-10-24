@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.repositories.UserRepository;
 
+
 @Service
 public class AuthorizationService implements UserDetailsService {
 

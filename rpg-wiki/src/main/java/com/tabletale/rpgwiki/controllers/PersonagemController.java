@@ -1,7 +1,5 @@
 package com.tabletale.rpgwiki.controllers;
 
-import java.io.IOException;
-import java.util.List;
 
 import com.tabletale.rpgwiki.domain.dto.RegisterPersonagemDTO;
 import com.tabletale.rpgwiki.services.ImagemService;

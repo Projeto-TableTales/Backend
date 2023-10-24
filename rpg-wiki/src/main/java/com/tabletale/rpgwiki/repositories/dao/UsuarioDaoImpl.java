@@ -2,6 +2,8 @@ package com.tabletale.rpgwiki.repositories.dao;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import jakarta.persistence.TypedQuery;
+
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

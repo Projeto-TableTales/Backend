@@ -31,7 +31,7 @@ public class Post extends AbstractEntity<String> {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEdicao;
 
-    private int curtidas;
+    private int likes;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @Setter(value = AccessLevel.NONE)
@@ -40,6 +40,11 @@ public class Post extends AbstractEntity<String> {
     public Post(String titulo, String conteudo, Date dataPost){
         this.conteudo= conteudo;
         this.titulo = titulo;
+        this.dataPost = new Date();
+    }
+
+    public Post(String conteudo, Date dataPost){
+        this.conteudo= conteudo;
         this.dataPost = new Date();
     }
 

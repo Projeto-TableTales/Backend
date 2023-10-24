@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.domain.entity.Post;
-import com.tabletale.rpgwiki.repositories.PostRepository;
+import com.tabletale.rpgwiki.repositories.dao.PostDaoImpl;
 
 @Service
 public class PostService {
 
     @Autowired
-    private PostRepository postRepository;
+    private PostDaoImpl postRepository;
 
     public List<Post> buscarTodos() throws Exception {
         if (postRepository.findAll().isEmpty()) 
@@ -30,19 +30,24 @@ public class PostService {
 
     }
 
-    public void criarPost(Post objeto) {
+    public String criarPost(Post objeto) {
         objeto.setDataPost(new Date());
-        postRepository.saveAndFlush(objeto);
+        postRepository.save(objeto);
+        return "Postado!";
 
     }
 
-    public Post editarPost(Post objeto) {
+    public String editarPost(Post objeto) {
         objeto.setDataEdicao(new Date());
-        return postRepository.saveAndFlush(objeto);
+        postRepository.update(objeto);
+        return ("Editado");
     }
 
     public void excluir(String id) {
-        Post objeto = postRepository.findById(id).get();
-        postRepository.delete(objeto);
+        postRepository.delete(id);
+    }
+
+    public int getLikesPost(String idPost) {
+        return postRepository.findById(idPost).getLikes();
     }
 }

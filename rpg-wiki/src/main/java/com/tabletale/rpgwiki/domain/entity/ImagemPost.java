@@ -7,10 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "imagens_post")
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class ImagemPost extends AbstractImagem {
 
     @OneToOne
@@ -18,4 +15,9 @@ public class ImagemPost extends AbstractImagem {
     @JsonIgnore
     private Post post;
 
+    public ImagemPost(String nome, String caminho, Post post) {
+        setNome(nome);
+        setCaminho(caminho);
+        this.post = post;
+    }
 }

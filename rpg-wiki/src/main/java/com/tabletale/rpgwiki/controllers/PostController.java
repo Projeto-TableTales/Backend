@@ -1,7 +1,6 @@
 package com.tabletale.rpgwiki.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.dto.PostDTO;
 import com.tabletale.rpgwiki.domain.entity.Post;
-import com.tabletale.rpgwiki.repositories.PostRepository;
 import com.tabletale.rpgwiki.services.PostService;
 
 
@@ -29,8 +28,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private PostRepository postRepository;
 
     @GetMapping("/buscarAll")
     public List<Post> buscarAllPosts() throws Exception{
@@ -42,27 +39,32 @@ public class PostController {
        return postService.buscarByTitulo(titulo);
     }
 
-    @PostMapping("/{postId}/like")
-    public ResponseEntity<?> likePost(@PathVariable String postId) {
-        Optional<Post> postOptional = postRepository.findById(postId);
-     
-            Post post = postOptional.get();
-            post.setCurtidas(post.getCurtidas() + 1);
-            postRepository.save(post);
-            return ResponseEntity.ok().build();
-    
+
+    @GetMapping("/likes")
+    public ResponseEntity<?> getLikesPost(@RequestParam("idPost") String idPost) {
+        return ResponseEntity.ok().body(postService.getLikesPost(idPost));
     }
 
+    // @PostMapping("/{postId}/like")
+    // public ResponseEntity<?> likePost(@PathVariable String postId) {
+    //     Optional<Post> postOptional = postRepository.findById(postId);
+     
+    //         Post post = postOptional.get();
+    //         post.setCurtidas(post.getCurtidas() + 1);
+    //         postRepository.save(post);
+    //         return ResponseEntity.ok().build();
+    
+    // }
+
     @PostMapping("/criarPost")
-    public ResponseEntity<Post> criarPost(@RequestBody PostDTO data){
+    public ResponseEntity<?> criarPost(@RequestBody PostDTO data){
         Post newPost = new Post(data.titulo(), data.conteudo(), data.dataPost());
-        Post postResp = this.postRepository.saveAndFlush(newPost);
-        return ResponseEntity.ok(postResp);
+        return ResponseEntity.ok().body(postService.criarPost(newPost));
     }
 
     @PutMapping("/editarPost")
-    public Post alterar(@RequestBody Post objeto){
-        return postService.editarPost(objeto);
+    public ResponseEntity<?> alterar(@RequestParam("idPost") Post idPost){
+        return ResponseEntity.ok().body(postService.editarPost(idPost));
     }
 
     @DeleteMapping("/excluirPost/{id}")

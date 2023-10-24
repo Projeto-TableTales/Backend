@@ -7,10 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "imagens_personagens")
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class ImagemPersonagem extends AbstractImagem {
 
     @OneToOne
