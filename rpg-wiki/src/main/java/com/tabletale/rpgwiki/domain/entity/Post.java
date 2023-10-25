@@ -25,12 +25,15 @@ public class Post extends AbstractEntity<String> {
     @Column(name = "conteudo")
     private String conteudo;
 
+    @Column(name ="dataPost")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPost;
 
+    @Column(name ="dataEdicao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEdicao;
 
+    @Column(name ="likes")
     private int likes;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)

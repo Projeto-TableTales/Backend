@@ -1,35 +1,35 @@
-package com.tabletale.rpgwiki.services;
+// package com.tabletale.rpgwiki.services;
 
-import java.util.Date;
-import java.util.List;
+// import java.util.Date;
+// import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Service;
 
-import com.tabletale.rpgwiki.domain.entity.Comentario;
-import com.tabletale.rpgwiki.repositories.dao.ComentarioDao;
+// import com.tabletale.rpgwiki.domain.entity.Comentario;
+// import com.tabletale.rpgwiki.repositories.dao.ComentarioDao;
 
-@Service
-public class ComentarioService {
+// @Service
+// public class ComentarioService {
 
-    @Autowired
-    private ComentarioDao comentarioRepository;
+//     @Autowired
+//     private ComentarioDao comentarioRepository;
 
-    public List<Comentario> buscarTodos() throws Exception {
-        if (comentarioRepository.findAll().isEmpty())
-            new Exception("Não a comentario nessa postagem!");
+//     public List<Comentario> buscarTodos() throws Exception {
+//         if (comentarioRepository.findAll().isEmpty())
+//             new Exception("Não a comentario nessa postagem!");
 
-        return comentarioRepository.findAll();
-    }
+//         return comentarioRepository.findAll();
+//     }
 
-    public void criarComentario(Comentario objeto) {
-        objeto.setDataComentario(new Date());
-        comentarioRepository.save(objeto);
+//     public void criarComentario(Comentario objeto) {
+//         objeto.setDataComentario(new Date());
+//         comentarioRepository.save(objeto);
 
-    }
+//     }
 
-    public String excluir(String id) {
-        comentarioRepository.delete(id);
-        return "Comentario excluido!";
-    }
-}
+//     public String excluir(String id) {
+//         comentarioRepository.delete(id);
+//         return "Comentario excluido!";
+//     }
+// }

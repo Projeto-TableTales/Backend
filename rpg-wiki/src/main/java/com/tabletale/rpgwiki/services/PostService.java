@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tabletale.rpgwiki.domain.entity.Post;
+
 import com.tabletale.rpgwiki.repositories.dao.PostDaoImpl;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PostService {
@@ -29,7 +32,8 @@ public class PostService {
         return postRepository.findByTitulo(titulo);
 
     }
-
+    
+    @Transactional
     public String criarPost(Post objeto) {
         objeto.setDataPost(new Date());
         postRepository.save(objeto);

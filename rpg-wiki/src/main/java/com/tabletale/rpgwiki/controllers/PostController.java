@@ -40,10 +40,10 @@ public class PostController {
     }
 
 
-    @GetMapping("/likes")
-    public ResponseEntity<?> getLikesPost(@RequestParam("idPost") String idPost) {
-        return ResponseEntity.ok().body(postService.getLikesPost(idPost));
-    }
+    // @GetMapping("/likes")
+    // public ResponseEntity<?> getLikesPost(@RequestParam("idPost") String idPost) {
+    //     return ResponseEntity.ok().body(postService.getLikesPost(idPost));
+    // }
 
     // @PostMapping("/{postId}/like")
     // public ResponseEntity<?> likePost(@PathVariable String postId) {
@@ -67,9 +67,9 @@ public class PostController {
         return ResponseEntity.ok().body(postService.editarPost(idPost));
     }
 
-    @DeleteMapping("/excluirPost/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable("id") String id){
-        postService.excluir(id);
-        return ResponseEntity.ok().build();
-    }
+    // @DeleteMapping("/excluirPost/{id}")
+    // public ResponseEntity<Void> excluir(@PathVariable("id") String id){
+    //     postService.excluir(id);
+    //     return ResponseEntity.ok().build();
+    // }
 }
