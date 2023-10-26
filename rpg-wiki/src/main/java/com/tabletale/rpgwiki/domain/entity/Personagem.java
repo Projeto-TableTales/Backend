@@ -1,7 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPersonagem;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,9 +43,6 @@ public class Personagem extends AbstractEntity<String>{
 
     @Column(name = "likes")
     private int likes;
-
-    @OneToOne(mappedBy = "personagem")
-    private ImagemPersonagem imagemPersonagem;
 
     @Column(name = "historia", nullable = false)
     private String historia;

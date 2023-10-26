@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPerfil;
 import com.tabletale.rpgwiki.domain.entity.enums.Genero;
 import com.tabletale.rpgwiki.domain.entity.enums.Pais;
 import com.tabletale.rpgwiki.domain.entity.enums.UserRole;
@@ -80,9 +79,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     @Column(name = "name_twitter")
     private String usernameTwitter;
-
-    @OneToOne(mappedBy = "usuario")
-    private ImagemPerfil imagemPerfil;
 
     private List<String> rpgsFavoritos;
 
