@@ -1,6 +1,8 @@
-package com.tabletale.rpgwiki.repositories.dao;
+package com.tabletale.rpgwiki.repositories.Imagens;
 
-import com.tabletale.rpgwiki.domain.entity.ImagemPost;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPost;
+import com.tabletale.rpgwiki.repositories.dao.AbstractDao;
+
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;

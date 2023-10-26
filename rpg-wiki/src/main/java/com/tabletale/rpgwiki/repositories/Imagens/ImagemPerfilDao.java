@@ -1,8 +1,8 @@
-package com.tabletale.rpgwiki.repositories.dao;
-
-import com.tabletale.rpgwiki.domain.entity.ImagemPerfil;
+package com.tabletale.rpgwiki.repositories.Imagens;
 
 import java.util.List;
+
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPerfil;
 
 public interface ImagemPerfilDao {
 

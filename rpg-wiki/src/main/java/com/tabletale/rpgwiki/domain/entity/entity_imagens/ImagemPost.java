@@ -1,6 +1,8 @@
-package com.tabletale.rpgwiki.domain.entity;
+package com.tabletale.rpgwiki.domain.entity.entity_imagens;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tabletale.rpgwiki.domain.entity.Post;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +12,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper=false)
 public class ImagemPost extends AbstractImagem {
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_post_fk")
     @JsonIgnore
     private Post post;

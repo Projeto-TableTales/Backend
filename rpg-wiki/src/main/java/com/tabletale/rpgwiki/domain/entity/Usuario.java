@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPerfil;
 import com.tabletale.rpgwiki.domain.entity.enums.Genero;
 import com.tabletale.rpgwiki.domain.entity.enums.Pais;
 import com.tabletale.rpgwiki.domain.entity.enums.UserRole;

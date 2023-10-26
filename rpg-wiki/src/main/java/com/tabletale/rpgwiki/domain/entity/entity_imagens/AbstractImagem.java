@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.domain.entity;
+package com.tabletale.rpgwiki.domain.entity.entity_imagens;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,5 +19,6 @@ public abstract class AbstractImagem {
 
     @Column(name = "caminho", nullable = false)
     private String caminho;
+
 
 }

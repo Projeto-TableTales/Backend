@@ -1,6 +1,8 @@
-package com.tabletale.rpgwiki.domain.entity;
+package com.tabletale.rpgwiki.domain.entity.entity_imagens;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tabletale.rpgwiki.domain.entity.Usuario;
+
 import jakarta.persistence.*;
 import lombok.*;
 

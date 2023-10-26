@@ -1,6 +1,8 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPersonagem;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

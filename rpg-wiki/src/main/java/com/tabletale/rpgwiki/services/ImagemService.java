@@ -5,9 +5,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 
 import com.tabletale.rpgwiki.domain.entity.*;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPerfil;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPersonagem;
+import com.tabletale.rpgwiki.domain.entity.entity_imagens.ImagemPost;
+import com.tabletale.rpgwiki.repositories.Imagens.ImagemPerfilDaoImpl;
+import com.tabletale.rpgwiki.repositories.Imagens.ImagemPersonagemDaoImpl;
+import com.tabletale.rpgwiki.repositories.Imagens.ImagemPostDaoImpl;
 import com.tabletale.rpgwiki.repositories.dao.*;
 import com.tabletale.rpgwiki.services.exceptions.ImagemNotFoundException;
 import com.tabletale.rpgwiki.services.exceptions.LoadImagemException;

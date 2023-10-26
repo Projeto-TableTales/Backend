@@ -67,9 +67,9 @@ public class PostController {
         return ResponseEntity.ok().body(postService.editarPost(idPost));
     }
 
-    // @DeleteMapping("/excluirPost/{id}")
-    // public ResponseEntity<Void> excluir(@PathVariable("id") String id){
-    //     postService.excluir(id);
-    //     return ResponseEntity.ok().build();
-    // }
+    @DeleteMapping("/excluirPost/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable("id") String id){
+        postService.excluir(id);
+        return ResponseEntity.ok().build();
+    }
 }
