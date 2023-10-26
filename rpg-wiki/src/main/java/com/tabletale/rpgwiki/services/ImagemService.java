@@ -25,14 +25,7 @@ public class ImagemService {
     @Autowired
     private ImagemRepository imgRepository;
 
-    public Imagem upImagem(MultipartFile file) {
-        String nomeImagem = String.valueOf(file.getOriginalFilename());
-        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-        Imagem img = new Imagem(nomeImagem, caminho);
 
-        return imgRepository.saveAndFlush(img);
-
-    }
 
     private String salvar(String diretorio, MultipartFile arquivo, String nomeImagem) {
         Path diretorioImagemPath = Paths.get(this.raiz, diretorio);
@@ -61,16 +54,29 @@ public class ImagemService {
         }
     }
 
+
+    public Imagem upImagem(MultipartFile file) {
+        String nomeImagem = String.valueOf(file.getOriginalFilename());
+        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
+        Imagem img = new Imagem(nomeImagem, caminho);
+
+        return imgRepository.saveAndFlush(img);
+
+    }
+
+    public Imagem findPorId(Long id) {
+        return imgRepository.findById(id).orElse(null);
+    }
+
     public String remover(Long id) throws IOException {
 
         Imagem img = imgRepository.findById(id).get();
-        
+
         File arquivoImg = new File(img.getCaminho());
         Files.delete(Paths.get(arquivoImg.getAbsolutePath()));
         imgRepository.delete(img);
-        
-        return "Imagem excluida!";
 
+        return "Imagem excluida!";
 
     }
 
