@@ -19,6 +19,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Post extends AbstractEntity<String> {
 
+
     @Column(name = "titulo")
     private String titulo;
 
@@ -41,15 +42,18 @@ public class Post extends AbstractEntity<String> {
     @Setter(value = AccessLevel.NONE)
     private List<Comentario> comentarios;
 
-    public Post(String titulo, String conteudo, Date dataPost){
+    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios){
         this.conteudo= conteudo;
         this.titulo = titulo;
         this.dataPost = new Date();
+        this.comentarios = comentarios;
     }
 
     public Post(String conteudo, Date dataPost){
         this.conteudo= conteudo;
         this.dataPost = new Date();
     }
+
+
 
 }

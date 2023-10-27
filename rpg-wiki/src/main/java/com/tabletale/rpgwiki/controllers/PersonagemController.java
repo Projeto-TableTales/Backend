@@ -18,7 +18,7 @@ public class PersonagemController {
 
     @Autowired
     private PersonagemService personagemService;
-
+    
  
 
     //---------------------------------------------------------------------------------------------------------------------//
@@ -110,6 +110,13 @@ public class PersonagemController {
     public ResponseEntity<?> getLikesPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
         return ResponseEntity.ok().body(personagemService.getLikesPersonagem(idPersonagem));
     }
+
+    //     @PostMapping("/curtir/{personagemId}")
+    // public ResponseEntity<String> curtirpersonagem(@PathVariable String personagemId, @AuthenticationPrincipal Usuario usuario) {
+    //     Personagem personagem = personagemDao.findById(personagemId);
+    //     curtidaService.curtirPersonagem(usuario, personagem);
+    //     return ResponseEntity.ok("Curtida adicionada com sucesso!");
+    // }
 
     //---------------------- História dp Personagem ------------------//
     @GetMapping("/historia")

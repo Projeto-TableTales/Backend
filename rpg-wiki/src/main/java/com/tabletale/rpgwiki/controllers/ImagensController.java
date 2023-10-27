@@ -25,7 +25,7 @@ public class ImagensController {
     @Autowired
     private ImagemService imagemService;
 
-    @PostMapping("/adicionarImagemPost")
+    @PostMapping("/adicionarImagem")
     public Imagem adicionarImagem(@PathVariable @RequestParam("file") MultipartFile file) {
         return imagemService.upImagem(file);
     }

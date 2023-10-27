@@ -44,14 +44,11 @@ public class PostService {
     public String editarPost(Post objeto) {
         objeto.setDataEdicao(new Date());
         postRepository.update(objeto);
-        return ("Editado");
+        return ("Editado!");
     }
 
     public void excluir(String id) {
         postRepository.delete(id);
     }
 
-    public int getLikesPost(String idPost) {
-        return postRepository.findById(idPost).getLikes();
-    }
 }
