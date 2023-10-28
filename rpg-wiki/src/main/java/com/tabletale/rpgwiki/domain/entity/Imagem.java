@@ -1,12 +1,13 @@
 package com.tabletale.rpgwiki.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Entity 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,12 +23,29 @@ public class Imagem {
     private String caminho;
 
     @ManyToOne
-    private Post postagem;
+    @JsonIgnore
+    private Post imgPostagem;
+    
+    @ManyToOne
+    @JsonIgnore
+    private Comentario imgComentario;
 
+    @OneToOne
+    @JsonIgnore
+    private Usuario imgPerfil;
 
-    public Imagem(String nome, String caminho){
+    @OneToOne
+    @JsonIgnore
+    private Usuario imgCapa;
+
+    public Imagem(String nome, String caminho, Post imgPostagem, Comentario imgComentario, Usuario imgPerfil,
+            Usuario imgCapa) {
         setNome(nome);
         setCaminho(caminho);
+        setImgPostagem(imgPostagem);
+        setImgComentario(imgComentario);
+        setImgPerfil(imgPerfil);
+        setImgCapa(imgCapa);
 
     }
 

@@ -1,4 +1,4 @@
-package com.tabletale.rpgwiki.domain.entity;
+ package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +35,8 @@ public class Post extends AbstractEntity<String> {
     @Column(name = "likes")
     private int likes;
 
-    @OneToMany(mappedBy = "postagem")
+    @OneToMany(mappedBy = "imgPostagem",orphanRemoval = true, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE }, fetch = FetchType.EAGER)
     private List<Imagem> imagensDaPostagem;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = { CascadeType.PERSIST,
@@ -43,25 +44,6 @@ public class Post extends AbstractEntity<String> {
     @Setter(value = AccessLevel.NONE)
     private List<Comentario> comentarios;
 
-    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios) {
-        this.conteudo = conteudo;
-        this.titulo = titulo;
-        this.dataPost = new Date();
-        this.comentarios = comentarios;
-    }
 
-    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios,
-            List<Imagem> imagensDaPostagem) {
-        this.conteudo = conteudo;
-        this.titulo = titulo;
-        this.dataPost = new Date();
-        this.comentarios = comentarios;
-        this.imagensDaPostagem = imagensDaPostagem;
-    }
-
-    public Post(String conteudo, Date dataPost) {
-        this.conteudo = conteudo;
-        this.dataPost = new Date();
-    }
 
 }

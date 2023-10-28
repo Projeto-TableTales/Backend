@@ -1,6 +1,7 @@
 package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,14 +28,15 @@ public class Comentario extends AbstractEntity<String> {
     
     @Temporal(TemporalType.TIMESTAMP)
     private  Date dataComentario;
+
+        @OneToMany(mappedBy = "imgComentario",orphanRemoval = true, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE }, fetch = FetchType.EAGER)
+    private List<Imagem> imagensDoComentario;
     
     @ManyToOne
     @JoinColumn(name = "id_post")
     @JsonIgnore
     private Post post;
     
-    public Comentario(String conteudo, Date dataComentario) {
-        this.conteudo = conteudo;
-        this.dataComentario = new Date();
-    }
+
 }

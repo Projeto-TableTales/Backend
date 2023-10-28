@@ -26,8 +26,8 @@ public class PostService {
     }
 
     public List<Post> byTitulo(String titulo) throws Exception {
-        postRepository.findByTitulo(titulo);
-        return postRepository.findByTitulo(titulo);
+       return postRepository.findByTitulo(titulo);
+
 
     }
 
