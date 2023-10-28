@@ -19,20 +19,18 @@ public class PostService {
     private PostDaoImpl postRepository;
 
     public List<Post> buscarTodos() throws Exception {
-        if (postRepository.findAll().isEmpty()) 
-             new Exception("Você ainda não postou nada!");
-        
+        if (postRepository.findAll().isEmpty())
+            new Exception("Você ainda não postou nada!");
+
         return postRepository.findAll();
     }
 
-    public List<Post> buscarByTitulo(String titulo) throws Exception {
-        if (postRepository.findByTitulo(titulo).isEmpty())
-            new Exception("Título não encontrado!");
-
+    public List<Post> byTitulo(String titulo) throws Exception {
+        postRepository.findByTitulo(titulo);
         return postRepository.findByTitulo(titulo);
 
     }
-    
+
     @Transactional
     public String criarPost(Post objeto) {
         objeto.setDataPost(new Date());

@@ -1,12 +1,10 @@
 package com.tabletale.rpgwiki.controllers;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,13 +26,6 @@ public class ComentarioController {
      @Autowired
      private PostDao postagemRepository;
 
-
-     @GetMapping("/comentarios/{postagemId}")
-     public List<Comentario> listarComentarios(@PathVariable String postagemId) {
-          Post postagem = postagemRepository.findById(postagemId);
-
-          return comentarioRepository.findByPost(postagem);
-     }
 
      @PostMapping("/comentar/{postagemId}")
      public Comentario criarComentario(@PathVariable String postagemId, @RequestBody Comentario comentario) {

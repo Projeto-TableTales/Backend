@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.domain.entity;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -19,45 +18,50 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Post extends AbstractEntity<String> {
 
-
     @Column(name = "titulo")
     private String titulo;
 
     @Column(name = "conteudo")
     private String conteudo;
 
-    @Column(name ="dataPost")
+    @Column(name = "dataPost")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPost;
 
-    @Column(name ="dataEdicao")
+    @Column(name = "dataEdicao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEdicao;
 
-    @Column(name ="likes")
+    @Column(name = "likes")
     private int likes;
 
+    @OneToMany(mappedBy = "postagem")
+    private List<Imagem> imagensDaPostagem;
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE }, fetch = FetchType.EAGER)
     @Setter(value = AccessLevel.NONE)
     private List<Comentario> comentarios;
 
-    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios){
-        this.conteudo= conteudo;
+    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios) {
+        this.conteudo = conteudo;
         this.titulo = titulo;
         this.dataPost = new Date();
         this.comentarios = comentarios;
     }
 
-    public Post(String conteudo, Date dataPost){
-        this.conteudo= conteudo;
+    public Post(String titulo, String conteudo, Date dataPost, List<Comentario> comentarios,
+            List<Imagem> imagensDaPostagem) {
+        this.conteudo = conteudo;
+        this.titulo = titulo;
+        this.dataPost = new Date();
+        this.comentarios = comentarios;
+        this.imagensDaPostagem = imagensDaPostagem;
+    }
+
+    public Post(String conteudo, Date dataPost) {
+        this.conteudo = conteudo;
         this.dataPost = new Date();
     }
-
-    public boolean isPresent() {
-        return false;
-    }
-
-
 
 }

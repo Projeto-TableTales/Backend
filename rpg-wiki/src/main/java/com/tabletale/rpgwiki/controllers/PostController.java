@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Post;
+import com.tabletale.rpgwiki.repositories.dao.PostDao;
 import com.tabletale.rpgwiki.services.PostService;
 
 import jakarta.validation.Valid;
@@ -28,15 +29,22 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private PostDao postRepository;
 
     @GetMapping("/buscarAll")
     public List<Post> buscarAllPosts() throws Exception {
         return postService.buscarTodos();
     }
 
-    @GetMapping("/buscarByTitulo{id}")
+    @GetMapping("/buscarById/{id}")
+    public Post buscarById(@PathVariable("id") String postId) throws Exception{
+       return postRepository.findById(postId);
+    }
+
+    @GetMapping("/buscarByTitulo/{titulo}")
     public List<Post> buscarByTitulo(@PathVariable("titulo") String titulo) throws Exception{
-       return postService.buscarByTitulo(titulo);
+       return postService.byTitulo(titulo);
     }
 
     @PostMapping("/criarPost")

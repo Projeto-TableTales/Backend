@@ -21,6 +21,9 @@ public class Imagem {
 
     private String caminho;
 
+    @ManyToOne
+    private Post postagem;
+
 
     public Imagem(String nome, String caminho){
         setNome(nome);
