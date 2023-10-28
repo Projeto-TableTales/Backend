@@ -54,6 +54,10 @@ public class Post extends AbstractEntity<String> {
         this.dataPost = new Date();
     }
 
+    public boolean isPresent() {
+        return false;
+    }
+
 
 
 }

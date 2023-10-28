@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tabletale.rpgwiki.domain.entity.Comentario;
 import com.tabletale.rpgwiki.domain.entity.Post;
 import com.tabletale.rpgwiki.repositories.ComentarioRepository;
-import com.tabletale.rpgwiki.repositories.dao.PostDaoImpl;
+import com.tabletale.rpgwiki.repositories.dao.PostDao;
 
 @RestController
 @RequestMapping("/comentario")
@@ -26,7 +26,7 @@ public class ComentarioController {
      @Autowired
      private ComentarioRepository comentarioRepository; 
      @Autowired
-     private PostDaoImpl postagemRepository;
+     private PostDao postagemRepository;
 
 
      @GetMapping("/comentarios/{postagemId}")
