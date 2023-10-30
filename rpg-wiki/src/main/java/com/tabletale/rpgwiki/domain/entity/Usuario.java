@@ -62,11 +62,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEnvioCodigo;
 
-    @OneToMany(mappedBy = "usuario")
-    private List<Personagem> pesronoagens = new ArrayList<>();
-
-    @OneToMany(mappedBy = "usuarioMestre")
-    private List<Mesa> mesasMestradas;
+    //----------- Informações Perfil ---------//
 
     @Column(name = "biografia")
     private String biografia;
@@ -80,13 +76,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @Column(name = "name_twitter")
     private String usernameTwitter;
 
-    @OneToOne(mappedBy = "imgCapa")
-    private Imagem imgCapa;
-
-    @OneToOne(mappedBy = "imgPerfil")
-    private Imagem imgPerfil;
-
-
     private List<String> rpgsFavoritos;
 
     private String narrativa;
@@ -96,6 +85,23 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     private String tipoDeJogador;
 
     private String cargo;
+
+    // ------------------------ Relacionamentos -------------------------//
+
+    @OneToOne(mappedBy = "imgCapa")
+    private Imagem imgCapa;
+
+    @OneToOne(mappedBy = "imgPerfil")
+    private Imagem imgPerfil;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Personagem> pesronoagens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "criadorCampanha")
+    private List<Campanha> campanhasCriadas = new ArrayList<>();
+
+    @ManyToMany
+    private List<Campanha> campanhasSeguidas = new ArrayList<>();
 
     public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento) {
         this.nome = nome;
@@ -115,20 +121,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.rpgsFavoritos = new ArrayList<>();
     }
 
-    //Função para escolher imagem do perfil do usuário
-    public static File mostrarEscolhaFoto() {
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
-        chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File arquivoSelecionado = chooser.getSelectedFile();
-            return arquivoSelecionado;
-        }
-        return null;
-    }
-
     public void adicionarRPGSFavoritos(String nomeRPG) {
         this.rpgsFavoritos.add(nomeRPG);
     }
@@ -143,6 +135,14 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     public void removerPersonagem(Personagem personagem) {
         this.pesronoagens.remove(personagem);
+    }
+
+    public void adicionarCampanha(Campanha campanha) {
+        this.campanhasCriadas.add(campanha);
+    }
+
+    public void removerCampanha(Campanha campanha) {
+        this.campanhasCriadas.remove(campanha);
     }
 
     @Override

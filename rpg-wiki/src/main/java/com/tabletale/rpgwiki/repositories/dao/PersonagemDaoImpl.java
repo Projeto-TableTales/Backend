@@ -8,14 +8,6 @@ import java.util.List;
 
 @Repository
 public class PersonagemDaoImpl extends AbstractDao<Personagem, String> implements PersonagemDao {
-    @Override
-    public List<Personagem> findByName(String nome) {
-        String jpql = "select p from Personagem p where p.nome = '" + nome + "'";
-        TypedQuery<Personagem> typedQuery = getEntityManager().createQuery(jpql, Personagem.class);
-        List<Personagem> lista = typedQuery.getResultList();
-        lista.forEach(p -> System.out.println(p.getId() + ", " + p.getNome()));
-        return lista;
-    }
 
     @Override
     public List<Personagem> buscarTodosPersonagensDoUsuario(String idUsuario) {
@@ -24,15 +16,6 @@ public class PersonagemDaoImpl extends AbstractDao<Personagem, String> implement
         List<Personagem> lista = typedQuery.getResultList();
         lista.forEach(p -> System.out.println(p.getUsuario().getNome() + ", " + p.getNome()));
         return lista;
-    }
-
-    @Override
-    public Personagem buscarPersonagemUsuario(String idUsuario, String idPersonagem) {
-        String jpql = "select p from Personagem p where p.usuario = (select u from Usuario u where u.id = '" + idUsuario + "') and p.id = '" + idPersonagem + "'";
-        TypedQuery<Personagem> typedQuery = getEntityManager().createQuery(jpql, Personagem.class);
-        Personagem p = typedQuery.getSingleResult();
-        System.out.println(p.getUsuario().getNome() + ", " + p.getNome());
-        return p;
     }
 
 }

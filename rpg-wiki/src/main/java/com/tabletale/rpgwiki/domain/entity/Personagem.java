@@ -52,10 +52,7 @@ public class Personagem extends AbstractEntity<String>{
     @JoinColumn(name = "usuario_id_fk")
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "mesa_id_fk")
-    private Mesa mesa;
-
+    
     public Personagem(String nome, int idade,  String status, String sistemaDoRPG, String descricao, String personalidade, List<String> tagsPersonagem,String historia) {
         this.nome = nome;
         this.idade = idade;

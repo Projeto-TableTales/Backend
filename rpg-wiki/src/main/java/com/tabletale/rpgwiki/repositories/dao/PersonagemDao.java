@@ -16,10 +16,6 @@ public interface PersonagemDao {
 
     List<Personagem> findAll();
 
-    List<Personagem> findByName(String nome);
-
     List<Personagem> buscarTodosPersonagensDoUsuario(String id);
-
-    Personagem buscarPersonagemUsuario(String idUsuario, String idPersonagem);
 
 }
