@@ -20,10 +20,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Personagem extends AbstractEntity<String>{
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "idade", nullable = false)
+    @Column(name = "idade")
     private int idade;
 
     @Column(name = "status", nullable = false)
@@ -32,19 +32,16 @@ public class Personagem extends AbstractEntity<String>{
     @Column(name = "sistema_rpg", nullable = false)
     private String sistemaDoRPG;
 
-    @Column(name = "descricao", nullable = false)
+    @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "personalidade", nullable = false)
+    @Column(name = "personalidade")
     private String personalidade;
-
-    @Column(name = "tags_personagem")
-    private List<String> tagsPersonagem = new ArrayList<>();;
 
     @Column(name = "likes")
     private int likes;
 
-    @Column(name = "historia", nullable = false)
+    @Column(name = "historia")
     private String historia;
 
     @JsonIgnore
@@ -53,24 +50,15 @@ public class Personagem extends AbstractEntity<String>{
     private Usuario usuario;
 
     
-    public Personagem(String nome, int idade,  String status, String sistemaDoRPG, String descricao, String personalidade, List<String> tagsPersonagem,String historia) {
+    public Personagem(String nome, int idade,  String status, String sistemaDoRPG, String descricao, String personalidade, String historia) {
         this.nome = nome;
         this.idade = idade;
         this.status = status;
         this.sistemaDoRPG = sistemaDoRPG;
         this.descricao = descricao;
         this.personalidade = personalidade;
-        this.tagsPersonagem = tagsPersonagem;
         this.likes = 0;
         this.historia = historia;
-    }
-
-    public void adicionarTagPersonagem(String tag) {
-        this.tagsPersonagem.add(tag);
-    }
-
-    public void removerTagPersonagem(String tag) {
-        this.tagsPersonagem.remove(tag);
     }
 
 }

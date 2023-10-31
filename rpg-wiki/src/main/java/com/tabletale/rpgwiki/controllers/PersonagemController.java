@@ -18,14 +18,12 @@ public class PersonagemController {
 
     @Autowired
     private PersonagemService personagemService;
-    
- 
 
     //---------------------------------------------------------------------------------------------------------------------//
     @PostMapping("/criar/{id}")
     public ResponseEntity<?> criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
         Personagem personagem = new Personagem(personagemDTO.nome(), personagemDTO.idade(), personagemDTO.status(), personagemDTO.sistema(), 
-        personagemDTO.descricao(), personagemDTO.personalidade(), personagemDTO.tagsPersonagem(), personagemDTO.historia());
+        personagemDTO.descricao(), personagemDTO.personalidade(), personagemDTO.historia());
         return ResponseEntity.ok().body(personagemService.criarPersonagem(id, personagem));
     }
 
@@ -37,112 +35,5 @@ public class PersonagemController {
     public ResponseEntity<?> buscarTodosPersonagens(@PathVariable("id") String id){
         return ResponseEntity.ok().body(personagemService.buscarTodosPersonagensDoUsuario(id));
     }
-
-
-    //---------------------- Nome do Personagem ------------------//
-    @GetMapping("/nome")
-    public ResponseEntity<?> getNomePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getNomePersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editarnome")
-    public ResponseEntity<?> alterarNomePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoNome") String novoNome) {
-        return ResponseEntity.ok().body(personagemService.alterarNomePersonagem(idPersonagem, novoNome));
-    }
-
-    //---------------------- Idade do Personagem ------------------//
-    @GetMapping("/idade")
-    public ResponseEntity<?> getIdadePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getIdadePersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editaridade")
-    public ResponseEntity<?> alterarIdadePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaIdade") int novaIdade) {
-        return ResponseEntity.ok().body(personagemService.alterarIdadePersonagem(idPersonagem, novaIdade));
-    }
-
-    //---------------------- Status do Personagem ------------------//
-    @GetMapping("/status")
-    public ResponseEntity<?> getStatusPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getStatusPersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editarstatus")
-    public ResponseEntity<?> alterarStatusPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoStatus") String novoStatus) {
-        return ResponseEntity.ok().body(personagemService.alterarStatusPersonagem(idPersonagem, novoStatus));
-    }
-
-    //---------------------- Sistema RPG do Personagem ------------------//
-    @GetMapping("/sistemarpg")
-    public ResponseEntity<?> getSistemaRPGPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getSistemaDoRPGPersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editarsistemarpg")
-    public ResponseEntity<?> alterarSistemaRPGPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoSistema") String novoSistema) {
-        return ResponseEntity.ok().body(personagemService.alterarSistemaDoRPGPersonagem(idPersonagem, novoSistema));
-    }
-
-    //---------------------- Descrição do Personagem ------------------//
-    @GetMapping("/descricao")
-    public ResponseEntity<?> getDescricaoPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getDescricaoPersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editardescricao")
-    public ResponseEntity<?> alterarDescricaoPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novoDescricao") String novaDescricao) {
-        return ResponseEntity.ok().body(personagemService.editarDescricaoPersonagem(idPersonagem, novaDescricao));
-    }
-
-    //---------------------- Personalidade do Personagem ------------------//
-    @GetMapping("/personalidade")
-    public ResponseEntity<?> getPersonalidadePersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getPersonalidadePersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editarpersonalidade")
-    public ResponseEntity<?> alterarPersonalidadePersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaPersonalidade") String novaPersonalidade) {
-        return ResponseEntity.ok().body(personagemService.alterarPersonalidadePersonagem(idPersonagem, novaPersonalidade));
-    }
-
-    //---------------------- Likes do Personagem ------------------//
-    @GetMapping("/likes")
-    public ResponseEntity<?> getLikesPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getLikesPersonagem(idPersonagem));
-    }
-
-    //     @PostMapping("/curtir/{personagemId}")
-    // public ResponseEntity<String> curtirpersonagem(@PathVariable String personagemId, @AuthenticationPrincipal Usuario usuario) {
-    //     Personagem personagem = personagemDao.findById(personagemId);
-    //     curtidaService.curtirPersonagem(usuario, personagem);
-    //     return ResponseEntity.ok("Curtida adicionada com sucesso!");
-    // }
-
-    //---------------------- História dp Personagem ------------------//
-    @GetMapping("/historia")
-    public ResponseEntity<?> getHistoriaPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getHistoriaPersonagem(idPersonagem));
-    }
-
-    @PutMapping("/editarhistoria")
-    public ResponseEntity<?> alterarHistoriaPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaHistoria") String novaHistoria) {
-        return ResponseEntity.ok().body(personagemService.editarHistoriaPersonagem(idPersonagem, novaHistoria));
-    }
-
-    //---------------------- Tags do Personagem ------------------//
-    @GetMapping("/tags")
-    public ResponseEntity<?> getTagsPersonagem(@RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.getTagsPersonagem(idPersonagem));
-    }
-
-    @PostMapping("/adiconartag")
-    public ResponseEntity<?> adicionarTagPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("novaTag") String novaTag) {
-        return ResponseEntity.ok().body(personagemService.adicionarTagPersonagem(idPersonagem, novaTag));
-    }
-
-    @DeleteMapping("/removertag")
-    public ResponseEntity<?> removerTagPersonagem(@RequestParam("idPersonagem") String idPersonagem, @RequestParam("tag") String tag) {
-        return ResponseEntity.ok().body(personagemService.removerTagPersonagem(idPersonagem, tag));
-    }
-
+    
 }
