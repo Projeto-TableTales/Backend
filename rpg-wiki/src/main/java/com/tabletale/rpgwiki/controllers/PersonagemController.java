@@ -5,6 +5,7 @@ import com.tabletale.rpgwiki.domain.dto.RegisterPersonagemDTO;
 import com.tabletale.rpgwiki.services.PersonagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.tabletale.rpgwiki.domain.entity.Personagem;
@@ -20,20 +21,21 @@ public class PersonagemController {
     private PersonagemService personagemService;
 
     //---------------------------------------------------------------------------------------------------------------------//
-    @PostMapping("/criar/{id}")
-    public ResponseEntity<?> criarPersonagem(@PathVariable("id") String id, @RequestBody RegisterPersonagemDTO personagemDTO){
-        Personagem personagem = new Personagem(personagemDTO.nome(), personagemDTO.idade(), personagemDTO.status(), personagemDTO.sistema(), 
+    @PostMapping()
+    public ResponseEntity<?> criarPersonagem(Authentication auth, @RequestBody RegisterPersonagemDTO personagemDTO){
+        Personagem personagem = new Personagem(personagemDTO.nome(), personagemDTO.idade(), personagemDTO.status(), personagemDTO.sistema(),
         personagemDTO.descricao(), personagemDTO.personalidade(), personagemDTO.historia());
-        return ResponseEntity.ok().body(personagemService.criarPersonagem(id, personagem));
+        return ResponseEntity.ok().body(personagemService.criarPersonagem(auth.getPrincipal().toString(), personagem));
     }
 
-    public ResponseEntity<?> excluirPersonagem(@PathVariable("id") String id, @RequestParam("idPersonagem") String idPersonagem) {
-        return ResponseEntity.ok().body(personagemService.excluirPersonagem(id, idPersonagem));
+    @DeleteMapping()
+    public ResponseEntity<?> excluirPersonagem(Authentication auth, @RequestParam("idPersonagem") String idPersonagem) {
+        return ResponseEntity.ok().body(personagemService.excluirPersonagem(auth.getPrincipal().toString(), idPersonagem));
     }
 
-    @GetMapping("/buscarTodos/{id}")
-    public ResponseEntity<?> buscarTodosPersonagens(@PathVariable("id") String id){
-        return ResponseEntity.ok().body(personagemService.buscarTodosPersonagensDoUsuario(id));
+    @GetMapping()
+    public ResponseEntity<?> buscarTodosPersonagens(Authentication auth){
+        return ResponseEntity.ok().body(personagemService.buscarTodosPersonagensDoUsuario(auth.getPrincipal().toString()));
     }
     
 }

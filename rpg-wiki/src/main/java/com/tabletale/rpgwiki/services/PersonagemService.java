@@ -29,6 +29,7 @@ public class PersonagemService {
             throw new UserNotFoundException("Usuário não encontrado");
         }
         Usuario usuario = repositoryUsuario.findById(idUsuario);
+
         usuario.adicionarPersonagem(personagem);
         personagem.setUsuario(usuario);
         repositoryPersonagem.save(personagem);

@@ -25,7 +25,7 @@ public class TokenService {
 
             String token = JWT.create()
                     .withIssuer("rpgwiki")
-                    .withSubject(user.getEmail())
+                    .withSubject(user.getId())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;
