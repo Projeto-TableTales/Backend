@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.domain.entity;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,9 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 @Entity
 @Table(name = "Usuarios")
@@ -100,7 +96,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @OneToMany(mappedBy = "criadorCampanha")
     private List<Campanha> campanhasCriadas = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "participantes")
     private List<Campanha> campanhasSeguidas = new ArrayList<>();
 
     public Usuario(String nome, Pais pais, String email, Genero genero, String senha, LocalDate dataNascimento) {
@@ -137,12 +133,20 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.pesronoagens.remove(personagem);
     }
 
-    public void adicionarCampanha(Campanha campanha) {
+    public void criarCampanha(Campanha campanha) {
         this.campanhasCriadas.add(campanha);
     }
 
-    public void removerCampanha(Campanha campanha) {
+    public void deletarCampanha(Campanha campanha) {
         this.campanhasCriadas.remove(campanha);
+    }
+
+    public void seguirCampanha(Campanha campanha) {
+        this.campanhasSeguidas.add(campanha);
+    }
+
+    public void sairCampanha(Campanha campanha) {
+        this.campanhasSeguidas.remove(campanha);
     }
 
     @Override

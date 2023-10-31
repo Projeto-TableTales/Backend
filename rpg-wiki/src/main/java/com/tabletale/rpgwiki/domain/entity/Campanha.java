@@ -29,13 +29,24 @@ public class Campanha extends AbstractEntity<String>{
     @JoinColumn(name = "usuario_criador_fk")
     private Usuario criadorCampanha;
 
+    @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "Campanha_Usuario", joinColumns = {@JoinColumn(name = "") }, inverseJoinColumns = { @JoinColumn(name = "") })
+    @JoinTable(name = "Campanha_Participante", joinColumns = @JoinColumn(name = "campanha_id") , inverseJoinColumns =  @JoinColumn(name = "usuario_id") )
     private List<Usuario> participantes = new ArrayList<>();
 
     public Campanha(String nomeCampanha) {
         this.nomeCampanha = nomeCampanha;
         this.quantParticipante = 0;
+    }
+
+    public void receberSeguidor(Usuario usuario) {
+        this.participantes.add(usuario);
+        this.quantParticipante++;
+    }
+
+    public void retirarSeguidor(Usuario usuario) {
+        this.participantes.remove(usuario);
+        this.quantParticipante--;
     }
 
 }

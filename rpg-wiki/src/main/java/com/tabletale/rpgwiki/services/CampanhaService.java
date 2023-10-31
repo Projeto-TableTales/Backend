@@ -29,7 +29,7 @@ public class CampanhaService {
         }
         Usuario usuario = repositoryUsuario.findById(idUsuario);
         campanha.setCriadorCampanha(usuario);
-        usuario.adicionarCampanha(campanha);
+        usuario.criarCampanha(campanha);
         repositoryCampanha.save(campanha);
         repositoryUsuario.update(usuario);
     }
@@ -50,6 +50,33 @@ public class CampanhaService {
             throw new CampanhaNotFoundException("O usuário não criou campanhas");
         }
         return repositoryCampanha.buscarCampanhaPorCriador(idUsuario);
+    }
+
+    // Fazer verificações para evitar bugs e erros OBS:. Código incompleto
+    @Transactional(readOnly = false)
+    public void seguirCampanha(String idCampanha, String idUsuario) {
+        Usuario usuario = repositoryUsuario.findById(idUsuario);
+        Campanha campanha = repositoryCampanha.findById(idCampanha);
+        campanha.receberSeguidor(usuario);
+        usuario.seguirCampanha(campanha);
+        repositoryUsuario.update(usuario);
+        repositoryCampanha.update(campanha);
+    }
+
+    // Fazer verificações para evitar bugs e erros OBS:. Código incompleto
+    @Transactional(readOnly = false)
+    public void sairCampanha(String idCampanha, String idUsuario) {
+        Usuario usuario = repositoryUsuario.findById(idUsuario);
+        Campanha campanha = repositoryCampanha.findById(idCampanha);
+        campanha.retirarSeguidor(usuario);
+        usuario.sairCampanha(campanha);
+        repositoryUsuario.update(usuario);
+        repositoryCampanha.update(campanha);
+    }
+
+
+    public List<Campanha> buscarCampanhaSeguida(String idUsuario) {
+        return repositoryCampanha.buscarCampanhaSeguida(idUsuario);
     }
 
 }

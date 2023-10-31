@@ -20,4 +20,6 @@ public interface CampanhaDao {
 
     List<Campanha> buscarCampanhaPorCriador(String idUsuario);
 
+    List<Campanha> buscarCampanhaSeguida(String idUsuario);
+
 }

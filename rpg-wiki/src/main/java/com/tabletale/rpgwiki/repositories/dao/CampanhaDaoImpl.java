@@ -27,4 +27,13 @@ public class CampanhaDaoImpl extends AbstractDao<Campanha, String> implements Ca
         return campanhas;
     }
 
+    @Override
+    public List<Campanha> buscarCampanhaSeguida(String idUsuario) {
+        String jpql = "select c from Campanha c join c.participantes u where u.id = '" + idUsuario + "'";
+        TypedQuery<Campanha> typedQuery = getEntityManager().createQuery(jpql, Campanha.class);
+        List<Campanha> campanhas = typedQuery.getResultList();
+        campanhas.forEach(c -> System.out.println("Criador: " + c.getCriadorCampanha().getNome() + "   Nome Campanha: " + c.getNomeCampanha()));
+        return campanhas;
+    }
+
 }

@@ -38,4 +38,19 @@ public class CampanhaController {
         return ResponseEntity.ok().body(serviceCampanha.buscarCampanhaPorCriador(id));
     }
 
+    @PostMapping("/seguircampanha/{id}")
+    public void seguirCampanha(@PathVariable("id") String id, @RequestParam("idCampanha") String idCampanha) {
+        serviceCampanha.seguirCampanha(idCampanha, id);
+    }
+
+    @PutMapping("/saircampanha/{id}")
+    public void sairCampanha(@PathVariable("id") String id, @RequestParam("idCampanha") String idCampanha) {
+        serviceCampanha.sairCampanha(idCampanha, id);
+    }
+
+    @GetMapping("/buscarcampanhaseguidas/{id}")
+    public List<Campanha> buscarCampanhasSeguidas(@PathVariable("id") String id) {
+        return serviceCampanha.buscarCampanhaSeguida(id);
+    }
+
 }
