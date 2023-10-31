@@ -66,4 +66,16 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
+    @ExceptionHandler(CampanhaNotFoundException.class)
+    public ResponseEntity<StandardError> campanhaNotFound(Exception e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestemp(Instant.now());
+        err.setStatus(HttpStatus.NOT_FOUND.value());
+        err.setError("Campanha not found");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+
 }

@@ -12,31 +12,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public class UsuarioService {
 
     @Autowired
-    private UsuarioDaoImpl repository;
+    private UsuarioDaoImpl repositoryUsuario;
 
-    @Transactional(readOnly = true)
     public Usuario buscarPorId(String id) {
-        if (repository.findById(id) == null) {
+        if (repositoryUsuario.findById(id) == null) {
             throw new UserNotFoundException("Usuário não existe");
         }
-        return repository.findById(id);
+        return repositoryUsuario.findById(id);
     }
 
-    @Transactional(readOnly = true)
     public List<Usuario> buscarTodos() {
-        return repository.findAll();
+        return repositoryUsuario.findAll();
     }
 
-    @Transactional(readOnly = true)
     public List<Usuario> buscarUsuario(String nome) {
-        if (repository.findByName(nome).isEmpty()) {
+        if (repositoryUsuario.findByName(nome).isEmpty()) {
             throw new UserNotFoundException("Não há usuários cadastrados com o nome " + nome);
         }
-        return repository.findByName(nome);
+        return repositoryUsuario.findByName(nome);
     }
     
 }
