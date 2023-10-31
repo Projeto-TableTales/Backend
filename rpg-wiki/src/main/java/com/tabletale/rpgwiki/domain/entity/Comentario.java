@@ -3,6 +3,7 @@ package com.tabletale.rpgwiki.domain.entity;
 import java.util.Date;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -28,6 +29,11 @@ public class Comentario extends AbstractEntity<String> {
     
     @Temporal(TemporalType.TIMESTAMP)
     private  Date dataComentario;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_usuario_fk")
+    private Usuario usuario;
 
         @OneToMany(mappedBy = "imgComentario",orphanRemoval = true, cascade = { CascadeType.PERSIST,
             CascadeType.MERGE }, fetch = FetchType.EAGER)

@@ -10,11 +10,13 @@ public interface PostDao {
 
     void update(Post post);
 
-    void delete(String id);
+    void delete(String idPost);
 
-    Post findById(String id);
+    Post findById(String idPost);
 
     List<Post> findAll();
+
+    List<Post> buscarAllPost(String idUser);
 
     List<Post> findByTitulo(String titulo);
 }

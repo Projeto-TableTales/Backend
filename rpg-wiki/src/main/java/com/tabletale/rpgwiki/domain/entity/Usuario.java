@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.domain.entity;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,9 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 @Entity
 @Table(name = "Usuarios")
@@ -115,19 +111,19 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.rpgsFavoritos = new ArrayList<>();
     }
 
-    //Função para escolher imagem do perfil do usuário
-    public static File mostrarEscolhaFoto() {
-        JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
-        chooser.setFileFilter(filter);
-        int returnVal = chooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File arquivoSelecionado = chooser.getSelectedFile();
-            return arquivoSelecionado;
-        }
-        return null;
-    }
+    // //Função para escolher imagem do perfil do usuário
+    // public static File mostrarEscolhaFoto() {
+    //     JFileChooser chooser = new JFileChooser();
+    //     FileNameExtensionFilter filter = new FileNameExtensionFilter(
+    //             "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
+    //     chooser.setFileFilter(filter);
+    //     int returnVal = chooser.showOpenDialog(null);
+    //     if (returnVal == JFileChooser.APPROVE_OPTION) {
+    //         File arquivoSelecionado = chooser.getSelectedFile();
+    //         return arquivoSelecionado;
+    //     }
+    //     return null;
+    // }
 
     public void adicionarRPGSFavoritos(String nomeRPG) {
         this.rpgsFavoritos.add(nomeRPG);
