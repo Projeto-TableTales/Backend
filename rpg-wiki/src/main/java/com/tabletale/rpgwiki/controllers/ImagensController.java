@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tabletale.rpgwiki.domain.entity.Campanha;
 import com.tabletale.rpgwiki.domain.entity.Imagem;
 import com.tabletale.rpgwiki.domain.entity.Post;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
+import com.tabletale.rpgwiki.repositories.dao.CampanhaDao;
 import com.tabletale.rpgwiki.repositories.dao.PostDao;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDao;
 import com.tabletale.rpgwiki.services.ImagemService;
@@ -34,6 +36,8 @@ public class ImagensController {
     private PostDao postRepository;
     @Autowired
     private UsuarioDao usuarioDao;
+    @Autowired
+    private CampanhaDao campanhaDao;
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<Imagem> encontrarImagemPorId(@PathVariable Long id) {
@@ -55,12 +59,32 @@ public class ImagensController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/upImagemPerfil/{postId}")
+    @PostMapping("/upImagemPerfil/{idUser}")
     public ResponseEntity<Imagem> upImagemPerfil(@PathVariable String idUsuario,
             @RequestParam("file") MultipartFile file, @ModelAttribute Imagem imagem) {
         Usuario usuario = usuarioDao.findById(idUsuario);
         imagem.setImgPerfil(usuario);
-        imagemService.upImagemPost(idUsuario, file);
+        imagemService.upImagemPerfil(idUsuario, file);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/upImagemCapa/{idUser}")
+    public ResponseEntity<Imagem> upImagemCapa(@PathVariable String idUsuario,
+            @RequestParam("file") MultipartFile file, @ModelAttribute Imagem imagem) {
+        Usuario usuario = usuarioDao.findById(idUsuario);
+        imagem.setImgCapa(usuario);
+        imagemService.upImagemCapa(idUsuario, file);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/upImagemCampanha/{idCampanha}")
+    public ResponseEntity<Imagem> upImagemCampanha(@PathVariable String idCampanha,
+            @RequestParam("file") MultipartFile file, @ModelAttribute Imagem imagem) {
+        Campanha campanha = campanhaDao.findById(idCampanha);
+        imagem.setImgCampanha(campanha);
+        imagemService.upImagemPost(idCampanha, file);
 
         return ResponseEntity.ok().build();
     }

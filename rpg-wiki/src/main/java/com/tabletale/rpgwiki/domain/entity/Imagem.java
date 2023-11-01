@@ -26,9 +26,6 @@ public class Imagem {
     @JsonIgnore
     private Post imgPostagem;
     
-    @ManyToOne
-    @JsonIgnore
-    private Comentario imgComentario;
 
     @OneToOne
     @JsonIgnore
@@ -38,14 +35,18 @@ public class Imagem {
     @JsonIgnore
     private Usuario imgCapa;
 
-    public Imagem(String nome, String caminho, Post imgPostagem, Comentario imgComentario, Usuario imgPerfil,
-            Usuario imgCapa) {
+    @OneToOne
+    @JsonIgnore
+    private Campanha imgCampanha;
+
+    public Imagem(String nome, String caminho, Post imgPostagem, Usuario imgPerfil,
+            Usuario imgCapa, Campanha imgCampanha) {
         setNome(nome);
         setCaminho(caminho);
         setImgPostagem(imgPostagem);
-        setImgComentario(imgComentario);
         setImgPerfil(imgPerfil);
         setImgCapa(imgCapa);
+        setImgCampanha(imgCampanha);
 
     }
 
