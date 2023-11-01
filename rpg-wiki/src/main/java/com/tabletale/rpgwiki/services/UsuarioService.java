@@ -35,6 +35,11 @@ public class UsuarioService {
         }
         return repositoryUsuario.findByName(nome);
     }
+
+    @Transactional(readOnly = false)
+    public void exluirUsuario(String idUsuario) {
+        repositoryUsuario.delete(idUsuario);
+    }
     
 }
     

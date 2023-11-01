@@ -5,6 +5,7 @@ import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.CampanhaDaoImpl;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
 import com.tabletale.rpgwiki.services.exceptions.CampanhaNotFoundException;
+import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationException;
 import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CampanhaService {
     @Transactional(readOnly = false)
     public void criarCampanha(Campanha campanha, String idUsuario) {
         if (repositoryUsuario.findById(idUsuario) == null) {
-            throw new UserNotFoundException("Usuário não encontrado");
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
         }
         Usuario usuario = repositoryUsuario.findById(idUsuario);
         campanha.setCriadorCampanha(usuario);
@@ -35,6 +36,9 @@ public class CampanhaService {
     }
 
     public List<Campanha> buscarCampanhas() {
+        if (repositoryCampanha.findAll().isEmpty()) {
+            throw new CampanhaNotFoundException("Não há campanhas criadas no momento");
+        }
         return repositoryCampanha.findAll();
     }
 
@@ -46,8 +50,11 @@ public class CampanhaService {
     }
 
     public List<Campanha> buscarCampanhaPorCriador(String idUsuario) {
+        if (repositoryUsuario.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
+        }
         if (repositoryCampanha.buscarCampanhaPorCriador(idUsuario).isEmpty()) {
-            throw new CampanhaNotFoundException("O usuário não criou campanhas");
+            throw new CampanhaNotFoundException("O usuário ainda não criou campanhas");
         }
         return repositoryCampanha.buscarCampanhaPorCriador(idUsuario);
     }
@@ -55,6 +62,12 @@ public class CampanhaService {
     // Fazer verificações para evitar bugs e erros OBS:. Código incompleto
     @Transactional(readOnly = false)
     public void seguirCampanha(String idCampanha, String idUsuario) {
+        if (repositoryUsuario.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
+        }
+        if (repositoryCampanha.findById(idCampanha) == null) {
+            throw new CampanhaNotFoundException("Id da campanha inválido, não foi encontrado nenhuma campanha cadastrada com o id = " + idCampanha);
+        }
         Usuario usuario = repositoryUsuario.findById(idUsuario);
         Campanha campanha = repositoryCampanha.findById(idCampanha);
         campanha.receberSeguidor(usuario);
@@ -63,20 +76,57 @@ public class CampanhaService {
         repositoryCampanha.update(campanha);
     }
 
-    // Fazer verificações para evitar bugs e erros OBS:. Código incompleto
+    // Fazer verificações para ver se o usuário segue a cmpanha
     @Transactional(readOnly = false)
-    public void sairCampanha(String idCampanha, String idUsuario) {
+    public void deixarSeguirCampanha(String idCampanha, String idUsuario) {
+        if (repositoryUsuario.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
+        }
+        if (repositoryCampanha.findById(idCampanha) == null) {
+            throw new CampanhaNotFoundException("Id da campanha inválido, não foi encontrado nenhuma campanha cadastrada com o id = " + idCampanha);
+        }
         Usuario usuario = repositoryUsuario.findById(idUsuario);
         Campanha campanha = repositoryCampanha.findById(idCampanha);
         campanha.retirarSeguidor(usuario);
-        usuario.sairCampanha(campanha);
+        usuario.deixarSeguirCampanha(campanha);
         repositoryUsuario.update(usuario);
         repositoryCampanha.update(campanha);
     }
 
-
     public List<Campanha> buscarCampanhaSeguida(String idUsuario) {
+        if (repositoryUsuario.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
+        }
+        if (repositoryCampanha.buscarCampanhaSeguida(idUsuario).isEmpty()) {
+            throw new CampanhaNotFoundException("O usuário não possui campanhas seguidas");
+        }
         return repositoryCampanha.buscarCampanhaSeguida(idUsuario);
+    }
+
+    @Transactional(readOnly = false)
+    public String excluirCampanha(String idCampanha, String idUsuario) {
+        if (repositoryUsuario.findById(idUsuario) == null) {
+            throw new UserNotFoundException("Id do usuário inválido, não foi encontrado nenhum usuário cadastrado com o id = " + idUsuario);
+        }
+        if (repositoryCampanha.findById(idCampanha) == null) {
+            throw new CampanhaNotFoundException("Id da campanha inválido, não foi encontrado nenhuma campanha cadastrada com o id = " + idCampanha);
+        }
+        Campanha campanha = repositoryCampanha.findById(idCampanha);
+        Usuario usuario = repositoryUsuario.findById(idUsuario);
+
+        if (campanha.getCriadorCampanha().equals(usuario)) {
+            for (Usuario participante : campanha.getParticipantes()) {
+                participante.deixarSeguirCampanha(campanha);
+                repositoryUsuario.update(participante);
+            }
+            usuario.excluirCampanha(campanha);
+            repositoryCampanha.delete(idCampanha);
+            repositoryUsuario.update(usuario);
+            return "Campanha Excluída Com Sucesso";
+        }
+        else {
+            throw new InvalidationOperationException("Erro ao executar a ação, o usuário não pode excluir campanhas se não for o criador da respectiva campanha");
+        }
     }
 
 }

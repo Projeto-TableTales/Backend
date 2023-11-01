@@ -4,6 +4,7 @@ package com.tabletale.rpgwiki.controllers;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,113 +20,109 @@ public class PerfilController {
 
     
     //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
-    @GetMapping("/nome/{id}")
-    public ResponseEntity<String> getName(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getName(id));
+    @GetMapping("/nome")
+    public ResponseEntity<String> getName(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getName(auth.getPrincipal().toString()));
     }
 
-    @GetMapping("/biografia/{id}")
-    public ResponseEntity<String> getBiografia(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getBiografia(id));
+    @GetMapping("/biografia")
+    public ResponseEntity<String> getBiografia(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getBiografia(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarbiografia/{id}")
-    public ResponseEntity<String> alterarBiografia(@PathVariable("id") String id, @RequestParam("novaBiografia") String novaBiografia) {
-        return ResponseEntity.ok().body(perfilService.alterarBiografia(id, novaBiografia));
+    @PutMapping("/editarbiografia")
+    public ResponseEntity<String> alterarBiografia(Authentication auth, @RequestParam("novaBiografia") String novaBiografia) {
+        return ResponseEntity.ok().body(perfilService.alterarBiografia(auth.getPrincipal().toString(), novaBiografia));
     }
 
-    @GetMapping("/pais/{id}")
-    public ResponseEntity<String> getPais(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getPais(id));
+    @GetMapping("/pais")
+    public ResponseEntity<String> getPais(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getPais(auth.getPrincipal().toString()));
     }
 
-    @GetMapping("/narrativa/{id}")
-    public ResponseEntity<String> getNarrativa(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getNarrativa(id));
+    @GetMapping("/narrativa")
+    public ResponseEntity<String> getNarrativa(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getNarrativa(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarnarrativa/{id}")
-    public ResponseEntity<String> alterarNarrativa(@PathVariable("id") String id, @RequestParam("novaNarrativa") String novaNarrativa) {
-        return ResponseEntity.ok().body(perfilService.alterarNarrativa(id, novaNarrativa));
+    @PutMapping("/editarnarrativa")
+    public ResponseEntity<String> alterarNarrativa(Authentication auth, @RequestParam("novaNarrativa") String novaNarrativa) {
+        return ResponseEntity.ok().body(perfilService.alterarNarrativa(auth.getPrincipal().toString(), novaNarrativa));
     }
 
-    @GetMapping("/experiencia/{id}")
-    public ResponseEntity<String> getExperiencia(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getExperiencia(id));
+    @GetMapping("/experiencia")
+    public ResponseEntity<String> getExperiencia(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getExperiencia(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarexperiencia/{id}")
-    public ResponseEntity<String> alterarExperiencia(@PathVariable("id") String id, @RequestParam("novaExperiencia") String novaExperiencia) {
-        return ResponseEntity.ok().body(perfilService.alterarExperiencia(id, novaExperiencia));
+    @PutMapping("/editarexperiencia")
+    public ResponseEntity<String> alterarExperiencia(Authentication auth, @RequestParam("novaExperiencia") String novaExperiencia) {
+        return ResponseEntity.ok().body(perfilService.alterarExperiencia(auth.getPrincipal().toString(), novaExperiencia));
     }
 
-    @GetMapping("/tipodejogador/{id}")
-    public ResponseEntity<String> getTipoDeJogador(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getTipoDeJogador(id));
+    @GetMapping("/tipodejogador")
+    public ResponseEntity<String> getTipoDeJogador(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getTipoDeJogador(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editartipodejogador/{id}")
-    public ResponseEntity<String> alterarTipoDeJogador(@PathVariable("id") String id, @RequestParam("novoTipoDeJogador") String novoTipoDeJogador) {
-        return ResponseEntity.ok().body(perfilService.alterarTipoDeJogador(id, novoTipoDeJogador));
+    @PutMapping("/editartipodejogador")
+    public ResponseEntity<String> alterarTipoDeJogador(Authentication auth, @RequestParam("novoTipoDeJogador") String novoTipoDeJogador) {
+        return ResponseEntity.ok().body(perfilService.alterarTipoDeJogador(auth.getPrincipal().toString(), novoTipoDeJogador));
     }
 
-    @GetMapping("/cargo/{id}")
-    public ResponseEntity<String> getCargo(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getCargo(id));
+    @GetMapping("/cargo")
+    public ResponseEntity<String> getCargo(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getCargo(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarcargo/{id}")
-    public ResponseEntity<String> alterarCargo(@PathVariable("id") String id, @RequestParam("novoCargo") String novoCargo) {
-        return ResponseEntity.ok().body(perfilService.alterarCargo(id, novoCargo));
+    @PutMapping("/editarcargo")
+    public ResponseEntity<String> alterarCargo(Authentication auth, @RequestParam("novoCargo") String novoCargo) {
+        return ResponseEntity.ok().body(perfilService.alterarCargo(auth.getPrincipal().toString(), novoCargo));
     }
 
-    //----------------- Funções relacionadas aos Links de Redes Sociais do Usuario ----------------//
-    @GetMapping("/usernameinstagram/{id}")
-    public ResponseEntity<String> getUsernameInstagram(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getUsernameInstagram(id));
+    @GetMapping("/usernameinstagram")
+    public ResponseEntity<String> getUsernameInstagram(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getUsernameInstagram(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarusernameinstagram/{id}")
-    public ResponseEntity<String> alterarUsernameInstagram(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
-        return ResponseEntity.ok().body(perfilService.alterarUsernameInstagram(id, novoUsername));
+    @PutMapping("/editarusernameinstagram")
+    public ResponseEntity<String> alterarUsernameInstagram(Authentication auth, @RequestParam("novoUsername") String novoUsername) {
+        return ResponseEntity.ok().body(perfilService.alterarUsernameInstagram(auth.getPrincipal().toString(), novoUsername));
     }
 
-    @GetMapping("/usernamefacebook/{id}")
-    public ResponseEntity<String> getUsernameFacebook(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getUsernameFacebook(id));
+    @GetMapping("/usernamefacebook")
+    public ResponseEntity<String> getUsernameFacebook(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getUsernameFacebook(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarusernamefacebook/{id}")
-    public ResponseEntity<String> alterarUsernameFacebook(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
-        return ResponseEntity.ok().body(perfilService.alterarUsernameFacebook(id, novoUsername));
+    @PutMapping("/editarusernamefacebook")
+    public ResponseEntity<String> alterarUsernameFacebook(Authentication auth, @RequestParam("novoUsername") String novoUsername) {
+        return ResponseEntity.ok().body(perfilService.alterarUsernameFacebook(auth.getPrincipal().toString(), novoUsername));
     }
 
-    @GetMapping("/usernametwitter/{id}")
-    public ResponseEntity<String> getUsernameTwitter(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getUsernameTwitter(id));
+    @GetMapping("/usernametwitter")
+    public ResponseEntity<String> getUsernameTwitter(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getUsernameTwitter(auth.getPrincipal().toString()));
     }
 
-    @PutMapping("/editarusernametwitter/{id}")
-    public ResponseEntity<String> alterarUsernameTwitter(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
-        return ResponseEntity.ok().body(perfilService.alterarUsernameTwitter(id, novoUsername));
+    @PutMapping("/editarusernametwitter")
+    public ResponseEntity<String> alterarUsernameTwitter(Authentication auth, @RequestParam("novoUsername") String novoUsername) {
+        return ResponseEntity.ok().body(perfilService.alterarUsernameTwitter(auth.getPrincipal().toString(), novoUsername));
     }
 
-    //------------------- Funções relacionadas a lista de RPGs Favoritos do Usuario -----------------------//
-    @GetMapping("/listarpgsfavoritos/{id}")
-    public ResponseEntity<List<String>> getRPGSfavoritos(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getRPGSfavoritos(id));
+    @GetMapping("/listarpgsfavoritos")
+    public ResponseEntity<List<String>> getRPGSfavoritos(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getRPGSfavoritos(auth.getPrincipal().toString()));
     }
 
-    //Necessário ainda trabalhar com exeções para caso o nome do RPG passado para ser adicionado já esteja na lista de RPGs do Usuário.
-    @PostMapping("/adicionar/{id}")
-    public ResponseEntity<List<String>> adicionarRPGSlistaFavoritos(@PathVariable("id") String id, @RequestParam("nomeRPG") String nomeRPG) {
-        return ResponseEntity.ok().body(perfilService.adicionarRPGSlistaFavoritos(id, nomeRPG));
+    @PostMapping("/adicionar")
+    public ResponseEntity<List<String>> adicionarRPGSlistaFavoritos(Authentication auth, @RequestParam("nomeRPG") String nomeRPG) {
+        return ResponseEntity.ok().body(perfilService.adicionarRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
     }
 
-    //Necessário ainda trabalhar com exeções para caso o nome do RPG passado para ser removido não esteja na lista de RPGs do Usuário.
-    @DeleteMapping("/remover/{id}")
-    public ResponseEntity<List<String>> removerRPGSlistaFavoritos(@PathVariable("id") String id, @RequestParam("nomeRPG") String nomeRPG) {
-        return ResponseEntity.ok().body(perfilService.removerRPGSlistaFavoritos(id, nomeRPG));
+    @DeleteMapping("/remover")
+    public ResponseEntity<List<String>> removerRPGSlistaFavoritos(Authentication auth, @RequestParam("nomeRPG") String nomeRPG) {
+        return ResponseEntity.ok().body(perfilService.removerRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
     }
 
 }

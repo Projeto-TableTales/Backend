@@ -2,7 +2,7 @@ package com.tabletale.rpgwiki.services;
 
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
-import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationListRPGExcption;
+import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationException;
 import com.tabletale.rpgwiki.services.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -208,7 +208,7 @@ public class PerfilService {
         }
         Usuario usuario = repositoryUsuario.findById(id);
         if (usuario.getRpgsFavoritos().contains(nomeRPG.toUpperCase())) {
-            throw new InvalidationOperationListRPGExcption("O " + nomeRPG.toUpperCase() + " já exsite na lista");
+            throw new InvalidationOperationException("O " + nomeRPG.toUpperCase() + " já exsite na lista");
         }
         usuario.adicionarRPGSFavoritos(nomeRPG.toUpperCase());
         repositoryUsuario.update(usuario);
@@ -222,7 +222,7 @@ public class PerfilService {
         }
         Usuario usuario = repositoryUsuario.findById(id);
         if (!usuario.getRpgsFavoritos().contains(nomeRPG.toUpperCase())) {
-            throw new InvalidationOperationListRPGExcption("O " + nomeRPG.toUpperCase() + " não existe na lista, por isso não pode ser removido");
+            throw new InvalidationOperationException("O " + nomeRPG.toUpperCase() + " não existe na lista, por isso não pode ser removido");
         }
         usuario.removerRPGSFavoritos(nomeRPG.toUpperCase());
         repositoryUsuario.update(usuario);
