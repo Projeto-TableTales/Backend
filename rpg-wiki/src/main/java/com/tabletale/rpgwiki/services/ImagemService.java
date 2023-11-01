@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import com.tabletale.rpgwiki.domain.entity.*;
 import com.tabletale.rpgwiki.repositories.ImagemRepository;
+import com.tabletale.rpgwiki.repositories.dao.CampanhaDao;
 import com.tabletale.rpgwiki.repositories.dao.PostDao;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDao;
 
@@ -33,6 +33,9 @@ public class ImagemService {
 
     @Autowired
     private PostDao postDao;
+
+    @Autowired
+    private CampanhaDao campanhaDao;
 
     private String salvar(String diretorio, MultipartFile arquivo, String nomeImagem) {
         Path diretorioImagemPath = Paths.get(this.raiz, diretorio);
@@ -71,32 +74,33 @@ public class ImagemService {
 
     }
 
-    public Imagem upImagemComentario(String idUsuairo, MultipartFile file) {
+    public Imagem upImagemPerfil(String idUsuairo, MultipartFile file) {
         Usuario usuario = usuarioDao.findById(idUsuairo);
+        String nomeImagem = String.valueOf(file.getOriginalFilename());
+        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
+        Imagem img = new Imagem(nomeImagem, caminho, null, usuario, null, null);
+
+        return imgRepository.saveAndFlush(img);
+    }
+
+    public Imagem upImagemCapa(String idUsuairio, MultipartFile file) {
+        Usuario usuario = usuarioDao.findById(idUsuairio);
         String nomeImagem = String.valueOf(file.getOriginalFilename());
         String caminho = salvar(this.diretorioImagens, file, nomeImagem);
         Imagem img = new Imagem(nomeImagem, caminho, null, null, usuario, null);
 
         return imgRepository.saveAndFlush(img);
+
     }
+    public Imagem upImagemCampanha(String idCampanha, MultipartFile file) {
+        Campanha campanha = campanhaDao.findById(idCampanha);
+        String nomeImagem = String.valueOf(file.getOriginalFilename());
+        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
+        Imagem img = new Imagem(nomeImagem, caminho, null, null,null, campanha);
 
-    // public Imagem upImagemPerfil(String idPost, MultipartFile file) {
-    // Post postagem = postDao.findById(idPost);
-    // String nomeImagem = String.valueOf(file.getOriginalFilename());
-    // String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-    // Imagem img = new Imagem(nomeImagem, caminho, postagem, null, null, null);
+        return imgRepository.saveAndFlush(img);
 
-    // return imgRepository.saveAndFlush(img);
-    // }
-    // public Imagem upImagemCapa(String idPost, MultipartFile file) {
-    // Post postagem = postDao.findById(idPost);
-    // String nomeImagem = String.valueOf(file.getOriginalFilename());
-    // String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-    // Imagem img = new Imagem(nomeImagem, caminho, postagem, null, null, null);
-
-    // return imgRepository.saveAndFlush(img);
-
-    // }
+    }
 
     public Imagem findPorId(Long id) {
         return imgRepository.findById(id).orElse(null);

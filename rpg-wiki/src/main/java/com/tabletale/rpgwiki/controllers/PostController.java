@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tabletale.rpgwiki.domain.entity.Post;
+
 import com.tabletale.rpgwiki.repositories.dao.PostDao;
 import com.tabletale.rpgwiki.services.PostService;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/post")
@@ -32,9 +31,10 @@ public class PostController {
     @Autowired
     private PostDao postRepository;
 
-    @GetMapping("/buscarAll")
-    public List<Post> buscarAllPosts() throws Exception {
-        return postService.buscarTodos();
+
+    @GetMapping("/buscarAll/{idUser}")
+    public List<Post> buscarAllPosts(@PathVariable ("idUser") String idUser) throws Exception {
+        return postService.buscarTodos(idUser);
     }
 
     @GetMapping("/buscarById/{id}")
@@ -47,9 +47,9 @@ public class PostController {
        return postService.byTitulo(titulo);
     }
 
-    @PostMapping("/criarPost")
-    public String criarPost(@Valid @RequestBody Post postagem) {
-        return postService.criarPost(postagem);
+    @PostMapping("/criarPost/{idUser}")
+    public String criarPost(@PathVariable ("idUser") String idUser, @RequestBody Post postagem) {    
+       return postService.criarPost(idUser, postagem);
     }
 
     @PutMapping("/editarPost")

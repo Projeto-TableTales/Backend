@@ -24,6 +24,10 @@ public class Campanha extends AbstractEntity<String>{
     @Column(name = "quantidade_participantes")
     private int quantParticipante;
 
+    
+    @OneToMany(mappedBy = "imgCampanha")
+    private Imagem imgCampanha;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_criador_fk")

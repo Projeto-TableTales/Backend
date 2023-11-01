@@ -1,7 +1,9 @@
- package com.tabletale.rpgwiki.domain.entity;
+package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,32 +20,35 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Post extends AbstractEntity<String> {
 
-    @Column(name = "titulo")
-    private String titulo;
+        @Column(name = "titulo")
+        private String titulo;
 
-    @Column(name = "conteudo")
-    private String conteudo;
+        @Column(name = "conteudo")
+        private String conteudo;
 
-    @Column(name = "dataPost")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataPost;
+        @Column(name = "dataPost")
+        @Temporal(TemporalType.TIMESTAMP)
+        private Date dataPost;
 
-    @Column(name = "dataEdicao")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataEdicao;
+        @Column(name = "dataEdicao")
+        @Temporal(TemporalType.TIMESTAMP)
+        private Date dataEdicao;
 
-    @Column(name = "likes")
-    private int likes;
+        @Column(name = "likes")
+        private int likes;
 
-    @OneToMany(mappedBy = "imgPostagem",orphanRemoval = true, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE }, fetch = FetchType.EAGER)
-    private List<Imagem> imagensDaPostagem;
+        @JsonIgnore
+        @ManyToOne
+        @JoinColumn(name = "id_usuario_fk")
+        private Usuario usuario;
 
-    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = { CascadeType.PERSIST,
-            CascadeType.MERGE }, fetch = FetchType.EAGER)
-    @Setter(value = AccessLevel.NONE)
-    private List<Comentario> comentarios;
+        @OneToMany(mappedBy = "imgPostagem", orphanRemoval = true, cascade = { CascadeType.PERSIST,
+                        CascadeType.MERGE }, fetch = FetchType.EAGER)
+        private List<Imagem> imagensDaPostagem;
 
-
+        @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = { CascadeType.PERSIST,
+                        CascadeType.MERGE }, fetch = FetchType.EAGER)
+        @Setter(value = AccessLevel.NONE)
+        private List<Comentario> comentarios;
 
 }

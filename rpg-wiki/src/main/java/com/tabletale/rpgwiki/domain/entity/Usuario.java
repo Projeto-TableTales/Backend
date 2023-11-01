@@ -90,6 +90,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @OneToOne(mappedBy = "imgPerfil")
     private Imagem imgPerfil;
 
+
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens = new ArrayList<>();
 
@@ -116,6 +117,21 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.cargo = "";
         this.rpgsFavoritos = new ArrayList<>();
     }
+
+
+    // public static File mostrarEscolhaFoto() {
+    //     JFileChooser chooser = new JFileChooser();
+    //     FileNameExtensionFilter filter = new FileNameExtensionFilter(
+    //             "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
+    //     chooser.setFileFilter(filter);
+    //     int returnVal = chooser.showOpenDialog(null);
+    //     if (returnVal == JFileChooser.APPROVE_OPTION) {
+    //         File arquivoSelecionado = chooser.getSelectedFile();
+    //         return arquivoSelecionado;
+    //     }
+    //     return null;
+    // }
+
 
     public void adicionarRPGSFavoritos(String nomeRPG) {
         this.rpgsFavoritos.add(nomeRPG);
