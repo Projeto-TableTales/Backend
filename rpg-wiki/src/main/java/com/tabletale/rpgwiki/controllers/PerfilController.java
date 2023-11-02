@@ -1,11 +1,10 @@
 package com.tabletale.rpgwiki.controllers;
 
-
+import com.tabletale.rpgwiki.domain.entity.Imagem;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -17,8 +16,13 @@ public class PerfilController {
     @Autowired
     private PerfilService perfilService;
 
-    
-    //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
+    // -------------- Funções relacionadas a informações básicas do Usuario
+    // -----------------//
+    @GetMapping("/img/{id}")
+    public ResponseEntity<Imagem> getImgPerfil(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getImgPerfil(id));
+    }
+
     @GetMapping("/nome/{id}")
     public ResponseEntity<String> getName(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getName(id));
@@ -30,7 +34,8 @@ public class PerfilController {
     }
 
     @PutMapping("/editarbiografia/{id}")
-    public ResponseEntity<String> alterarBiografia(@PathVariable("id") String id, @RequestParam("novaBiografia") String novaBiografia) {
+    public ResponseEntity<String> alterarBiografia(@PathVariable("id") String id,
+            @RequestParam("novaBiografia") String novaBiografia) {
         return ResponseEntity.ok().body(perfilService.alterarBiografia(id, novaBiografia));
     }
 
@@ -45,7 +50,8 @@ public class PerfilController {
     }
 
     @PutMapping("/editarnarrativa/{id}")
-    public ResponseEntity<String> alterarNarrativa(@PathVariable("id") String id, @RequestParam("novaNarrativa") String novaNarrativa) {
+    public ResponseEntity<String> alterarNarrativa(@PathVariable("id") String id,
+            @RequestParam("novaNarrativa") String novaNarrativa) {
         return ResponseEntity.ok().body(perfilService.alterarNarrativa(id, novaNarrativa));
     }
 
@@ -55,7 +61,8 @@ public class PerfilController {
     }
 
     @PutMapping("/editarexperiencia/{id}")
-    public ResponseEntity<String> alterarExperiencia(@PathVariable("id") String id, @RequestParam("novaExperiencia") String novaExperiencia) {
+    public ResponseEntity<String> alterarExperiencia(@PathVariable("id") String id,
+            @RequestParam("novaExperiencia") String novaExperiencia) {
         return ResponseEntity.ok().body(perfilService.alterarExperiencia(id, novaExperiencia));
     }
 
@@ -65,7 +72,8 @@ public class PerfilController {
     }
 
     @PutMapping("/editartipodejogador/{id}")
-    public ResponseEntity<String> alterarTipoDeJogador(@PathVariable("id") String id, @RequestParam("novoTipoDeJogador") String novoTipoDeJogador) {
+    public ResponseEntity<String> alterarTipoDeJogador(@PathVariable("id") String id,
+            @RequestParam("novoTipoDeJogador") String novoTipoDeJogador) {
         return ResponseEntity.ok().body(perfilService.alterarTipoDeJogador(id, novoTipoDeJogador));
     }
 
@@ -75,18 +83,21 @@ public class PerfilController {
     }
 
     @PutMapping("/editarcargo/{id}")
-    public ResponseEntity<String> alterarCargo(@PathVariable("id") String id, @RequestParam("novoCargo") String novoCargo) {
+    public ResponseEntity<String> alterarCargo(@PathVariable("id") String id,
+            @RequestParam("novoCargo") String novoCargo) {
         return ResponseEntity.ok().body(perfilService.alterarCargo(id, novoCargo));
     }
 
-    //----------------- Funções relacionadas aos Links de Redes Sociais do Usuario ----------------//
+    // ----------------- Funções relacionadas aos Links de Redes Sociais do Usuario
+    // ----------------//
     @GetMapping("/usernameinstagram/{id}")
     public ResponseEntity<String> getUsernameInstagram(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getUsernameInstagram(id));
     }
 
     @PutMapping("/editarusernameinstagram/{id}")
-    public ResponseEntity<String> alterarUsernameInstagram(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
+    public ResponseEntity<String> alterarUsernameInstagram(@PathVariable("id") String id,
+            @RequestParam("novoUsername") String novoUsername) {
         return ResponseEntity.ok().body(perfilService.alterarUsernameInstagram(id, novoUsername));
     }
 
@@ -96,7 +107,8 @@ public class PerfilController {
     }
 
     @PutMapping("/editarusernamefacebook/{id}")
-    public ResponseEntity<String> alterarUsernameFacebook(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
+    public ResponseEntity<String> alterarUsernameFacebook(@PathVariable("id") String id,
+            @RequestParam("novoUsername") String novoUsername) {
         return ResponseEntity.ok().body(perfilService.alterarUsernameFacebook(id, novoUsername));
     }
 
@@ -106,25 +118,31 @@ public class PerfilController {
     }
 
     @PutMapping("/editarusernametwitter/{id}")
-    public ResponseEntity<String> alterarUsernameTwitter(@PathVariable("id") String id, @RequestParam("novoUsername") String novoUsername) {
+    public ResponseEntity<String> alterarUsernameTwitter(@PathVariable("id") String id,
+            @RequestParam("novoUsername") String novoUsername) {
         return ResponseEntity.ok().body(perfilService.alterarUsernameTwitter(id, novoUsername));
     }
 
-    //------------------- Funções relacionadas a lista de RPGs Favoritos do Usuario -----------------------//
+    // ------------------- Funções relacionadas a lista de RPGs Favoritos do Usuario
+    // -----------------------//
     @GetMapping("/listarpgsfavoritos/{id}")
     public ResponseEntity<List<String>> getRPGSfavoritos(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getRPGSfavoritos(id));
     }
 
-    //Necessário ainda trabalhar com exeções para caso o nome do RPG passado para ser adicionado já esteja na lista de RPGs do Usuário.
+    // Necessário ainda trabalhar com exeções para caso o nome do RPG passado para
+    // ser adicionado já esteja na lista de RPGs do Usuário.
     @PostMapping("/adicionar/{id}")
-    public ResponseEntity<List<String>> adicionarRPGSlistaFavoritos(@PathVariable("id") String id, @RequestParam("nomeRPG") String nomeRPG) {
+    public ResponseEntity<List<String>> adicionarRPGSlistaFavoritos(@PathVariable("id") String id,
+            @RequestParam("nomeRPG") String nomeRPG) {
         return ResponseEntity.ok().body(perfilService.adicionarRPGSlistaFavoritos(id, nomeRPG));
     }
 
-    //Necessário ainda trabalhar com exeções para caso o nome do RPG passado para ser removido não esteja na lista de RPGs do Usuário.
+    // Necessário ainda trabalhar com exeções para caso o nome do RPG passado para
+    // ser removido não esteja na lista de RPGs do Usuário.
     @DeleteMapping("/remover/{id}")
-    public ResponseEntity<List<String>> removerRPGSlistaFavoritos(@PathVariable("id") String id, @RequestParam("nomeRPG") String nomeRPG) {
+    public ResponseEntity<List<String>> removerRPGSlistaFavoritos(@PathVariable("id") String id,
+            @RequestParam("nomeRPG") String nomeRPG) {
         return ResponseEntity.ok().body(perfilService.removerRPGSlistaFavoritos(id, nomeRPG));
     }
 

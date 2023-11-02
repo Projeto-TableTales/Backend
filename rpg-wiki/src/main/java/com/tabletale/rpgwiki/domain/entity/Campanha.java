@@ -25,7 +25,8 @@ public class Campanha extends AbstractEntity<String>{
     private int quantParticipante;
 
     
-    @OneToMany(mappedBy = "imgCampanha")
+    @ManyToOne
+    @JsonIgnore
     private Imagem imgCampanha;
 
     @JsonIgnore

@@ -60,7 +60,7 @@ public class ImagensController {
     }
 
     @PostMapping("/upImagemPerfil/{idUser}")
-    public ResponseEntity<Imagem> upImagemPerfil(@PathVariable String idUsuario,
+    public ResponseEntity<Imagem> upImagemPerfil(@PathVariable("idUser") String idUsuario,
             @RequestParam("file") MultipartFile file, @ModelAttribute Imagem imagem) {
         Usuario usuario = usuarioDao.findById(idUsuario);
         imagem.setImgPerfil(usuario);
@@ -70,7 +70,7 @@ public class ImagensController {
     }
 
     @PostMapping("/upImagemCapa/{idUser}")
-    public ResponseEntity<Imagem> upImagemCapa(@PathVariable String idUsuario,
+    public ResponseEntity<Imagem> upImagemCapa(@PathVariable("idUser") String idUsuario,
             @RequestParam("file") MultipartFile file, @ModelAttribute Imagem imagem) {
         Usuario usuario = usuarioDao.findById(idUsuario);
         imagem.setImgCapa(usuario);
