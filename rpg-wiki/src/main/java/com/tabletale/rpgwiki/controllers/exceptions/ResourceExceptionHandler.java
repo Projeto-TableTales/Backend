@@ -22,15 +22,15 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
-    @ExceptionHandler(InvalidationOperationListRPGExcption.class)
-    public ResponseEntity<StandardError> invalidOperationListRPGException(Exception e, HttpServletRequest request){
+    @ExceptionHandler(InvalidationOperationException.class)
+    public ResponseEntity<StandardError> invalidOperationException(Exception e, HttpServletRequest request){
         StandardError err = new StandardError();
         err.setTimestemp(Instant.now());
-        err.setStatus(HttpStatus.NOT_FOUND.value());
-        err.setError("Invalid Operation List RPG");
+        err.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        err.setError("Invalid Operation");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
     }
 
     @ExceptionHandler(PersonagemNotFoundException.class)

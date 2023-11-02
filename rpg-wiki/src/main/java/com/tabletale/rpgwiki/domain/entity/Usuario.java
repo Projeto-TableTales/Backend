@@ -93,7 +93,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens = new ArrayList<>();
 
-    @OneToMany(mappedBy = "criadorCampanha")
+    @OneToMany(mappedBy = "criadorCampanha", cascade = CascadeType.ALL)
     private List<Campanha> campanhasCriadas = new ArrayList<>();
 
     @ManyToMany(mappedBy = "participantes")
@@ -152,7 +152,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.campanhasCriadas.add(campanha);
     }
 
-    public void deletarCampanha(Campanha campanha) {
+    public void excluirCampanha(Campanha campanha) {
         this.campanhasCriadas.remove(campanha);
     }
 
@@ -160,7 +160,7 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
         this.campanhasSeguidas.add(campanha);
     }
 
-    public void sairCampanha(Campanha campanha) {
+    public void deixarSeguirCampanha(Campanha campanha) {
         this.campanhasSeguidas.remove(campanha);
     }
 

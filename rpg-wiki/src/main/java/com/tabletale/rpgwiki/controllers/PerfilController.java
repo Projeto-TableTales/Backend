@@ -4,6 +4,7 @@ import com.tabletale.rpgwiki.domain.entity.Imagem;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,20 +34,24 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.getBiografia(id));
     }
 
+    @PutMapping("/editarbiografia")
+    public ResponseEntity<String> alterarBiografia(Authentication auth, @RequestParam("novaBiografia") String novaBiografia) {
+        return ResponseEntity.ok().body(perfilService.alterarBiografia(auth.getPrincipal().toString(), novaBiografia));
+    }
     @PutMapping("/editarbiografia/{id}")
     public ResponseEntity<String> alterarBiografia(@PathVariable("id") String id,
             @RequestParam("novaBiografia") String novaBiografia) {
         return ResponseEntity.ok().body(perfilService.alterarBiografia(id, novaBiografia));
     }
 
-    @GetMapping("/pais/{id}")
-    public ResponseEntity<String> getPais(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getPais(id));
+    @GetMapping("/pais")
+    public ResponseEntity<String> getPais(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getPais(auth.getPrincipal().toString()));
     }
 
-    @GetMapping("/narrativa/{id}")
-    public ResponseEntity<String> getNarrativa(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getNarrativa(id));
+    @GetMapping("/narrativa")
+    public ResponseEntity<String> getNarrativa(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getNarrativa(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editarnarrativa/{id}")
@@ -55,9 +60,9 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.alterarNarrativa(id, novaNarrativa));
     }
 
-    @GetMapping("/experiencia/{id}")
-    public ResponseEntity<String> getExperiencia(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getExperiencia(id));
+    @GetMapping("/experiencia")
+    public ResponseEntity<String> getExperiencia(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getExperiencia(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editarexperiencia/{id}")
@@ -66,9 +71,9 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.alterarExperiencia(id, novaExperiencia));
     }
 
-    @GetMapping("/tipodejogador/{id}")
-    public ResponseEntity<String> getTipoDeJogador(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getTipoDeJogador(id));
+    @GetMapping("/tipodejogador")
+    public ResponseEntity<String> getTipoDeJogador(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getTipoDeJogador(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editartipodejogador/{id}")
@@ -77,9 +82,9 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.alterarTipoDeJogador(id, novoTipoDeJogador));
     }
 
-    @GetMapping("/cargo/{id}")
-    public ResponseEntity<String> getCargo(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getCargo(id));
+    @GetMapping("/cargo")
+    public ResponseEntity<String> getCargo(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getCargo(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editarcargo/{id}")
@@ -101,9 +106,9 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.alterarUsernameInstagram(id, novoUsername));
     }
 
-    @GetMapping("/usernamefacebook/{id}")
-    public ResponseEntity<String> getUsernameFacebook(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getUsernameFacebook(id));
+    @GetMapping("/usernamefacebook")
+    public ResponseEntity<String> getUsernameFacebook(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getUsernameFacebook(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editarusernamefacebook/{id}")
@@ -112,9 +117,9 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.alterarUsernameFacebook(id, novoUsername));
     }
 
-    @GetMapping("/usernametwitter/{id}")
-    public ResponseEntity<String> getUsernameTwitter(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getUsernameTwitter(id));
+    @GetMapping("/usernametwitter")
+    public ResponseEntity<String> getUsernameTwitter(Authentication auth) {
+        return ResponseEntity.ok().body(perfilService.getUsernameTwitter(auth.getPrincipal().toString()));
     }
 
     @PutMapping("/editarusernametwitter/{id}")
