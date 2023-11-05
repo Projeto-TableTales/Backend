@@ -37,5 +37,7 @@ public class PersonagemController {
     public ResponseEntity<?> buscarTodosPersonagens(Authentication auth){
         return ResponseEntity.ok().body(personagemService.buscarTodosPersonagensDoUsuario(auth.getPrincipal().toString()));
     }
+
+    
     
 }

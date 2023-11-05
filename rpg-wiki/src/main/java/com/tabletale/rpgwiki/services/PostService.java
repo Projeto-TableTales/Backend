@@ -2,7 +2,6 @@ package com.tabletale.rpgwiki.services;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,12 +23,11 @@ public class PostService {
     private UsuarioDao usuarioDao;
 
 
-
     public List<Post> buscarTodos(String idUser) throws Exception {
         if (postRepository.buscarAllPost(idUser).isEmpty()) {
             throw new PersonagemNotFoundException("Usuário ainda não postou nada");
         }
-        
+
         return postRepository.buscarAllPost(idUser);
     }
 
@@ -51,6 +49,7 @@ public class PostService {
         return "Postado!";
 
     }
+
 
     public String editarPost(Post objeto) {
         objeto.setDataEdicao(new Date());

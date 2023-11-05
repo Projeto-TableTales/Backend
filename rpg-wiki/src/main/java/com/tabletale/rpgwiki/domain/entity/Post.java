@@ -2,6 +2,7 @@ package com.tabletale.rpgwiki.domain.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,6 +42,14 @@ public class Post extends AbstractEntity<String> {
         @ManyToOne
         @JoinColumn(name = "id_usuario_fk")
         private Usuario usuario;
+
+        @ManyToMany
+        @JoinTable(name = "usuario_curtidas", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"), uniqueConstraints = @UniqueConstraint(columnNames = {
+                        "post_id", "usuario_id" }))
+        private Set<Usuario> usuariosQueCurtiram;
+
+        @OneToMany(mappedBy = "postagem")
+        private List<Curtida> curtidas;
 
         @OneToMany(mappedBy = "imgPostagem", orphanRemoval = true, cascade = { CascadeType.PERSIST,
                         CascadeType.MERGE }, fetch = FetchType.EAGER)

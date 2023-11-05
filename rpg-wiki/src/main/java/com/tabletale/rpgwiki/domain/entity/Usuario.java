@@ -118,20 +118,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
     }
 
 
-    // public static File mostrarEscolhaFoto() {
-    //     JFileChooser chooser = new JFileChooser();
-    //     FileNameExtensionFilter filter = new FileNameExtensionFilter(
-    //             "Arquivos de Imagem", "jpg", "jpeg", "png", "gif");
-    //     chooser.setFileFilter(filter);
-    //     int returnVal = chooser.showOpenDialog(null);
-    //     if (returnVal == JFileChooser.APPROVE_OPTION) {
-    //         File arquivoSelecionado = chooser.getSelectedFile();
-    //         return arquivoSelecionado;
-    //     }
-    //     return null;
-    // }
-
-
     public void adicionarRPGSFavoritos(String nomeRPG) {
         this.rpgsFavoritos.add(nomeRPG);
     }
