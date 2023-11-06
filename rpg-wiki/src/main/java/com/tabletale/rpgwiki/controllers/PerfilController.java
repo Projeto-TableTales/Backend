@@ -17,12 +17,12 @@ public class PerfilController {
     @Autowired
     private PerfilService perfilService;
 
-    @GetMapping("/img/{id}")
+    @GetMapping("/imgPerfil/{id}")
     public ResponseEntity<Imagem> getImgPerfil(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getImgPerfil(id));
     }
 
-    @GetMapping("/img/{id}")
+    @GetMapping("/imgCapa/{id}")
     public ResponseEntity<Imagem> getImgCapa(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(perfilService.getImgCapa(id));
     }
