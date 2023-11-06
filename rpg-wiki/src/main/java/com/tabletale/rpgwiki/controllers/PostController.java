@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,7 @@ public class PostController {
     private CurtidaRepository curtidaRepository;
 
     @GetMapping("/buscarAll/{idUser}")
-    public List<Post> buscarAllPosts(@PathVariable("idUser") String idUser) throws Exception {
+    public List<Post> buscarAllPosts(@PathVariable String idUser) throws Exception {
         return postService.buscarTodos(idUser);
     }
 
@@ -56,9 +57,9 @@ public class PostController {
         return postService.byTitulo(titulo);
     }
 
-    @PostMapping("/criarPost/{idUser}")
-    public String criarPost(@PathVariable("idUser") String idUser, @RequestBody Post postagem) {
-        return postService.criarPost(idUser, postagem);
+    @PostMapping("/criarPost")
+    public String criarPost(Authentication auth, @RequestBody Post postagem) {
+        return postService.criarPost(auth.getPrincipal().toString(), postagem);
     }
 
     @PutMapping("/editarPost")

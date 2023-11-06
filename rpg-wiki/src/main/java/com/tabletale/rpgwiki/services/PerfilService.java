@@ -18,13 +18,21 @@ public class PerfilService {
     @Autowired
     private UsuarioDaoImpl repositoryUsuario;
 
-    //-------------- Funções relacionadas a informações básicas do Usuario -----------------//
-    
-        public Imagem getImgPerfil(String id) {
+    // -------------- Funções relacionadas a informações básicas do Usuario
+    // -----------------//
+
+    public Imagem getImgPerfil(String id) {
         if (repositoryUsuario.findById(id) == null) {
             throw new UserNotFoundException("Usuário não existe");
         }
         return repositoryUsuario.findById(id).getImgPerfil();
+    }
+
+    public Imagem getImgCapa(String id) {
+        if (repositoryUsuario.findById(id) == null) {
+            throw new UserNotFoundException("Usuário não existe");
+        }
+        return repositoryUsuario.findById(id).getImgCapa();
     }
 
     public Usuario getUsuario(String id) {
@@ -34,7 +42,8 @@ public class PerfilService {
         return repositoryUsuario.findById(id);
     }
 
-    //------------------- Funções relacionadas a lista de RPGs Favoritos do Usuario -----------------------//
+    // ------------------- Funções relacionadas a lista de RPGs Favoritos do Usuario
+    // -----------------------//
     public List<String> getRPGSfavoritos(String id) {
         if (repositoryUsuario.findById(id) == null) {
             throw new UserNotFoundException("Usuário não existe");
@@ -63,7 +72,8 @@ public class PerfilService {
         }
         Usuario usuario = repositoryUsuario.findById(id);
         if (!usuario.getRpgsFavoritos().contains(nomeRPG.toUpperCase())) {
-            throw new InvalidationOperationException("O " + nomeRPG.toUpperCase() + " não existe na lista, por isso não pode ser removido");
+            throw new InvalidationOperationException(
+                    "O " + nomeRPG.toUpperCase() + " não existe na lista, por isso não pode ser removido");
         }
         usuario.removerRPGSFavoritos(nomeRPG.toUpperCase());
         repositoryUsuario.update(usuario);

@@ -22,6 +22,11 @@ public class PerfilController {
         return ResponseEntity.ok().body(perfilService.getImgPerfil(id));
     }
 
+    @GetMapping("/img/{id}")
+    public ResponseEntity<Imagem> getImgCapa(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(perfilService.getImgCapa(id));
+    }
+
     @GetMapping()
     public ResponseEntity<?> getUusario(Authentication auth) {
         return ResponseEntity.ok().body(perfilService.getUsuario(auth.getPrincipal().toString()));
@@ -39,14 +44,16 @@ public class PerfilController {
 
     @PostMapping("/adicionar")
     public ResponseEntity<List<String>> adicionarRPGSlistaFavoritos(Authentication auth,
-                                                                    @RequestParam("nomeRPG") String nomeRPG) {
-        return ResponseEntity.ok().body(perfilService.adicionarRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
+            @RequestParam("nomeRPG") String nomeRPG) {
+        return ResponseEntity.ok()
+                .body(perfilService.adicionarRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
     }
 
     @DeleteMapping("/remover")
     public ResponseEntity<List<String>> removerRPGSlistaFavoritos(Authentication auth,
-                                                                  @RequestParam("nomeRPG") String nomeRPG) {
-        return ResponseEntity.ok().body(perfilService.removerRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
+            @RequestParam("nomeRPG") String nomeRPG) {
+        return ResponseEntity.ok()
+                .body(perfilService.removerRPGSlistaFavoritos(auth.getPrincipal().toString(), nomeRPG));
     }
 
 }
