@@ -84,12 +84,6 @@ public class Usuario extends AbstractEntity<String> implements UserDetails  {
 
     // ------------------------ Relacionamentos -------------------------//
 
-    @OneToOne(mappedBy = "imgCapa")
-    private Imagem imgCapa;
-
-    @OneToOne(mappedBy = "imgPerfil")
-    private Imagem imgPerfil;
-
     @OneToMany(mappedBy = "usuario")
     private List<Personagem> pesronoagens = new ArrayList<>();
 

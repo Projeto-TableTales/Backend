@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.services;
 
-import com.tabletale.rpgwiki.domain.entity.Imagem;
 import com.tabletale.rpgwiki.domain.entity.Usuario;
 import com.tabletale.rpgwiki.repositories.dao.UsuarioDaoImpl;
 import com.tabletale.rpgwiki.services.exceptions.InvalidationOperationException;
@@ -20,20 +19,6 @@ public class PerfilService {
 
     // -------------- Funções relacionadas a informações básicas do Usuario
     // -----------------//
-
-    public Imagem getImgPerfil(String id) {
-        if (repositoryUsuario.findById(id) == null) {
-            throw new UserNotFoundException("Usuário não existe");
-        }
-        return repositoryUsuario.findById(id).getImgPerfil();
-    }
-
-    public Imagem getImgCapa(String id) {
-        if (repositoryUsuario.findById(id) == null) {
-            throw new UserNotFoundException("Usuário não existe");
-        }
-        return repositoryUsuario.findById(id).getImgCapa();
-    }
 
     public Usuario getUsuario(String id) {
         if (repositoryUsuario.findById(id) == null) {

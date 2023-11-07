@@ -51,10 +51,6 @@ public class Post extends AbstractEntity<String> {
         @OneToMany(mappedBy = "postagem")
         private List<Curtida> curtidas;
 
-        @OneToMany(mappedBy = "imgPostagem", orphanRemoval = true, cascade = { CascadeType.PERSIST,
-                        CascadeType.MERGE }, fetch = FetchType.EAGER)
-        private List<Imagem> imagensDaPostagem;
-
         @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = { CascadeType.PERSIST,
                         CascadeType.MERGE }, fetch = FetchType.EAGER)
         @Setter(value = AccessLevel.NONE)

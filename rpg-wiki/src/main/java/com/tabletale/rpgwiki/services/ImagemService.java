@@ -7,9 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import com.tabletale.rpgwiki.domain.entity.*;
 import com.tabletale.rpgwiki.repositories.ImagemRepository;
-import com.tabletale.rpgwiki.repositories.dao.CampanhaDao;
-import com.tabletale.rpgwiki.repositories.dao.PostDao;
-import com.tabletale.rpgwiki.repositories.dao.UsuarioDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,14 +25,7 @@ public class ImagemService {
     @Autowired
     private ImagemRepository imgRepository;
 
-    @Autowired
-    private UsuarioDao usuarioDao;
 
-    @Autowired
-    private PostDao postDao;
-
-    @Autowired
-    private CampanhaDao campanhaDao;
 
     private String salvar(String diretorio, MultipartFile arquivo, String nomeImagem) {
         Path diretorioImagemPath = Paths.get(this.raiz, diretorio);
@@ -64,43 +54,21 @@ public class ImagemService {
         }
     }
 
-    public Imagem upImagemPost(String idPost, MultipartFile file) {
-        Post postagem = postDao.findById(idPost);
+    public Imagem upImagem(MultipartFile file) throws IOException {
+        
+        byte[] bytes = file.getBytes();
+                
         String nomeImagem = String.valueOf(file.getOriginalFilename());
         String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-        Imagem img = new Imagem(nomeImagem, caminho, postagem, null, null, null);
+        Imagem img = new Imagem(nomeImagem, caminho, bytes);
+        img.setArquivo(bytes);
+        
 
         return imgRepository.saveAndFlush(img);
 
     }
 
-    public Imagem upImagemPerfil(String idUsuairo, MultipartFile file) {
-        Usuario usuario = usuarioDao.findById(idUsuairo);
-        String nomeImagem = String.valueOf(file.getOriginalFilename());
-        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-        Imagem img = new Imagem(nomeImagem, caminho, null, usuario, null, null);
 
-        return imgRepository.saveAndFlush(img);
-    }
-
-    public Imagem upImagemCapa(String idUsuairio, MultipartFile file) {
-        Usuario usuario = usuarioDao.findById(idUsuairio);
-        String nomeImagem = String.valueOf(file.getOriginalFilename());
-        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-        Imagem img = new Imagem(nomeImagem, caminho, null, null, usuario, null);
-
-        return imgRepository.saveAndFlush(img);
-
-    }
-    public Imagem upImagemCampanha(String idCampanha, MultipartFile file) {
-        Campanha campanha = campanhaDao.findById(idCampanha);
-        String nomeImagem = String.valueOf(file.getOriginalFilename());
-        String caminho = salvar(this.diretorioImagens, file, nomeImagem);
-        Imagem img = new Imagem(nomeImagem, caminho, null, null,null, campanha);
-
-        return imgRepository.saveAndFlush(img);
-
-    }
 
     public Imagem findPorId(Long id) {
         return imgRepository.findById(id).orElse(null);

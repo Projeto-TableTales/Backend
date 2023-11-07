@@ -1,6 +1,5 @@
 package com.tabletale.rpgwiki.controllers;
 
-import com.tabletale.rpgwiki.domain.entity.Imagem;
 import com.tabletale.rpgwiki.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +16,6 @@ public class PerfilController {
     @Autowired
     private PerfilService perfilService;
 
-    @GetMapping("/imgPerfil/{id}")
-    public ResponseEntity<Imagem> getImgPerfil(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getImgPerfil(id));
-    }
-
-    @GetMapping("/imgCapa/{id}")
-    public ResponseEntity<Imagem> getImgCapa(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(perfilService.getImgCapa(id));
-    }
 
     @GetMapping()
     public ResponseEntity<?> getUusario(Authentication auth) {
